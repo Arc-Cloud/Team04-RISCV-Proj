@@ -4,7 +4,7 @@ module P_C#(
     input logic              rst,
     input logic              clk,
     input logic              PCsrc,
-    input logic  [WIDTH-1:0] ImmOP,
+    input logic  [WIDTH-1:0] ImmEXT,
     output logic [WIDTH-1:0] PC
 );
 
@@ -15,7 +15,7 @@ logic [WIDTH-1:0] inc_PC;
 
 // Combinational logic to calculate next_PC
 always_comb begin
-    branch_PC = PC + ImmOP;
+    branch_PC = PC + ImmEXT;
     inc_PC = PC + 4;
     next_PC = PCsrc ? branch_PC : inc_PC;
 end
