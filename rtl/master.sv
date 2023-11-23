@@ -10,11 +10,12 @@ module master #(
 
 logic [DATA_WIDTH-1:0] Instr;
 logic [ADDR_WIDTH-1:0] PC;
+logic [DATA_WIDTH-1:0] PCPlus4;
 
 logic [DATA_WIDTH-1:0] ImmEXT;
 logic PCsrc;
 
-logic ResultSrc;
+logic [1:0] ResultSrc;
 logic MemWrite;
 logic [2:0] ALUControl;
 logic ALUSrc;
@@ -23,12 +24,17 @@ logic [DATA_WIDTH-1:0] ImmExt;
 logic Zero;
 
 
+
 P_C P_C(
+    //intputs
     .CLK(CLK),
     .rst(rst),
     .PCsrc(PCsrc),
     .ImmEXT(ImmEXT),
-    .PC(PC)
+
+    //output
+    .PC(PC),
+    .PCPlus4(PCPlus4)
 );
 
 // green contains Instruction Memory and Control Unit + Extend
@@ -61,6 +67,7 @@ orange orange(
     .ImmExt(ImmExt),
     .WE(MemWrite),
     .ResultSrc(ResultSrc),
+    .PCPlus4(PCPlus4),
 
     //outputs
     .Zero(Zero),
