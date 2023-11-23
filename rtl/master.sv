@@ -20,7 +20,6 @@ logic [2:0] ALUControl;
 logic ALUSrc;
 logic RegWrite;
 logic [DATA_WIDTH-1:0] ImmExt;
-logic [DATA_WIDTH-1:0] Result;
 logic Zero;
 
 
@@ -66,11 +65,6 @@ orange orange(
     //outputs
     .Zero(Zero),
     .Result(Result)
-)
-
-
-
+);
 
 endmodule
-
-
