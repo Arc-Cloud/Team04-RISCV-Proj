@@ -8,16 +8,16 @@ module P_C#(
     output logic [WIDTH-1:0] PC
 );
 
-logic [WIDTH-1:0] next_PC;
-logic [WIDTH-1:0] branch_PC;
-logic [WIDTH-1:0] inc_PC;
+logic [WIDTH-1:0] PCNext;
+logic [WIDTH-1:0] PCTarget;
+logic [WIDTH-1:0] PCPlus4;
 
 
-// Combinational logic to calculate next_PC
+// Combinational logic to calculate PCNext
 always_comb begin
-    branch_PC = PC + ImmEXT;
-    inc_PC = PC + 4;
-    next_PC = PCsrc ? branch_PC : inc_PC;
+    PCTarget = PC + ImmEXT;
+    PCPlus4 = PC + 4;
+    PCNext = PCsrc ? PCTarget : PCPlus4;
 end
 
 // Sequential logic to update PC register
@@ -25,7 +25,7 @@ always_ff @(posedge clk or posedge rst) begin
     if (rst) 
         PC <= {WIDTH{1'b0}};
     else 
-        PC <= next_PC;
+        PC <= PCNext;
 end
 
 endmodule

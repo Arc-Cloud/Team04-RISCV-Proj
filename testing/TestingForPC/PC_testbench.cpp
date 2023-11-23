@@ -31,7 +31,7 @@ int main(int argc, char **argv, char **env) {
   top->clk = 1;
   top->rst = 0;
   top->PCsrc = 0;
-  top->ImmOP = 0xA;
+  top->ImmEXT = 0xA;
 
 
   // run simulation for MAX_SIM_CYC clock cycles
