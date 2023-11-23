@@ -5,7 +5,7 @@ module instmem #(
     output logic [31:0] RD
 );
 
-logic [DATA_WIDTH-1:0] rom [2**16-1:0];
+logic [DATA_WIDTH-1:0] rom [2**12-1:0];
 
 initial begin
      $display("Loading instruction memory...");
