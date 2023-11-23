@@ -18,7 +18,7 @@ what we did ...
 
 | Maximilian | Ilan | Hanif | Idrees |
 | -------- | -------- | -------- | -------- |
-| PC & Data Memory | ALU | Control Unit | Macro Implementation |
+| PC | ALU | Control Unit | Macro Implementation |
 
 Info on each part ....
 
