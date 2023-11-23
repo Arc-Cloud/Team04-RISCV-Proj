@@ -23,6 +23,7 @@ logic [DATA_WIDTH-1:0] ImmExt;
 logic [DATA_WIDTH-1:0] Result;
 logic Zero;
 
+
 P_C P_C(
     .CLK(CLK),
     .rst(rst),
@@ -31,6 +32,7 @@ P_C P_C(
     .PC(PC)
 );
 
+// green contains Instruction Memory and Control Unit + Extend
 green green(
     //inputs
     .A(PC),
@@ -47,6 +49,7 @@ green green(
     .Instr(Instr)
 );
 
+// orange contains Register File ALU and Data Memory
 orange orange(
     //inputs
     .CLK(CLK),
