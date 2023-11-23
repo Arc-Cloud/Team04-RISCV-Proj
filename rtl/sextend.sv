@@ -11,8 +11,8 @@ always_comb begin
     case(ImmSrc)
     2'b00: ImmExt = {{20{Immediate[31]}}, Immediate[31:20]}; // type I
     2'b01: ImmExt = {{20{Immediate[31]}}, Immediate[31:25], Immediate[11:7]}; // type store
-    2'b10: ImmExt = {{19{Immediate[31]}}, Immediate[7], Immediate[30:25], Immediate[11:8], 1'b0};// type branch
-    2'b11: ImmExt = {{12{Immediate[31]}}, Immediate[31], Immediate[19:12], Immediate[20], Immediate[30:21], 1'b0} //type jump
+    2'b10: ImmExt = {{20{Immediate[31]}}, Immediate[7], Immediate[30:25], Immediate[11:8], 1'b0};// type branch
+    2'b11: ImmExt = {{12{Immediate[31]}},  Immediate[19:12], Immediate[20], Immediate[30:21], 1'b0} //type jump
     endcase 
 end
     
