@@ -19,6 +19,8 @@ what we did ...
 | Maximilian | Ilan | Hanif | Idrees |
 | -------- | -------- | -------- | -------- |
 | PC | ALU | Control Unit | Macro Implementation |
+|...|...| Sign Extend | ...|
+|...|...|Instruction Memory | ... |
 
 Info on each part ....
 
