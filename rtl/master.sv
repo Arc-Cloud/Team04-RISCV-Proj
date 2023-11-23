@@ -20,8 +20,8 @@ logic [2:0] ALUControl;
 logic ALUSrc;
 logic RegWrite;
 logic [DATA_WIDTH-1:0] ImmExt;
-logic [DATA_WIDTH-1:0] Result;
 logic Zero;
+
 
 P_C P_C(
     .CLK(CLK),
@@ -31,6 +31,7 @@ P_C P_C(
     .PC(PC)
 );
 
+// green contains Instruction Memory and Control Unit + Extend
 green green(
     //inputs
     .A(PC),
@@ -47,6 +48,7 @@ green green(
     .Instr(Instr)
 );
 
+// orange contains Register File ALU and Data Memory
 orange orange(
     //inputs
     .CLK(CLK),
@@ -63,11 +65,6 @@ orange orange(
     //outputs
     .Zero(Zero),
     .Result(Result)
-)
-
-
-
+);
 
 endmodule
-
-
