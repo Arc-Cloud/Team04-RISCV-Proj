@@ -7,7 +7,9 @@ module alu #(
     output logic zero,
     output logic [DATA_WIDTH-1:0] ALUresult
 );
-
+    logic unsigned [DATA_WIDTH-1:0] u_SRCA;
+    logic unsigned [DATA_WIDTH-1:0] u_SRCB;
+    
     logic [DATA_WIDTH-1:0] result;
 
     always_comb begin
