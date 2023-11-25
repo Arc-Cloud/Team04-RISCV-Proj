@@ -15,6 +15,7 @@ module orange #(
     input logic [2:0] ALUControl,
     input logic MemWrite,
     input logic [1:0] ResultSrc,
+    input logic shift_right_type,
     output logic zero,
 );
 
@@ -50,6 +51,7 @@ module orange #(
         .ALUControl(ALUControl),
         .SRCA(SrcA),
         .SRCB(AluSrc ? ImmExt : RD2),
+        .shift_right_type(shift_right_type),
 
         // outputs
         .zero(zero),
