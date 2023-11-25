@@ -6,7 +6,7 @@ module control #(
     input logic [3:0] funct3, // funct3 from instruction
     input logic [1:0] funct7, //funct7 from instruction
     output logic RegWrite,  // enable when we want to store in register
-    output logic [2:0] ALUControl, // control operation in ALU
+    output logic [3:0] ALUControl, // control operation in ALU
     output logic ALUSrc, // choose immediate (1) or register (0) operand
     output logic MemWrite, // enable write into the data memory
     output logic PCSrc, // choose counter increments (imm or +4)
@@ -24,12 +24,19 @@ always_comb begin
         RegWrite = 1'b1;
         ALUSrc = 1'b0;
         MemWrite = 1'b0;
-        Resultsrc = 1'b0;
+        Resultsrc = 2'b00;
         PCSrc = 1'b0;
         
         //sub & add instruction
-        if (func7 == 7'b0100000) ALUControl = 3'b001; //sub
-        else ALUControl = 3'b000; // add
+        if (func7 == 7'b0100000) ALUControl = 4'b0001; //sub
+        else begin
+            case(funct3)
+                3'b000: ALUControl = 4'b0000; //add
+                3'b100: ALUControl = 4'b0100; //xor
+                3'b110: ALUControl = 4'b0011; // or
+                3'b111: ALUControl = 4'b0010; //and
+            endcase
+        end
     end
 
     // b-type instruction implementation
@@ -37,7 +44,7 @@ always_comb begin
         RegWrite = 1'b0;
         ImmSrc = 3'b010;
         ALUSrc = 1'b0;
-        ALUControl = 3'b001;
+        ALUControl = 4'b0001;
         MemWrite = 1'b0;
         case(funct3)
         //implementation of beq
@@ -53,17 +60,17 @@ always_comb begin
 
     // implementation of I-type instruction
     7'b0010011: begin
+        RegWrite = 1'b1;
+        ImmSrc = 3'b000;
+        MemWrite = 1'b0;
+        LUSrc = 1'b1;
+        CSrc = 1'b0;
+        Resultsrc = 2'b00;
         case(funct3)
-        //implementation of addi
-        3'b000: begin
-            RegWrite = 1'b1;
-            ImmSrc = 3'b000;
-            MemWrite = 1'b0;
-            ALUSrc = 1'b1;
-            PCSrc = 1'b0;
-            Resultsrc = 1'b0;
-            ALUControl = 3'b000;
-        end
+        3'b000: ALUControl = 4'b0000; //addi
+        3'b100: ALUControl = 4'b0100; //xor
+        3'b110: ALUControl = 4'b0011; // or
+        3'b111: ALUControl = 4'b0010; //and
         endcase
     end
 
@@ -76,7 +83,27 @@ always_comb begin
         PCSrc = 1'b1;
     end
 
-    //lw
+    //implementation of lw
+    7'b0000011: begin
+        MemWrite = 1'b0;
+        RegWrite = 1'b1;
+        ImmSrc = 3'b000;
+        ALUSrc = 1'b1;
+        ALUcontrol = 4'b0000;
+        Resultsrc = 2'b01;
+        PCSrc = 1'b0;
+    end
+
+    //implementation of sw
+    7'b0100011: begin
+        MemWrite = 1'b1;
+        RegWrite = 1'b0;
+        ImmSrc = 3'b000;
+        ALUSrc = 1'b1;
+        ALUControl = 4'b0000;
+        PCSrc = 1'b0;
+    end
+
     //JALR
     //sb
     //lui
