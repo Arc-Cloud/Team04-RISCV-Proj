@@ -5,12 +5,12 @@ module P_C#(
     input logic              clk,
     input logic              PCsrc,
     input logic  [WIDTH-1:0] ImmEXT,
-    output logic [WIDTH-1:0] PC
+    output logic [WIDTH-1:0] PC,
+    output logic [WIDTH-1:0] PCPlus4
 );
 
 logic [WIDTH-1:0] PCNext;
 logic [WIDTH-1:0] PCTarget;
-logic [WIDTH-1:0] PCPlus4;
 
 
 // Combinational logic to calculate PCNext
@@ -18,6 +18,8 @@ always_comb begin
     PCTarget = PC + ImmEXT;
     PCPlus4 = PC + 4;
     PCNext = PCsrc ? PCTarget : PCPlus4;
+
+    //$display("next: %h", PCNext);
 end
 
 // Sequential logic to update PC register

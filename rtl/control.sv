@@ -28,7 +28,7 @@ always_comb begin
         PCSrc = 1'b0;
         
         //sub & add instruction
-        if (func7 == 7'b0100000) ALUControl = 4'b0001; //sub
+        if (funct7 == 7'b0100000) ALUControl = 4'b0001; //sub
         else begin
             case(funct3)
                 3'b000: ALUControl = 4'b0000; //add
@@ -47,14 +47,10 @@ always_comb begin
         ALUControl = 4'b0001;
         MemWrite = 1'b0;
         case(funct3)
-        //implementation of beq
-        3'b000: begin
-            PCSrc = zero;
-        end
-        // implementation of bne
-        3'b001: begin
-            PCSrc = !zero;
-        end
+            //implementation of beq
+            3'b000: PCSrc = zero;
+            // implementation of bne
+            3'b001: PCSrc = !zero;
         endcase
     end
 
@@ -63,8 +59,8 @@ always_comb begin
         RegWrite = 1'b1;
         ImmSrc = 3'b000;
         MemWrite = 1'b0;
-        LUSrc = 1'b1;
-        CSrc = 1'b0;
+        ALUSrc = 1'b1;
+        PCSrc = 1'b0;
         Resultsrc = 2'b00;
         case(funct3)
         3'b000: ALUControl = 4'b0000; //addi
@@ -89,7 +85,7 @@ always_comb begin
         RegWrite = 1'b1;
         ImmSrc = 3'b000;
         ALUSrc = 1'b1;
-        ALUcontrol = 4'b0000;
+        ALUControl = 4'b0000;   
         Resultsrc = 2'b01;
         PCSrc = 1'b0;
     end
