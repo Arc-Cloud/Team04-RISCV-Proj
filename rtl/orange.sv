@@ -1,5 +1,5 @@
 `include "../rtl/reg_file.sv"
-`include "../rtl/data_memory.sv"
+`include "../rtl/data_mem.sv"
 `include "../rtl/alu.sv"
 
 module orange #(
@@ -12,11 +12,14 @@ module orange #(
     input logic [DATA_WIDTH-1:0] PCPlus4,
     input logic clk,
     input logic AluSrc,
-    input logic [2:0] ALUControl,
-    input logic MemWrite,
+    input logic [3:0] ALUControl,
+    input logic WE,
+    input logic WE3,
     input logic [1:0] ResultSrc,
     input logic shift_right_type,
+    input logic [4:0] testRegAddress,
     output logic zero,
+    output logic [DATA_WIDTH-1:0] Result
 );
 
     logic [DATA_WIDTH-1:0] ALUresult;
@@ -40,15 +43,18 @@ module orange #(
         .AD2(rs2),
         .AD3(rd),
         .WD3(Reg_DATA_IN),
+        .WE3(WE3),
+        .testRegAddress(testRegAddress),
 
         // outputs
         .RD1(SrcA),
-        .RD2(RD2)
+        .RD2(RD2),
+        .testRegData(Result)
     );
 
     alu ALU(
         // inputs
-        .ALUControl(ALUControl),
+        .ALUcontrol(ALUcontrol),
         .SRCA(SrcA),
         .SRCB(AluSrc ? ImmExt : RD2),
         .shift_right_type(shift_right_type),
@@ -61,7 +67,7 @@ module orange #(
     data_mem DATA_MEMORY(
         // inputs
         .clk(clk),
-        .WE(MemWrite),
+        .WE(WE),
         .addr(ALUresult),
 
         // outputs
