@@ -47,14 +47,12 @@ always_comb begin
         ALUControl = 4'b0001;
         MemWrite = 1'b0;
         case(funct3)
-            //implementation of beq
-            3'b000: PCSrc = zero ? 2'b01 : 2'b00;
-            // implementation of bne
-            3'b001: PCSrc = zero ? 2'b00 : 2'b01; 
+            3'b000: PCSrc = zero ? 2'b01 : 2'b00; // beq
+            3'b001: PCSrc = zero ? 2'b00 : 2'b01; // bne
         endcase
     end
 
-    // implementation of I-type instruction
+    // implementation of I-type (19) instructions
     7'b0010011: begin
         RegWrite = 1'b1;
         ImmSrc = 3'b000;
@@ -70,7 +68,8 @@ always_comb begin
         endcase
     end
 
-    // implementation of JAL
+    // implementation of J-Ttype instructions (111)
+    // JAL
     7'b1101111: begin
         RegWrite = 1'b1;
         ImmSrc = 2'b011;
@@ -79,8 +78,9 @@ always_comb begin
         PCSrc = 2'b01;
     end
 
-    //implementation of lw
+    //implementation of I type (3) instructions
     7'b0000011: begin
+        //lw
         MemWrite = 1'b0;
         RegWrite = 1'b1;
         ImmSrc = 3'b000;
@@ -90,7 +90,7 @@ always_comb begin
         PCSrc = 2'b00;
     end
 
-    //implementation of sw
+    //implementation of S-type instructions (35) (sw)
     7'b0100011: begin
         MemWrite = 1'b1;
         RegWrite = 1'b0;
@@ -100,6 +100,7 @@ always_comb begin
         PCSrc = 2'b00;
     end
 
+    //implementation of I-type (103) instructions 
     //JALR
     7'b1100111: begin
         RegWrite = 1'b1;
