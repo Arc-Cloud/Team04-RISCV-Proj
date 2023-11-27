@@ -5,40 +5,62 @@
 what we did ...
 
 ## Personal Statements
+| Name | Github | CID | Email | Link to Personal Statements|
+| -------- | -------- | -------- | -------- | -------- |
+| Maximilian | | | |
+| Ilan | | | |
+| Idrees | | | |
+| Hanif | | | |
 
-### Ilan
-
-### Idrees
-
-### Hanif
-
-### Maximilian
 
 ## Single Cylce RV32I Design
 
-| Maximilian | Ilan | Hanif | Idrees |
-| -------- | -------- | -------- | -------- |
-| PC | ALU | Control Unit | Macro Implementation |
-|...|...| Sign Extend | ...|
-|...|...|Instruction Memory | ... |
+| Component | Maximilian | Ilan | Hanif | Idrees |
+| -------- | -------- | -------- | -------- | -------- |
+| alu.sv | | | |
+| control.sv | | | |
+| data_mem.sv | | | |
+| green.sv | | | |
+| instmem.sv | | | |
+| load-store-unit.sv | | | |
+| master.sv | | | |
+| orange.sv | | | |
+| P_C.sv | | | |
+| reg_file.sv | | | |
+| sextend.sv | | | |
 
-Info on each part ....
+Legend: L = Lead C = Contributor
+
+
+
+
+Info on Single Cylce RV32I Design ....
 
 ## Pipelined RV32I Design
 
-| Maximilian | Ilan | Hanif | Idrees |
-| -------- | -------- | -------- | -------- |
-| ... | ... | ... | ... |
+| Component | Maximilian | Ilan | Hanif | Idrees |
+| -------- | -------- | -------- | -------- | -------- |
+| | | | |
+| | | | |
+| | | | |
 
-Info on each part ....
+Legend: L = Lead C = Contributor
+
+
+Info on Pipelined RV32I Design ....
 
 ## Data Memory Cache
 
-| Maximilian | Ilan | Hanif | Idrees |
-| -------- | -------- | -------- | -------- |
-| ... | ... | ... | ... |
+| Component | Maximilian | Ilan | Hanif | Idrees |
+| -------- | -------- | -------- | -------- | -------- |
+| | | | |
+| | | | |
+| | | | |
 
-Info on each part ....
+Legend: L = Lead C = Contributor
+
+
+Info on Data Memory Cache ....
 
 
 
