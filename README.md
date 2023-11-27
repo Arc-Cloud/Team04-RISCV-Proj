@@ -7,16 +7,16 @@ what we did ...
 ## Personal Statements
 | Name | Github | CID | Email | Link to Personal Statements|
 | -------- | -------- | -------- | -------- | -------- |
-| Maximilian | | | |
-| Ilan | | | |
-| Idrees | | | |
-| Hanif | | | |
+| Maximilian | | | | [Max's Statement](statements/Maximilian.md)
+| Ilan | | | | [Ilan's Statement](statements/Ilan.md) 
+| Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
+| Hanif | | | | [Hanif's Statement](statements/Hanif.md) 
 
 
 ## Single Cylce RV32I Design
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
-| -------- | -------- | -------- | -------- | -------- |
+| -------- | :--------: | :--------: | :--------: | :--------: |
 | alu.sv | | | |
 | control.sv | | | |
 | data_mem.sv | | | |
@@ -39,7 +39,7 @@ Info on Single Cylce RV32I Design ....
 ## Pipelined RV32I Design
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
-| -------- | -------- | -------- | -------- | -------- |
+| -------- | :--------: | :--------: | :--------: | :--------: |
 | | | | |
 | | | | |
 | | | | |
@@ -52,7 +52,7 @@ Info on Pipelined RV32I Design ....
 ## Data Memory Cache
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
-| -------- | -------- | -------- | -------- | -------- |
+| -------- | :--------: | :--------: | :--------: | :--------: |
 | | | | |
 | | | | |
 | | | | |
