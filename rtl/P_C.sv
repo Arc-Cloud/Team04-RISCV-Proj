@@ -3,7 +3,7 @@ module P_C#(
 )(
     input logic              rst,
     input logic              clk,
-    input logic  [1:0]           PCsrc,
+    input logic  [1:0]       PCsrc,
     input logic  [WIDTH-1:0] ALUResult,
     input logic  [WIDTH-1:0] ImmEXT,
     output logic [WIDTH-1:0] PC,

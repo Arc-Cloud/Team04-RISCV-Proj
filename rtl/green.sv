@@ -7,9 +7,9 @@ module green #(parameter DATA_WIDTH = 32, IM_WIDTH = 12, REGISTER = 5)(
     input logic Zero,
     output logic MemWrite,
     output logic RegWrite,
-    output logic ALUcontrol,
-    output logic ALUsrc,
-    output logic [1:0] PCsrc,
+    output logic ALUControl,
+    output logic ALUSrc,
+    output logic [1:0] PCSrc,
     output logic ResultSrc,
     output logic [DATA_WIDTH-1:0] ImmExt,
     output logic [DATA_WIDTH-1:0] Instr
@@ -26,10 +26,10 @@ control decode_insr(
 
     // outputs
     .RegWrite(RegWrite),
-    .ALUControl(ALUcontrol),
+    .ALUControl(ALUControl),
     .MemWrite(MemWrite),
-    .ALUSrc(ALUsrc),
-    .PCSrc(PCsrc),
+    .ALUSrc(ALUSrc),
+    .PCSrc(PCSrc),
     .Resultsrc(ResultSrc),
     .ImmSrc(Immsrc)  
 );
