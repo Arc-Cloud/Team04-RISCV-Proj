@@ -37,6 +37,7 @@ module alu #(
         endcase
 
         zero = (ALUresult == 32'd0);
+        //$display("rs1: %h, rs2: %h, ctrl : %b", SRCA, SRCB, ALUcontrol);
 
     end
 

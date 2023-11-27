@@ -16,8 +16,9 @@ module master #(
 logic [DATA_WIDTH-1:0] Instr;
 logic [ADDR_WIDTH-1:0] PC;
 logic [DATA_WIDTH-1:0] PCPlus4;
+logic [DATA_WIDTH-1:0] ALUResult;
 
-logic PCsrc;
+logic [1:0] PCsrc;
 
 logic [1:0] ResultSrc;
 logic MemWrite;
@@ -33,6 +34,7 @@ P_C P_C(
     .rst(rst),
     .PCsrc(PCsrc),
     .ImmEXT(ImmExt),
+    .ALUResult(ALUResult),
 
     //output
     .PC(PC),
@@ -72,6 +74,7 @@ orange orange(
     .PCPlus4(PCPlus4),
     .shift_right_type(0),
     .testRegAddress(testRegAddress),
+    .ALUResult(ALUResult),
 
     //outputs
     .zero(Zero),

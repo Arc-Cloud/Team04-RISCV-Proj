@@ -9,7 +9,7 @@ module green #(parameter DATA_WIDTH = 32, IM_WIDTH = 12, REGISTER = 5)(
     output logic RegWrite,
     output logic ALUcontrol,
     output logic ALUsrc,
-    output logic PCsrc,
+    output logic [1:0] PCsrc,
     output logic ResultSrc,
     output logic [DATA_WIDTH-1:0] ImmExt,
     output logic [DATA_WIDTH-1:0] Instr
