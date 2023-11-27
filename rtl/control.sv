@@ -9,7 +9,7 @@ module control #(
     output logic [3:0] ALUControl, // control operation in ALU
     output logic ALUSrc, // choose immediate (1) or register (0) operand
     output logic MemWrite, // enable write into the data memory
-    output logic PCSrc, // choose counter increments (imm or +4)
+    output logic [1:0] PCSrc, // choose counter increments (imm or +4)
     output logic [1:0] Resultsrc, // choose which data to store to register: Register(0) memory (1) PC (2)
     output logic [2:0] ImmSrc // choose which sign extend is performed on sextend module
 );
@@ -25,7 +25,7 @@ always_comb begin
         ALUSrc = 1'b0;
         MemWrite = 1'b0;
         Resultsrc = 2'b00;
-        PCSrc = 1'b0;
+        PCSrc = 2'b00;
         
         //sub & add instruction
         if (funct7 == 7'b0100000) ALUControl = 4'b0001; //sub
@@ -48,9 +48,9 @@ always_comb begin
         MemWrite = 1'b0;
         case(funct3)
             //implementation of beq
-            3'b000: PCSrc = zero;
+            3'b000: PCSrc = zero ? 2'b01 : 2'b00;
             // implementation of bne
-            3'b001: PCSrc = !zero;
+            3'b001: PCSrc = zero ? 2'b00 : 2'b01; 
         endcase
     end
 
@@ -60,7 +60,7 @@ always_comb begin
         ImmSrc = 3'b000;
         MemWrite = 1'b0;
         ALUSrc = 1'b1;
-        PCSrc = 1'b0;
+        PCSrc = 2'b00;
         Resultsrc = 2'b00;
         case(funct3)
         3'b000: ALUControl = 4'b0000; //addi
@@ -76,7 +76,7 @@ always_comb begin
         ImmSrc = 2'b011;
         MemWrite = 1'b0;
         Resultsrc = 2'b10;
-        PCSrc = 1'b1;
+        PCSrc = 2'b01;
     end
 
     //implementation of lw
@@ -87,7 +87,7 @@ always_comb begin
         ALUSrc = 1'b1;
         ALUControl = 4'b0000;   
         Resultsrc = 2'b01;
-        PCSrc = 1'b0;
+        PCSrc = 2'b00;
     end
 
     //implementation of sw
@@ -97,10 +97,17 @@ always_comb begin
         ImmSrc = 3'b000;
         ALUSrc = 1'b1;
         ALUControl = 4'b0000;
-        PCSrc = 1'b0;
+        PCSrc = 2'b00;
     end
 
     //JALR
+    7'b1100111: begin
+        RegWrite = 1'b1;
+        ImmSrc = 2'b011;
+        Resultsrc = 2'b10;
+        PCSrc = 2'b10;
+        ALUControl = 4'b0000;
+    end
     //sb
     //lui
     //lbu
@@ -108,6 +115,7 @@ always_comb begin
 
    
     endcase
+    //$display("opcode: %b", op);
 end
     
 endmodule

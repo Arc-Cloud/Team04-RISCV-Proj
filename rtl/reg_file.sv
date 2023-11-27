@@ -18,14 +18,16 @@ module reg_file #(
 logic [DATA_WIDTH-1:0] register_file [2**ADDRESS_WIDTH-1:0];  
 
 always_ff @(posedge clk) begin
-    if(WE3) register_file[AD3] <= WD3;
+    if(WE3) 
+        register_file[AD3] <= (AD3 == 32'd0) ? 32'd0 : WD3;
 end 
 
 always_comb begin
     RD1 = register_file[AD1];
     RD2 = register_file[AD2];
     testRegData = register_file[testRegAddress];
-    //$display("dest data: %h", register_file[5'd10]);
+    if(AD3 == 5'd10) 
+        $display("test data: %h", register_file[5'd10]);
 end
 
 endmodule

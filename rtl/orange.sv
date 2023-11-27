@@ -19,10 +19,10 @@ module orange #(
     input logic shift_right_type,
     input logic [4:0] testRegAddress,
     output logic zero,
-    output logic [DATA_WIDTH-1:0] Result
+    output logic [DATA_WIDTH-1:0] Result,
+    output logic [DATA_WIDTH-1:0] ALUResult
 );
 
-    logic [DATA_WIDTH-1:0] ALUresult;
     logic [DATA_WIDTH-1:0] ReadData;
     logic [DATA_WIDTH-1:0] RD2;
     logic [DATA_WIDTH-1:0] SrcA;
@@ -30,7 +30,7 @@ module orange #(
 
     always_comb begin
         case(ResultSrc)
-            2'b00: Reg_DATA_IN = ALUresult;
+            2'b00: Reg_DATA_IN = ALUResult;
             2'b01: Reg_DATA_IN = ReadData;
             2'b10: Reg_DATA_IN = PCPlus4;   // need to have option of adding pc + 4 to ra
         endcase
@@ -54,21 +54,21 @@ module orange #(
 
     alu ALU(
         // inputs
-        .ALUcontrol(ALUcontrol),
+        .ALUcontrol(ALUControl),
         .SRCA(SrcA),
         .SRCB(AluSrc ? ImmExt : RD2),
         .shift_right_type(shift_right_type),
 
         // outputs
         .zero(zero),
-        .ALUresult(ALUresult)
+        .ALUresult(ALUResult)
     );
 
     data_mem DATA_MEMORY(
         // inputs
         .clk(clk),
         .WE(WE),
-        .addr(ALUresult),
+        .addr(ALUResult),
 
         // outputs
         .RD(ReadData)
