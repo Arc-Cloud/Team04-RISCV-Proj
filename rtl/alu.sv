@@ -1,43 +1,43 @@
 module alu #(
     parameter DATA_WIDTH = 32
 )(  
-    input logic [DATA_WIDTH-1:0] SRCA,
-    input logic [DATA_WIDTH-1:0] SRCB,
-    input logic [3:0] ALUcontrol,
+    input logic [DATA_WIDTH-1:0] SrcA,
+    input logic [DATA_WIDTH-1:0] SrcB,
+    input logic [3:0] ALUControl,
     input logic shift_right_type,
-    output logic zero,
-    output logic [DATA_WIDTH-1:0] ALUresult
+    output logic Zero,
+    output logic [DATA_WIDTH-1:0] ALUResult
 );
-    logic [DATA_WIDTH-1:0] u_SRCA;
-    logic [DATA_WIDTH-1:0] u_SRCB;
+    logic [DATA_WIDTH-1:0] u_SrcA;
+    logic [DATA_WIDTH-1:0] u_SrcB;
     
     always_comb begin
-        case (ALUcontrol)
-            4'b0000 : ALUresult = SRCA + SRCB;
-            4'b0001 : ALUresult = SRCA - SRCB;
-            4'b0010 : ALUresult = SRCA & SRCB;
-            4'b0011 : ALUresult = SRCA | SRCB;              
-            4'b0101 : ALUresult = SRCA < SRCB;
+        case (ALUControl)
+            4'b0000 : ALUResult = SrcA + SrcB;
+            4'b0001 : ALUResult = SrcA - SrcB;
+            4'b0010 : ALUResult = SrcA & SrcB;
+            4'b0011 : ALUResult = SrcA | SrcB;              
+            4'b0101 : ALUResult = SrcA < SrcB;
             4'b0110 : begin 
-                u_SRCA = unsigned'(SRCA);
-                u_SRCB = unsigned'(SRCB);
-                ALUresult = u_SRCA < u_SRCB;
+                u_SrcA = unsigned'(SrcA);
+                u_SrcB = unsigned'(SrcB);
+                ALUResult = u_SrcA < u_SrcB;
             end
-            4'b0100 : ALUresult = SRCA ^ SRCB;
-            4'b0111 : ALUresult = SRCA << SRCB;
-            4'b1000 : ALUresult = (shift_right_type) ? SRCA >> SRCB : SRCA >>> SRCB;
-            4'b1001 : ALUresult = SRCA >= SRCB;
+            4'b0100 : ALUResult = SrcA ^ SrcB;
+            4'b0111 : ALUResult = SrcA << SrcB;
+            4'b1000 : ALUResult = (shift_right_type) ? SrcA >> SrcB : SrcA >>> SrcB;
+            4'b1001 : ALUResult = SrcA >= SrcB;
             4'b1010 : begin 
-                u_SRCA = unsigned'(SRCA);
-                u_SRCB = unsigned'(SRCB);
-                ALUresult = u_SRCA >= u_SRCB;
+                u_SrcA = unsigned'(SrcA);
+                u_SrcB = unsigned'(SrcB);
+                ALUResult = u_SrcA >= u_SrcB;
             end
 
-            default: ALUresult = 32'd0;
+            default: ALUResult = 32'd0;
         endcase
 
-        zero = (ALUresult == 32'd0);
-        //$display("rs1: %h, rs2: %h, ctrl : %b", SRCA, SRCB, ALUcontrol);
+        Zero = (ALUResult == 32'd0);
+        //$display("rs1: %h, rs2: %h, ctrl : %b", SrcA, SrcB, ALUControl);
 
     end
 

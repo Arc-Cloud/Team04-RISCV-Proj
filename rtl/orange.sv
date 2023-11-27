@@ -18,7 +18,7 @@ module orange #(
     input logic [1:0] ResultSrc,
     input logic shift_right_type,
     input logic [4:0] testRegAddress,
-    output logic zero,
+    output logic Zero,
     output logic [DATA_WIDTH-1:0] Result,
     output logic [DATA_WIDTH-1:0] ALUResult
 );
@@ -60,7 +60,7 @@ module orange #(
         .shift_right_type(shift_right_type),
 
         // outputs
-        .zero(zero),
+        .Zero(Zero),
         .ALUresult(ALUResult)
     );
 

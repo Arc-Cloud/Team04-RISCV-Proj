@@ -18,7 +18,7 @@ logic [ADDR_WIDTH-1:0] PC;
 logic [DATA_WIDTH-1:0] PCPlus4;
 logic [DATA_WIDTH-1:0] ALUResult;
 
-logic [1:0] PCsrc;
+logic [1:0] PCSrc;
 
 logic [1:0] ResultSrc;
 logic MemWrite;
@@ -32,7 +32,7 @@ P_C P_C(
     //intputs
     .clk(clk),
     .rst(rst),
-    .PCsrc(PCsrc),
+    .PCSrc(PCSrc),
     .ImmEXT(ImmExt),
     .ALUResult(ALUResult),
 
@@ -48,11 +48,11 @@ green green(
     .Zero(Zero),
 
     //outputs
-    .PCsrc(PCsrc),
+    .PCSrc(PCSrc),
     .ResultSrc(ResultSrc),
     .MemWrite(MemWrite),
-    .ALUcontrol(ALUControl),
-    .ALUsrc(ALUSrc),
+    .ALUControl(ALUControl),
+    .ALUSrc(ALUSrc),
     .RegWrite(RegWrite),
     .ImmExt(ImmExt),
     .Instr(Instr)
@@ -77,7 +77,7 @@ orange orange(
     .ALUResult(ALUResult),
 
     //outputs
-    .zero(Zero),
+    .Zero(Zero),
     .Result(Result)
 );
 

@@ -10,7 +10,7 @@ module control #(
     output logic ALUSrc, // choose immediate (1) or register (0) operand
     output logic MemWrite, // enable write into the data memory
     output logic [1:0] PCSrc, // choose counter increments (imm or +4)
-    output logic [1:0] Resultsrc, // choose which data to store to register: Register(0) memory (1) PC (2)
+    output logic [1:0] ResultSrc, // choose which data to store to register: Register(0) memory (1) PC (2)
     output logic [2:0] ImmSrc // choose which sign extend is performed on sextend module
 );
 
@@ -24,7 +24,7 @@ always_comb begin
         RegWrite = 1'b1;
         ALUSrc = 1'b0;
         MemWrite = 1'b0;
-        Resultsrc = 2'b00;
+        ResultSrc = 2'b00;
         PCSrc = 2'b00;
         
         //sub & add instruction
@@ -59,7 +59,7 @@ always_comb begin
         MemWrite = 1'b0;
         ALUSrc = 1'b1;
         PCSrc = 2'b00;
-        Resultsrc = 2'b00;
+        ResultSrc = 2'b00;
         case(funct3)
         3'b000: ALUControl = 4'b0000; //addi
         3'b100: ALUControl = 4'b0100; //xor
@@ -74,7 +74,7 @@ always_comb begin
         RegWrite = 1'b1;
         ImmSrc = 2'b011;
         MemWrite = 1'b0;
-        Resultsrc = 2'b10;
+        ResultSrc = 2'b10;
         PCSrc = 2'b01;
     end
 
@@ -86,7 +86,7 @@ always_comb begin
         ImmSrc = 3'b000;
         ALUSrc = 1'b1;
         ALUControl = 4'b0000;   
-        Resultsrc = 2'b01;
+        ResultSrc = 2'b01;
         PCSrc = 2'b00;
     end
 
@@ -105,7 +105,7 @@ always_comb begin
     7'b1100111: begin
         RegWrite = 1'b1;
         ImmSrc = 2'b011;
-        Resultsrc = 2'b10;
+        ResultSrc = 2'b10;
         PCSrc = 2'b10;
         ALUControl = 4'b0000;
     end
@@ -113,6 +113,18 @@ always_comb begin
     //lui
     //lbu
     //shift??
+
+    /*
+     Load store control:
+        lb = 4'b0000
+        lh = 4'b0001
+        lw = 4'b0010
+        lbu = 4'b0011
+        lhu = 4'b0100
+        sb = 4'b0101
+        sh = 4'b0110
+        sw = 4'b0111
+    */
 
    
     endcase
