@@ -4,6 +4,11 @@
 
 what we did ...
 
+## Repo Structure 
+-
+-
+-
+
 ## Personal Statements
 | Name | Github | CID | Email | Link to Personal Statements|
 | -------- | -------- | -------- | -------- | -------- |
