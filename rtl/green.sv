@@ -16,7 +16,7 @@ module green #(parameter DATA_WIDTH = 32)(
 );
 
 logic [2:0] ImmSrc;
-
+  
 control decode_insr(
     // inputs
     .zero(Zero),
@@ -32,6 +32,7 @@ control decode_insr(
     .PCSrc(PCSrc),
     .ResultSrc(ResultSrc),
     .ImmSrc(ImmSrc)  
+  
 );
 
 instmem memory(
