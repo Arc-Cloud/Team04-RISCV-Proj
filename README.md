@@ -36,14 +36,14 @@ what we did ...
 Legend: L = Lead C = Contributor
 
 ### Instructions we would like to do before pipelined design
-- [] `lbu`
-- [] `lb`
-- [] `lhu`
-- [] `lh`
-- [] `lw`
-- [] `sb`
-- [] `sh`
-- [] `sw`
+- [ ] `lbu`
+- [ ] `lb`
+- [ ] `lhu`
+- [ ] `lh`
+- [ ] `lw`
+- [ ] `sb`
+- [ ] `sh`
+- [ ] `sw`
 
 ## Pipelined RV32I Design
 
