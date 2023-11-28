@@ -2,21 +2,21 @@
 `include "../rtl/sextend.sv"
 `include "../rtl/instmem.sv"
 
-module green #(parameter DATA_WIDTH = 32, IM_WIDTH = 12, REGISTER = 5)(
+module green #(parameter DATA_WIDTH = 32)(
     input logic [DATA_WIDTH-1:0] A,
     input logic Zero,
     output logic MemWrite,
     output logic RegWrite,
-    output logic ALUControl,
+    output logic [3:0] ALUControl,
     output logic ALUSrc,
     output logic [1:0] PCSrc,
-    output logic ResultSrc,
+    output logic [1:0] ResultSrc,
     output logic [DATA_WIDTH-1:0] ImmExt,
     output logic [DATA_WIDTH-1:0] Instr
 );
 
-logic [1:0] ImmSrc;
-
+logic [2:0] ImmSrc;
+  
 control decode_insr(
     // inputs
     .zero(Zero),
@@ -31,7 +31,8 @@ control decode_insr(
     .ALUSrc(ALUSrc),
     .PCSrc(PCSrc),
     .ResultSrc(ResultSrc),
-    .ImmSrc(ImmSrc)
+    .ImmSrc(ImmSrc)  
+  
 );
 
 instmem memory(

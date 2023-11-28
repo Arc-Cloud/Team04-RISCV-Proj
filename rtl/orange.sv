@@ -54,22 +54,24 @@ module orange #(
 
     alu ALU(
         // inputs
-        .ALUcontrol(ALUControl),
-        .SRCA(SrcA),
-        .SRCB(AluSrc ? ImmExt : RD2),
+        .ALUControl(ALUControl),
+        .SrcA(SrcA),
+        .SrcB(AluSrc ? ImmExt : RD2),
         .shift_right_type(shift_right_type),
 
         // outputs
         .Zero(Zero),
-        .ALUresult(ALUResult)
+        .ALUResult(ALUResult)
     );
 
     data_mem DATA_MEMORY(
         // inputs
+        .A(ALUResult),
         .clk(clk),
         .WE(WE),
-        .addr(ALUResult),
-
+        .addressing_mode(2'b10),   // set to address word for testing
+        .sign_extend(1),           // set to sign extend for testing
+        .WD(RD2),
         // outputs
         .RD(ReadData)
     );

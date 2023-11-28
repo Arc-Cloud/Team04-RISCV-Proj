@@ -17,20 +17,20 @@ module alu #(
             4'b0001 : ALUResult = SrcA - SrcB;
             4'b0010 : ALUResult = SrcA & SrcB;
             4'b0011 : ALUResult = SrcA | SrcB;              
-            4'b0101 : ALUResult = SrcA < SrcB;
+            4'b0101 : ALUResult = (SrcA < SrcB) ? 32'b1 : 32'b0;
             4'b0110 : begin 
                 u_SrcA = unsigned'(SrcA);
                 u_SrcB = unsigned'(SrcB);
-                ALUResult = u_SrcA < u_SrcB;
+                ALUResult = (u_SrcA < u_SrcB) ? 32'b1 : 32'b0;;
             end
             4'b0100 : ALUResult = SrcA ^ SrcB;
             4'b0111 : ALUResult = SrcA << SrcB;
             4'b1000 : ALUResult = (shift_right_type) ? SrcA >> SrcB : SrcA >>> SrcB;
-            4'b1001 : ALUResult = SrcA >= SrcB;
+            4'b1001 : ALUResult = (SrcA >= SrcB) ? 32'b1 : 32'b0;
             4'b1010 : begin 
                 u_SrcA = unsigned'(SrcA);
                 u_SrcB = unsigned'(SrcB);
-                ALUResult = u_SrcA >= u_SrcB;
+                ALUResult = (u_SrcA >= u_SrcB) ? 32'b1 : 32'b0;
             end
 
             default: ALUResult = 32'd0;
@@ -38,7 +38,6 @@ module alu #(
 
         Zero = (ALUResult == 32'd0);
         //$display("rs1: %h, rs2: %h, ctrl : %b", SrcA, SrcB, ALUControl);
-
     end
 
 endmodule

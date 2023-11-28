@@ -32,11 +32,11 @@ logic Zero;
 
 P_C P_C(
     //inputs
-    .rst(rst),
     .clk(clk),
-    .PCSrc(PCSrc),
-    .ALUResult(ALUResult),
+    .rst(rst),
+    .PCsrc(PCSrc),
     .ImmEXT(ImmExt),
+    .ALUResult(ALUResult),
 
     //output
     .PC(PC),
