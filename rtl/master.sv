@@ -13,28 +13,30 @@ module master #(
     output logic [DATA_WIDTH-1:0] Result
 );
 
+// ---------- PC signals ------------
 logic [DATA_WIDTH-1:0] Instr;
 logic [ADDR_WIDTH-1:0] PC;
 logic [DATA_WIDTH-1:0] PCPlus4;
-logic [DATA_WIDTH-1:0] ALUResult;
-
+// -------- control signals ----------
 logic [1:0] PCSrc;
-
 logic [1:0] ResultSrc;
 logic MemWrite;
 logic [3:0] ALUControl;
 logic ALUSrc;
 logic RegWrite;
+// --------- ALU signals -------------
 logic [DATA_WIDTH-1:0] ImmExt;
+logic [DATA_WIDTH-1:0] ALUResult;
 logic Zero;
+// -----------------------------------
 
 P_C P_C(
-    //intputs
-    .clk(clk),
+    //inputs
     .rst(rst),
+    .clk(clk),
     .PCSrc(PCSrc),
-    .ImmEXT(ImmExt),
     .ALUResult(ALUResult),
+    .ImmEXT(ImmExt),
 
     //output
     .PC(PC),
@@ -48,12 +50,12 @@ green green(
     .Zero(Zero),
 
     //outputs
-    .PCSrc(PCSrc),
-    .ResultSrc(ResultSrc),
     .MemWrite(MemWrite),
+    .RegWrite(RegWrite),
     .ALUControl(ALUControl),
     .ALUSrc(ALUSrc),
-    .RegWrite(RegWrite),
+    .PCSrc(PCSrc),
+    .ResultSrc(ResultSrc),
     .ImmExt(ImmExt),
     .Instr(Instr)
 );
@@ -61,24 +63,25 @@ green green(
 // orange contains Register File ALU and Data Memory
 orange orange(
     //inputs
-    .clk(clk),
     .rs1(Instr[19:15]),
     .rs2(Instr[24:20]),
     .rd(Instr[11:7]),
-    .WE3(RegWrite),
+    .ImmExt(ImmExt),
+    .PCPlus4(PCPlus4),
+    .clk(clk),
     .AluSrc(ALUSrc),
     .ALUControl(ALUControl),
-    .ImmExt(ImmExt),
     .WE(MemWrite),
+    .WE3(RegWrite),
     .ResultSrc(ResultSrc),
-    .PCPlus4(PCPlus4),
     .shift_right_type(0),
     .testRegAddress(testRegAddress),
     .ALUResult(ALUResult),
-
+    
     //outputs
     .Zero(Zero),
-    .Result(Result)
+    .Result(Result),
+    .ALUResult(ALUResult)
 );
 
 endmodule

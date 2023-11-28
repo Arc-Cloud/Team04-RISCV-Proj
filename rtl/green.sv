@@ -15,7 +15,7 @@ module green #(parameter DATA_WIDTH = 32, IM_WIDTH = 12, REGISTER = 5)(
     output logic [DATA_WIDTH-1:0] Instr
 );
 
-logic [1:0] Immsrc;
+logic [1:0] ImmSrc;
 
 control decode_insr(
     // inputs
@@ -30,8 +30,8 @@ control decode_insr(
     .MemWrite(MemWrite),
     .ALUSrc(ALUSrc),
     .PCSrc(PCSrc),
-    .Resultsrc(ResultSrc),
-    .ImmSrc(Immsrc)  
+    .ResultSrc(ResultSrc),
+    .ImmSrc(ImmSrc)
 );
 
 instmem memory(
@@ -41,7 +41,7 @@ instmem memory(
  
 sextend sign_extend(
     .Immediate(Instr[31:7]),
-    .ImmSrc(Immsrc),
+    .ImmSrc(ImmSrc),
     .ImmExt(ImmExt)
 );
 
