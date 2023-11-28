@@ -65,7 +65,7 @@ always_comb begin
 			// sign extend bit is don't care
 			RD = {ram_array[addr+3], ram_array[addr+2], ram_array[addr+1], ram_array[addr]};
 	endcase
-	$display("RD: %h", RD);
+	//$display("RD: %h", RD);
 end
 
 endmodule

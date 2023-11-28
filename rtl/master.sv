@@ -76,7 +76,6 @@ orange orange(
     .ResultSrc(ResultSrc),
     .shift_right_type(0),
     .testRegAddress(testRegAddress),
-    .ALUResult(ALUResult),
     
     //outputs
     .Zero(Zero),
