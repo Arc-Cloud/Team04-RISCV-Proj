@@ -32,7 +32,7 @@ P_C P_C(
     //intputs
     .clk(clk),
     .rst(rst),
-    .PCSrc(PCSrc),
+    .PCsrc(PCSrc),
     .ImmEXT(ImmExt),
     .ALUResult(ALUResult),
 

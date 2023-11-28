@@ -3,8 +3,8 @@ module control #(
 ) (
     input logic zero,   // input one when Branch is equal
     input logic [6:0] op,     // opcode from instruction
-    input logic [3:0] funct3, // funct3 from instruction
-    input logic [1:0] funct7, //funct7 from instruction
+    input logic [2:0] funct3, // funct3 from instruction
+    input logic [6:0] funct7, //funct7 from instruction
     output logic RegWrite,  // enable when we want to store in register
     output logic [3:0] ALUControl, // control operation in ALU
     output logic ALUSrc, // choose immediate (1) or register (0) operand
@@ -47,8 +47,13 @@ always_comb begin
         ALUControl = 4'b0001;
         MemWrite = 1'b0;
         case(funct3)
-            3'b000: PCSrc = zero ? 2'b01 : 2'b00; // beq
-            3'b001: PCSrc = zero ? 2'b00 : 2'b01; // bne
+            3'b000: begin
+                PCSrc = zero ? 2'b01 : 2'b00; // beq
+            end
+            3'b001: begin
+                PCSrc = zero ? 2'b00 : 2'b01; // 
+                //$display("z: %b, PCsrc: %b", zero, PCSrc);
+            end
         endcase
     end
 
@@ -62,9 +67,9 @@ always_comb begin
         ResultSrc = 2'b00;
         case(funct3)
         3'b000: ALUControl = 4'b0000; //addi
-        3'b100: ALUControl = 4'b0100; //xor
-        3'b110: ALUControl = 4'b0011; // or
-        3'b111: ALUControl = 4'b0010; //and
+        3'b100: ALUControl = 4'b0100; //xori
+        3'b110: ALUControl = 4'b0011; // ori
+        3'b111: ALUControl = 4'b0010; //andi
         endcase
     end
 
@@ -72,7 +77,7 @@ always_comb begin
     // JAL
     7'b1101111: begin
         RegWrite = 1'b1;
-        ImmSrc = 2'b011;
+        ImmSrc = 3'b011;
         MemWrite = 1'b0;
         ResultSrc = 2'b10;
         PCSrc = 2'b01;
@@ -104,7 +109,7 @@ always_comb begin
     //JALR
     7'b1100111: begin
         RegWrite = 1'b1;
-        ImmSrc = 2'b011;
+        ImmSrc = 3'b011;
         ResultSrc = 2'b10;
         PCSrc = 2'b10;
         ALUControl = 4'b0000;

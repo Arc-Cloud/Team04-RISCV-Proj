@@ -21,7 +21,7 @@ always_comb begin
     case(PCsrc)
         2'b00: PCNext = PCPlus4;
         2'b01: PCNext = PCTarget;
-        2'b10: PCNext = {ALUResult[31:1], 1'b0};  // LSB must always be 0 since instruction mem addresses can't be odd
+        2'b10: PCNext = {ALUResult[31:2], 2'b00};  // LSBs must always be 00 since instruction mem must be mult of 4
     endcase 
 
     //$display("next: %h", PCNext);
