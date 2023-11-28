@@ -24,9 +24,9 @@ what we did ...
 | -------- | :--------: | :--------: | :--------: | :--------: |
 | alu.sv | | L | |
 | control.sv | | | |
-| data_mem.sv | | L | |
+| data_mem.sv | | L | C |
 | green.sv | | | |
-| instmem.sv | | L | |
+| instmem.sv | | L | C |
 | master.sv | | | |
 | orange.sv | | L | |
 | P_C.sv | | | |
