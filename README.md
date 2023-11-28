@@ -22,24 +22,28 @@ what we did ...
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
 | -------- | :--------: | :--------: | :--------: | :--------: |
-| alu.sv | | | |
+| alu.sv | | L | |
 | control.sv | | | |
-| data_mem.sv | | | |
+| data_mem.sv | | L | |
 | green.sv | | | |
-| instmem.sv | | | |
-| load-store-unit.sv | | | |
+| instmem.sv | | L | |
 | master.sv | | | |
-| orange.sv | | | |
+| orange.sv | | L | |
 | P_C.sv | | | |
-| reg_file.sv | | | |
+| reg_file.sv | | L | |
 | sextend.sv | | | |
 
 Legend: L = Lead C = Contributor
 
-
-
-
-Info on Single Cylce RV32I Design ....
+### Instructions we would like to do before pipelined design
+- [] `lbu`
+- [] `lb`
+- [] `lhu`
+- [] `lh`
+- [] `lw`
+- [] `sb`
+- [] `sh`
+- [] `sw`
 
 ## Pipelined RV32I Design
 
