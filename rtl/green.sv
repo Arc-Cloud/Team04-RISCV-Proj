@@ -12,6 +12,7 @@ module green #(parameter DATA_WIDTH = 32)(
     output logic [1:0] PCSrc,
     output logic [1:0] ResultSrc,
     output logic [DATA_WIDTH-1:0] ImmExt,
+    output logic [2:0] AddressingControl,
     output logic [DATA_WIDTH-1:0] Instr
 );
 
@@ -31,7 +32,8 @@ control decode_insr(
     .ALUSrc(ALUSrc),
     .PCSrc(PCSrc),
     .ResultSrc(ResultSrc),
-    .ImmSrc(ImmSrc)  
+    .ImmSrc(ImmSrc),
+    .AddressingControl(AddressingControl)  
   
 );
 

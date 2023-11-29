@@ -100,11 +100,11 @@ always_comb begin
     7'b0100011: begin
         MemWrite = 1'b1;
         RegWrite = 1'b0;
-        ImmSrc = 3'b000;
+        ImmSrc = 3'b001;
         ALUSrc = 1'b1;
         ALUControl = 4'b0000;
         PCSrc = 2'b00;
-       AddressingControl = funct3;
+        AddressingControl = funct3;
     end
 
     //implementation of I-type (103) instructions 
@@ -116,12 +116,7 @@ always_comb begin
         PCSrc = 2'b10;
         ALUControl = 4'b0000;
     end
-    //sb
-    //lui
-    //lbu
-    //shift??
 
-   
     endcase
     //$display("opcode: %b", op);
 end

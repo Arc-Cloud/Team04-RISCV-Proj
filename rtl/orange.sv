@@ -18,6 +18,7 @@ module orange #(
     input logic [1:0] ResultSrc,
     input logic shift_right_type,
     input logic [4:0] testRegAddress,
+    input logic [2:0] AddressingControl,
     output logic Zero,
     output logic [DATA_WIDTH-1:0] Result,
     output logic [DATA_WIDTH-1:0] ALUResult
@@ -69,9 +70,9 @@ module orange #(
         .A(ALUResult),
         .clk(clk),
         .WE(WE),
-        .addressing_mode(2'b10),   // set to address word for testing
-        .sign_extend(1),           // set to sign extend for testing
         .WD(RD2),
+        .AddressingControl(AddressingControl),
+
         // outputs
         .RD(ReadData)
     );

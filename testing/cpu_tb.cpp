@@ -37,6 +37,8 @@ int main(int argc, char **argv, char **env) {
             top->eval ();
         }
 
+        // std::cout << "Mem word " << std::hex << top->Result << std::endl;
+
         // send a0 value to 7 seg display
         vbdHex(4, ((top->Result) >> 16) & 0xF);
         vbdHex(3, ((top->Result) >> 8) & 0xF);
