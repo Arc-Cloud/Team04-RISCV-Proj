@@ -23,15 +23,15 @@ what we did ...
 | Component | Maximilian | Ilan | Hanif | Idrees |
 | -------- | :--------: | :--------: | :--------: | :--------: |
 | alu.sv | | L | |
-| control.sv | | | |
+| control.sv | C | | L |
 | data_mem.sv | | L | C |
-| green.sv | | | |
+| green.sv | | C | L |
 | instmem.sv | | L | C |
-| master.sv | | | |
+| master.sv | | C | | L
 | orange.sv | | L | |
-| P_C.sv | | | |
+| P_C.sv | L | | |
 | reg_file.sv | | L | |
-| sextend.sv | | | |
+| sextend.sv | | | L |
 
 Legend: L = Lead C = Contributor
 
