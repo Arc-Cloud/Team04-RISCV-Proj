@@ -12,7 +12,7 @@ module data_mem #(
 );
 
 logic [1:0] addressing_mode = AddressingControl[1:0];
-logic sign_extend = ~AddressingControl[2];
+logic zero_extend = AddressingControl[2];
 
 // mem map says data mem runs from 00000 -> 1FFFF = 131071 Aesses = 2**17
 logic [STORAGE_WIDTH-1:0] ram_array [2**17-1:0];
@@ -44,6 +44,7 @@ always_ff @(posedge clk) begin
 					ram_array[addr+3] <= WD[31:24];
 				end
 		endcase
+		// $display("Data : %h, add: %h", {ram_array[3], ram_array[2], ram_array[1], ram_array[0]}, A);
 	end
 
 end
@@ -52,16 +53,16 @@ end
 always_comb begin
 	case(addressing_mode) 
 		2'b00 : // byte addressing
-			if(sign_extend) // lb
-				RD = {{24{ram_array[addr][7]}}, ram_array[addr]};
-			else // lbu
+			if(zero_extend) // lbu
 				RD = {24'b0, ram_array[addr]};
+			else // lb
+				RD = {{24{ram_array[addr][7]}}, ram_array[addr]};
 
 		2'b01 : // half addressing
-			if(sign_extend) // lh
-				RD = {{16{ram_array[addr+1][7]}}, ram_array[addr+1], ram_array[addr]};
-			else  // lhu 
+			if(zero_extend) // lhu
 				RD = {16'b0, ram_array[addr+1] ,ram_array[addr]};
+			else  // lh
+				RD = {{16{ram_array[addr+1][7]}}, ram_array[addr+1], ram_array[addr]};
 		
 		2'b10 :  // word addressing
 			// sign extend bit is don't care

@@ -24,6 +24,7 @@ logic MemWrite;
 logic [3:0] ALUControl;
 logic ALUSrc;
 logic RegWrite;
+logic [2:0] AddressingControl;
 // --------- ALU signals -------------
 logic [DATA_WIDTH-1:0] ImmExt;
 logic [DATA_WIDTH-1:0] ALUResult;
@@ -57,7 +58,8 @@ green green(
     .PCSrc(PCSrc),
     .ResultSrc(ResultSrc),
     .ImmExt(ImmExt),
-    .Instr(Instr)
+    .Instr(Instr),
+    .AddressingControl(AddressingControl)
 );
 
 // orange contains Register File ALU and Data Memory
@@ -76,6 +78,7 @@ orange orange(
     .ResultSrc(ResultSrc),
     .shift_right_type(0),
     .testRegAddress(testRegAddress),
+    .AddressingControl(AddressingControl),
     
     //outputs
     .Zero(Zero),
