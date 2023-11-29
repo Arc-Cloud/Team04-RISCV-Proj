@@ -6,11 +6,13 @@ module data_mem #(
 	input logic [DATA_WIDTH-1:0] A,
 	input logic clk,
     input logic WE,
-	input logic [1:0] addressing_mode,
-	input logic sign_extend,
+	input logic [2:0] AddressingControl,
 	input logic [DATA_WIDTH-1:0] WD,
 	output logic [DATA_WIDTH-1:0] RD
 );
+
+logic [1:0] addressing_mode = AddressingControl[1:0];
+logic sign_extend = ~AddressingControl[2];
 
 // mem map says data mem runs from 00000 -> 1FFFF = 131071 Aesses = 2**17
 logic [STORAGE_WIDTH-1:0] ram_array [2**17-1:0];

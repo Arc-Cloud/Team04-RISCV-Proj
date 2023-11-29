@@ -11,7 +11,8 @@ module control #(
     output logic MemWrite, // enable write into the data memory
     output logic [1:0] PCSrc, // choose counter increments (imm or +4)
     output logic [1:0] ResultSrc, // choose which data to store to register: Register(0) memory (1) PC (2)
-    output logic [2:0] ImmSrc // choose which sign extend is performed on sextend module
+    output logic [2:0] ImmSrc, // choose which sign extend is performed on sextend module
+    output logic [2:0] AddressingControl // choose which type of load/store instruction to perform 
 );
 
 
@@ -83,9 +84,8 @@ always_comb begin
         PCSrc = 2'b01;
     end
 
-    //implementation of I type (3) instructions
+    //implementation of I type (3) instructions (lb, lh, lw, lbu, lhu)
     7'b0000011: begin
-        //lw
         MemWrite = 1'b0;
         RegWrite = 1'b1;
         ImmSrc = 3'b000;
@@ -93,6 +93,7 @@ always_comb begin
         ALUControl = 4'b0000;   
         ResultSrc = 2'b01;
         PCSrc = 2'b00;
+        AddressingControl = funct3;
     end
 
     //implementation of S-type instructions (35) (sw)
@@ -103,6 +104,7 @@ always_comb begin
         ALUSrc = 1'b1;
         ALUControl = 4'b0000;
         PCSrc = 2'b00;
+       AddressingControl = funct3;
     end
 
     //implementation of I-type (103) instructions 
@@ -118,18 +120,6 @@ always_comb begin
     //lui
     //lbu
     //shift??
-
-    /*
-     Load store control:
-        lb = 4'b0000
-        lh = 4'b0001
-        lw = 4'b0010
-        lbu = 4'b0011
-        lhu = 4'b0100
-        sb = 4'b0101
-        sh = 4'b0110
-        sw = 4'b0111
-    */
 
    
     endcase
