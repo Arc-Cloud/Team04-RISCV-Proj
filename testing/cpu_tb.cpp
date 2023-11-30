@@ -19,14 +19,14 @@ int main(int argc, char **argv, char **env) {
     tfp->open ("CPU.vcd");
 
     //init Vbuddy
-    //if (vbdOpen()!=1) return(-1);
-    //vbdHeader("CPU CW");
+    if (vbdOpen()!=1) return(-1);
+    vbdHeader("CPU CW");
 
     // intialise
     top->clk = 1;
     top->rst = 0;
     top->trigger = 0;
-    top->testRegAddress = 10;
+    top->testRegAddress = 22;
 
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
@@ -45,7 +45,9 @@ int main(int argc, char **argv, char **env) {
         //vbdHex(2, ((top->Result) >> 4) & 0xF);
         //vbdHex(1, top->Result & 0xF);
 
-        //vbdCycle(simcyc);
+        vbdBar(top->Result & 0xFF);
+
+        vbdCycle(simcyc);
     
         // either simulation finished, or 'q' is pressed
         if (Verilated::gotFinish())
