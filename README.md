@@ -24,7 +24,7 @@ what we did ...
 | -------- | :--------: | :--------: | :--------: | :--------: |
 | alu.sv | | L | |
 | control.sv | C | | L |
-| data_mem.sv | | L | C |
+| data_mem.sv | C | L | C |
 | green.sv | | C | L |
 | instmem.sv | | L | C |
 | master.sv | | C | | L
@@ -35,15 +35,18 @@ what we did ...
 
 Legend: L = Lead C = Contributor
 
-### Instructions we would like to do before pipelined design
-- [x] `lbu`
-- [x] `lb`
-- [x] `lhu`
-- [x] `lh`
-- [x] `lw`
-- [x] `sb`
-- [x] `sh`
-- [x] `sw`
+### Implemented Instructions 
+#### R-Type
+`add` `sub` `xor` `or` `and`
+#### B-Type
+`beq` `bne`
+#### I-Type
+`addi` `ori` `xori` `andi` `lb` `lh` `lw` `lbu` `lhu` `jalr`
+#### J-Type
+`jal`
+#### S-Type
+`sb` `sh` `sw`
+
 
 ## Pipelined RV32I Design
 
