@@ -76,7 +76,6 @@ orange orange(
     .WE(MemWrite),
     .WE3(RegWrite),
     .ResultSrc(ResultSrc),
-    .shift_right_type(0),
     .testRegAddress(testRegAddress),
     .AddressingControl(AddressingControl),
     
