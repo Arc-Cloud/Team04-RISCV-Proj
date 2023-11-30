@@ -19,8 +19,8 @@ int main(int argc, char **argv, char **env) {
     tfp->open ("CPU.vcd");
 
     //init Vbuddy
-    if (vbdOpen()!=1) return(-1);
-    vbdHeader("CPU CW");
+    //if (vbdOpen()!=1) return(-1);
+    //vbdHeader("CPU CW");
 
     // intialise
     top->clk = 1;
@@ -40,15 +40,15 @@ int main(int argc, char **argv, char **env) {
         // std::cout << "Mem word " << std::hex << top->Result << std::endl;
 
         // send a0 value to 7 seg display
-        vbdHex(4, ((top->Result) >> 16) & 0xF);
-        vbdHex(3, ((top->Result) >> 8) & 0xF);
-        vbdHex(2, ((top->Result) >> 4) & 0xF);
-        vbdHex(1, top->Result & 0xF);
+        //vbdHex(4, ((top->Result) >> 16) & 0xF);
+        //vbdHex(3, ((top->Result) >> 8) & 0xF);
+        //vbdHex(2, ((top->Result) >> 4) & 0xF);
+        //vbdHex(1, top->Result & 0xF);
 
-        vbdCycle(simcyc);
+        //vbdCycle(simcyc);
     
         // either simulation finished, or 'q' is pressed
-        if ((Verilated::gotFinish()) || (vbdGetkey()=='q'))
+        if (Verilated::gotFinish())
             exit(0);
     }
 
