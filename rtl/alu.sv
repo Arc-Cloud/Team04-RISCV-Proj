@@ -21,7 +21,7 @@ module alu #(
             4'b0110 : begin 
                 u_SrcA = unsigned'(SrcA);
                 u_SrcB = unsigned'(SrcB);
-                ALUResult = (u_SrcA < u_SrcB) ? 32'b1 : 32'b0;; // 
+                ALUResult = (u_SrcA < u_SrcB) ? 32'b1 : 32'b0; // 
             end
             4'b0111 : ALUResult = SrcA << SrcB; //sll
             4'b1000 : ALUResult = SrcA >> SrcB; //srl
@@ -32,11 +32,10 @@ module alu #(
                 ALUResult = (u_SrcA >= u_SrcB) ? 32'b1 : 32'b0;
             end
             4'b1011 : ALUResult = SrcA >>> SrcB; // sra
-            4'b1100 : ALUResult = SrcA >>> SrcB[4:0] //srai
-            4'b1101 : ALUResult = SrcA << SrcB[4:0] // slli
-            4'b1110 : ALUResult = SrcA <<< SrcB[4:0] // slai
 
-
+            4'b1100 : ALUResult = SrcA >>> SrcB[4:0]; //srai
+            4'b1101 : ALUResult = SrcA << SrcB[4:0];  // slli
+            4'b1110 : ALUResult = SrcA >> SrcB[4:0];  // srli
             default: ALUResult = 32'd0;
         endcase
 

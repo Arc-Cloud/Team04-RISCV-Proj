@@ -33,14 +33,14 @@ always_comb begin
         else begin
             case(funct3)
                 3'b000: ALUControl = 4'b0000; //add
-                3'b001: ALUControl = 4'b0111 //sll
+                3'b001: ALUControl = 4'b0111; //sll
                 3'b100: ALUControl = 4'b0100; //xor
                 3'b110: ALUControl = 4'b0011; // or
                 3'b111: ALUControl = 4'b0010; //and
                 3'b101: begin
                     case(funct7)
-                    7'b0000000:  ALUControl = 4'b1000 //srl
-                    7'b0100000:  ALUControl = 4'b1011 //sra 
+                    7'b0000000:  ALUControl = 4'b1000; //srl
+                    7'b0100000:  ALUControl = 4'b1011; //sra 
                     endcase
                 end
             endcase
@@ -75,7 +75,12 @@ always_comb begin
         ResultSrc = 2'b00;
         case(funct3)
         3'b000: ALUControl = 4'b0000; //addi
+        3'b001: ALUControl = 4'b1101; // slli
         3'b100: ALUControl = 4'b0100; //xori
+        3'b101: case(funct7)
+                    7'b0000000: ALUControl = 4'b1110; //srli
+                    7'b0100000: ALUControl = 4'b1100; //srai 
+                endcase
         3'b110: ALUControl = 4'b0011; // ori
         3'b111: ALUControl = 4'b0010; //andi
         endcase
