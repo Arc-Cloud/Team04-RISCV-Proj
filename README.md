@@ -1,16 +1,21 @@
-# Team04-RISCV-Proj
+# Team04-RISCV-CPU
 
 ## Joint Statement
 
+### Overall Approach
+  -
+  -
+  -
+  
 what we did ...
 
 ## Repo Structure 
--
--
+- Main Branch contains the latest Version of our CPU
+- 
 -
 
-## Personal Statements
-| Name | Github | CID | Email | Link to Personal Statements|
+## Details & Personal Statements
+| Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
 | -------- | -------- | -------- | -------- | -------- |
 | Maximilian | | | | [Max's Statement](statements/Maximilian.md)
 | Ilan | | | | [Ilan's Statement](statements/Ilan.md) 
@@ -18,9 +23,9 @@ what we did ...
 | Hanif | | | | [Hanif's Statement](statements/Hanif.md) 
 
 
-## Single Cylce RV32I Design
-
-| Component | Maximilian | Ilan | Hanif | Idrees |
+# Single Cylce RV32I Design
+### Contributions
+| Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
 | alu.sv | | L | |
 | control.sv | C | | L |
@@ -33,7 +38,37 @@ what we did ...
 | reg_file.sv | | L | |
 | sextend.sv | | | L |
 
-Legend: L = Lead C = Contributor
+Legend: `L` = Lead `C` = Contributor
+## Planning
+
+### Teamwork things ...
+
+## Implementation
+
+### F1 ASM
+As a team we produced the following F1.ASM file:
+
+### ALU
+
+### PC
+
+### Control Unit
+
+### Memory
+
+### Testing
+ 
+## Design Decisions
+
+### Decoder Table
+
+### ALU decoder
+
+### Sign Extension
+
+## Final Schematic
+
+schematic image goes here ...
 
 ### Implemented Instructions 
 #### R-Type
@@ -48,7 +83,7 @@ Legend: L = Lead C = Contributor
 `sb` `sh` `sw`
 
 
-## Pipelined RV32I Design
+# Pipelined RV32I Design
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
 | -------- | :--------: | :--------: | :--------: | :--------: |
@@ -61,7 +96,7 @@ Legend: L = Lead C = Contributor
 
 Info on Pipelined RV32I Design ....
 
-## Data Memory Cache
+# Data Memory Cache
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
 | -------- | :--------: | :--------: | :--------: | :--------: |
