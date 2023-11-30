@@ -2,6 +2,8 @@
 `include "../rtl/green.sv"
 `include "../rtl/P_C.sv"
 
+`timescale 1s/1ps
+
 module master #(
     parameter DATA_WIDTH = 32,
     parameter ADDR_WIDTH = 32

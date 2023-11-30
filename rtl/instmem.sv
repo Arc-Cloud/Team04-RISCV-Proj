@@ -8,7 +8,7 @@ module instmem #(
 
 logic [11:0] addr;
 
-logic [STORAGE_WIDTH-1:0] rom_array [2**12-1:0];
+logic [STORAGE_WIDTH-1:0] rom_array [32'hbfc00fff-1:32'hbfc00000];
 
 initial begin
     $display("Loading instruction memory...");

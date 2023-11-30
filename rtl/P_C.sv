@@ -10,7 +10,7 @@ module P_C#(
     output logic [WIDTH-1:0] PCPlus4
 );
 
-logic [WIDTH-1:0] PCNext;
+logic [WIDTH-1:0] PCNext = 32'hbfc00000;
 logic [WIDTH-1:0] PCTarget;
 
 
@@ -30,7 +30,7 @@ end
 // Sequential logic to update PC register
 always_ff @(posedge clk or posedge rst) begin
     if (rst) 
-        PC <= {WIDTH{1'b0}};
+        PC <= 32'hbfc00000;
     else 
         PC <= PCNext;
 end
