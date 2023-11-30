@@ -52,7 +52,7 @@ always_comb begin
                 PCSrc = zero ? 2'b01 : 2'b00; // beq
             end
             3'b001: begin
-                PCSrc = zero ? 2'b00 : 2'b01; // 
+                PCSrc = zero ? 2'b00 : 2'b01; // bne
                 //$display("z: %b, PCsrc: %b", zero, PCSrc);
             end
         endcase
@@ -96,7 +96,7 @@ always_comb begin
         AddressingControl = funct3;
     end
 
-    //implementation of S-type instructions (35) (sw)
+        //implementation of S-type instructions (35) (sb, sh, sw)
     7'b0100011: begin
         MemWrite = 1'b1;
         RegWrite = 1'b0;
