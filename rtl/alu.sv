@@ -4,7 +4,6 @@ module alu #(
     input logic [DATA_WIDTH-1:0] SrcA,
     input logic [DATA_WIDTH-1:0] SrcB,
     input logic [3:0] ALUControl,
-    input logic shift_right_type,
     output logic Zero,
     output logic [DATA_WIDTH-1:0] ALUResult
 );
@@ -13,25 +12,30 @@ module alu #(
     
     always_comb begin
         case (ALUControl)
-            4'b0000 : ALUResult = SrcA + SrcB;
-            4'b0001 : ALUResult = SrcA - SrcB;
-            4'b0010 : ALUResult = SrcA & SrcB;
-            4'b0011 : ALUResult = SrcA | SrcB;              
-            4'b0101 : ALUResult = (SrcA < SrcB) ? 32'b1 : 32'b0;
+            4'b0000 : ALUResult = SrcA + SrcB; 
+            4'b0001 : ALUResult = SrcA - SrcB; 
+            4'b0010 : ALUResult = SrcA & SrcB; 
+            4'b0011 : ALUResult = SrcA | SrcB;     
+            4'b0100 : ALUResult = SrcA ^ SrcB;   
+            4'b0101 : ALUResult = (SrcA < SrcB) ? 32'b1 : 32'b0; 
             4'b0110 : begin 
                 u_SrcA = unsigned'(SrcA);
                 u_SrcB = unsigned'(SrcB);
-                ALUResult = (u_SrcA < u_SrcB) ? 32'b1 : 32'b0;;
+                ALUResult = (u_SrcA < u_SrcB) ? 32'b1 : 32'b0;; // 
             end
-            4'b0100 : ALUResult = SrcA ^ SrcB;
-            4'b0111 : ALUResult = SrcA << SrcB;
-            4'b1000 : ALUResult = (shift_right_type) ? SrcA >> SrcB : SrcA >>> SrcB;
+            4'b0111 : ALUResult = SrcA << SrcB; //sll
+            4'b1000 : ALUResult = SrcA >> SrcB; //srl
             4'b1001 : ALUResult = (SrcA >= SrcB) ? 32'b1 : 32'b0;
             4'b1010 : begin 
                 u_SrcA = unsigned'(SrcA);
                 u_SrcB = unsigned'(SrcB);
                 ALUResult = (u_SrcA >= u_SrcB) ? 32'b1 : 32'b0;
             end
+            4'b1011 : ALUResult = SrcA >>> SrcB; // sra
+            4'b1100 : ALUResult = SrcA >>> SrcB[4:0] //srai
+            4'b1101 : ALUResult = SrcA << SrcB[4:0] // slli
+            4'b1110 : ALUResult = SrcA <<< SrcB[4:0] // slai
+
 
             default: ALUResult = 32'd0;
         endcase

@@ -16,7 +16,6 @@ module orange #(
     input logic WE,
     input logic WE3,
     input logic [1:0] ResultSrc,
-    input logic shift_right_type,
     input logic [4:0] testRegAddress,
     input logic [2:0] AddressingControl,
     output logic Zero,
@@ -58,7 +57,6 @@ module orange #(
         .ALUControl(ALUControl),
         .SrcA(SrcA),
         .SrcB(AluSrc ? ImmExt : RD2),
-        .shift_right_type(shift_right_type),
 
         // outputs
         .Zero(Zero),
