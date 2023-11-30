@@ -57,15 +57,31 @@ As a team we produced the following F1.ASM file:
 ### Memory
 
 ### Testing
+
+GTK wave outputs can go here
  
 ## Design Decisions
 
 ### Decoder Table
+| Instruction| OP | ... | ... | ...
+| -------- | :--------: | :--------: | :--------: | :--------: |
+| | | | |
+| | | | |
+| | | | |
 
 ### ALU decoder
+| ALU OP | funct3 |  funct 7 | ... | ...
+| -------- | :--------: | :--------: | :--------: | :--------: |
+| | | | |
+| | | | |
+| | | | |
 
 ### Sign Extension
-
+| ImmSrc| ImmExt | Instruction Type 
+| -------- | :--------: | :--------: | 
+| | | 
+| | | 
+| | | 
 ## Final Schematic
 
 schematic image goes here ...
