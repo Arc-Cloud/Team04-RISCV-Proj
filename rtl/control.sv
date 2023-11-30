@@ -28,19 +28,26 @@ always_comb begin
         ResultSrc = 2'b00;
         PCSrc = 2'b00;
         
-        //sub & add instruction
-        if (funct7 == 7'b0100000) ALUControl = 4'b0001; //sub
-        else begin
-            case(funct3)
-                3'b000: ALUControl = 4'b0000; //add
-                3'b100: ALUControl = 4'b0100; //xor
-                3'b110: ALUControl = 4'b0011; // or
-                3'b111: ALUControl = 4'b0010; //and
-            endcase
-        end
+        case(funct3)
+            3'b000: begin
+                case(funct7)
+                    7'b0000000: ALUControl = 4'b0000; //add
+                    7'b0100000: ALUControl = 4'b0001; //sub
+                endcase
+            end
+            3'b100: ALUControl = 4'b0100; //xor
+            3'b110: ALUControl = 4'b0011; // or
+            3'b111: ALUControl = 4'b0010; //and
+            3'b101: begin
+                case(funct7)
+                7'b0000000:  ALUControl = 4'b1000; //srl
+                7'b0100000:  ALUControl = 4'b1011; //sra 
+                endcase
+            end
+        endcase
     end
 
-    // b-type instruction implementation
+    // B-type instruction implementation
     7'b1100011: begin
         RegWrite = 1'b0;
         ImmSrc = 3'b010;
@@ -52,7 +59,7 @@ always_comb begin
                 PCSrc = zero ? 2'b01 : 2'b00; // beq
             end
             3'b001: begin
-                PCSrc = zero ? 2'b00 : 2'b01; // 
+                PCSrc = zero ? 2'b00 : 2'b01; // bne
                 //$display("z: %b, PCsrc: %b", zero, PCSrc);
             end
         endcase
@@ -68,7 +75,12 @@ always_comb begin
         ResultSrc = 2'b00;
         case(funct3)
         3'b000: ALUControl = 4'b0000; //addi
+        3'b001: ALUControl = 4'b1101; // slli
         3'b100: ALUControl = 4'b0100; //xori
+        3'b101: case(funct7)
+                    7'b0000000: ALUControl = 4'b1110; //srli
+                    7'b0100000: ALUControl = 4'b1100; //srai 
+                endcase
         3'b110: ALUControl = 4'b0011; // ori
         3'b111: ALUControl = 4'b0010; //andi
         endcase
@@ -84,7 +96,7 @@ always_comb begin
         PCSrc = 2'b01;
     end
 
-    //implementation of I type (3) instructions (lb, lh, lw, lbu, lhu)
+    //implementation of I-type (3) instructions (lb, lh, lw, lbu, lhu)
     7'b0000011: begin
         MemWrite = 1'b0;
         RegWrite = 1'b1;
@@ -96,7 +108,7 @@ always_comb begin
         AddressingControl = funct3;
     end
 
-    //implementation of S-type instructions (35) (sw)
+    //implementation of S-type instructions (35) (sb, sh, sw)
     7'b0100011: begin
         MemWrite = 1'b1;
         RegWrite = 1'b0;
