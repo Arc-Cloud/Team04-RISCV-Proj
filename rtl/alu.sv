@@ -21,7 +21,7 @@ module alu #(
             4'b0110 : begin 
                 u_SrcA = unsigned'(SrcA);
                 u_SrcB = unsigned'(SrcB);
-                ALUResult = (u_SrcA < u_SrcB) ? 32'b1 : 32'b0; // 
+                ALUResult = (u_SrcA < u_SrcB) ? 32'b1 : 32'b0;;
             end
             4'b0111 : ALUResult = SrcA << SrcB; //sll
             4'b1000 : ALUResult = SrcA >> SrcB; //srl
