@@ -79,7 +79,7 @@ Legend: `L` = Lead `C` = Contributor
 ## Implementation
 
 ### F1 ASM
-As a team we produced the following F1.ASM file:
+As a team we produced the following [f1_asm.s](testing/f1_asm.s) code. 
 
 ### ALU
 
