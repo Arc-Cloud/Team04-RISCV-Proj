@@ -95,14 +95,11 @@ The ALU contains arithmetic and logic operations on 2 operands. All arithmetic o
 | 0100 | SrcA ^ SrcB |
 | 0101 | SrcA < SrcB |
 | 0110 | uSrcA < uSrcB |
-| 0111 | SrcA << SrcB |
-| 1000 | SrcA >> SrcB |
+| 0111 | SrcA << SrcB[4:0] |
+| 1000 | SrcA >> SrcB[4:0] |
 | 1001 | SrcA >= SrcB |
 | 1010 | uSrcA >= uSrcB |
-| 1011 | SrcA >>> SrcB |
-| 1100 | SrcA >>> SrcB[4:0] |
-| 1101 | SrcA << SrcB[4:0] |
-| 1110 | SrcA >> SrcB[4:0] |
+| 1011 | SrcA >>> SrcB[4:0] |
 
 SrcA and SrcB are the 2 inputs to the ALU. SrcB could be an immediate value, this is decided by the ALUSrc signal. *u* prepended to the name means it is treated as an unsigned value. 
 
