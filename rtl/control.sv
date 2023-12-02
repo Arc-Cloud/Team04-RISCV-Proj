@@ -35,6 +35,9 @@ always_comb begin
                     7'b0100000: ALUControl = 4'b0001; //sub
                 endcase
             end
+            3'b001: ALUControl = 4'b0111; //sll
+            3'b010: ALUControl = 4'b0101; //slt
+            3'b011: ALUControl = 4'b0110; // sltu
             3'b100: ALUControl = 4'b0100; //xor
             3'b110: ALUControl = 4'b0011; // or
             3'b111: ALUControl = 4'b0010; //and
@@ -60,7 +63,6 @@ always_comb begin
             end
             3'b001: begin
                 PCSrc = zero ? 2'b00 : 2'b01; // bne
-                //$display("z: %b, PCsrc: %b", zero, PCSrc);
             end
         endcase
     end
@@ -75,12 +77,13 @@ always_comb begin
         ResultSrc = 2'b00;
         case(funct3)
         3'b000: ALUControl = 4'b0000; //addi
-        3'b001: ALUControl = 4'b1101; // slli
+        3'b001: ALUControl = 4'b0111; // slli
         3'b100: ALUControl = 4'b0100; //xori
-        3'b101: case(funct7)
-                    7'b0000000: ALUControl = 4'b1110; //srli
-                    7'b0100000: ALUControl = 4'b1100; //srai 
-                endcase
+        3'b101: 
+            case(funct7)
+                7'b0000000: ALUControl = 4'b1000; //srli
+                7'b0100000: ALUControl = 4'b1011; //srai 
+            endcase
         3'b110: ALUControl = 4'b0011; // ori
         3'b111: ALUControl = 4'b0010; //andi
         endcase
