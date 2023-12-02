@@ -108,9 +108,6 @@ SrcA and SrcB are the 2 inputs to the ALU. SrcB could be an immediate value, thi
 
 There's a `Zero` flag that connects to the control unit, which is high whenever the result from the ALU is zero. This is used for effecting branches.
 
-One key design decision made was when designing logic to execute the shift instuctions. To implement shift by immediate correctly, we have to make sure we are only considering the 5 least significant bits of the immediate. In order to know when to do this, we decided to leave `ALUControl` bits for each immediate shift. 
-
-
 ### PC
 
 ### Control Unit
@@ -125,7 +122,6 @@ Now, byte addressing becomes trivial, half addressing is a matter of accessing 2
 
 Reading and writing to data memory has some subtle caveats.
 
-Consider this memory dump:
 ![mem dump](imgs/mem_dump.png)  
 *Acquired  from: https://github.com/johnwinans/rvalp*
 
