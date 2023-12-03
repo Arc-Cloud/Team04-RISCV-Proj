@@ -152,9 +152,10 @@ GTK wave outputs can go here
 | | | 
 | | | 
 | | | 
-## Final Schematic
+## Final Schematic for Single Cycle CPU
 
-schematic image goes here ...
+![SchematicSingleCycle](https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/112711409/6a9d08f6-bb25-4a32-a1fb-9c997b6a24d3)
+
 
 ### Implemented Instructions 
 #### R-Type
