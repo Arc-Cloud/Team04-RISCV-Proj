@@ -60,7 +60,7 @@
 ### Contributions
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
-| alu.sv | | L | |
+| alu.sv | C | L | |
 | control.sv | C | | L |
 | data_mem.sv | C | L | C |
 | green.sv | | C | L |
@@ -106,6 +106,23 @@ SrcA and SrcB are the 2 inputs to the ALU. SrcB could be an immediate value, thi
 There's a `Zero` flag that connects to the control unit, which is high whenever the result from the ALU is zero. This is used for effecting branches.
 
 ### PC
+
+---
+
+The Program Counter (PC) module serves to control the instruction flow within the processor. The module includes a register to store the PC and combinational logic to determine the next PC value, labelled `PCNext`.
+
+Inputs to the PC module include:
+- `rst`: A reset input that sets the PC to a known start address when activated.
+- `clk`: The clock signal that coordinates the updating of the PC register.
+- `PCsrc`: A 2-bit signal that selects the next value of the PC.
+- `ALUResult`: The output from the ALU for computing jump addresses.
+- `ImmEXT`: An immediate value used to calculate the target address for branch instructions.
+
+The `PCNext` value is calculated using a case statement based on the `PCsrc` signal. If `PCsrc` is `00`, the PC is incremented by four for sequential instruction execution. If `PCsrc` is `01`, the PC is set to the sum of the current PC and `ImmEXT`, facilitating immediate branching. If `PCsrc` is `10`, the PC uses the ALU result, aligned to a 4-byte boundary, for jump instructions.
+
+The PC is updated with a sequential `always_ff` block that triggers on the positive edge of the clock or the reset signal. Upon reset, the PC is initialized to `32'hbfc00000`. Otherwise, it takes the value computed as `PCNext`.
+
+This provides the necessary control for sequential execution, branching, and jumping within the processor, supporting our diverse set of instructions.
 
 ### Control Unit
 
