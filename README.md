@@ -81,6 +81,22 @@ Legend: `L` = Lead `C` = Contributor
 ### F1 ASM
 As a team we produced the following [f1_asm.s](testing/f1_asm.s) code. 
 
+Simulating sequential illumination of Formula 1 start lights, where each light is represented by a bit in a register that is turned on one after another and then turned off after a specified duration.
+
+The program begins execution at the `main` label, where it jumps to the `init` subroutine using `JAL ra, init`, which also saves the return address in the `ra` register. After initializing the necessary registers, the program returns to `main` and loops indefinitely due to the `jal zero, main` instruction.
+
+In the `init` subroutine:
+- `s2` is initialized to 0, which will serve as the iterative light control variable.
+- `s3` is set to `0xff` (binary `11111111`), representing all lights being on.
+- `s5` is initialized to 0 and will hold the result of the bitwise AND operation between `s2` and `s3`.
+- `s4` is set to 8, which will act as a countdown timer for the duration the lights are on.
+
+The `loopi` label begins the process of sequentially turning on the lights. `s2` is shifted left by one position and then incremented by 1, simulating the turning on of the next light. The `and` instruction computes the current state of the lights, which is stored in `s5`.
+
+After setting a light, the program enters the `wait` loop, which decrements `s4` until it reaches zero, acting as a delay. Once the countdown is finished, `s4` is reinitialized to the wait value, and if not all lights are on (checked by comparing `s2` and `s3`), the program jumps back to `loopi` to turn on the next light.
+
+Once all lights are on (when `s2` equals `s3`), `s5` is set to 0, turning off all the lights, and the program returns from the `init` subroutine using the `RET` instruction.
+
 ### ALU
 
 [Implemented here](rtl/alu.sv)
