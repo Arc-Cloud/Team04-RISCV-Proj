@@ -1,5 +1,11 @@
 #!/bin/bash
 
-set -euo pipefail
-
-od -v -An -t x1 "$1.bin" | tr -s '\n' | awk '{$1=$1};1' > "$1.hex"
+while read -r line; do
+    # Extract pairs of characters and add a space in between
+    formatted_line=$(echo $line | sed 's/../& /g')
+    
+    # Trim leading and trailing whitespace
+    formatted_line=$(echo $formatted_line | sed 's/^[ \t]*//;s/[ \t]*$//')
+    
+    echo $formatted_line
+done

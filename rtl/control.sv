@@ -43,8 +43,8 @@ always_comb begin
             3'b111: ALUControl = 4'b0010; //and
             3'b101: begin
                 case(funct7)
-                7'b0000000:  ALUControl = 4'b1000; //srl
-                7'b0100000:  ALUControl = 4'b1011; //sra 
+                    7'b0000000:  ALUControl = 4'b1000; //srl
+                    7'b0100000:  ALUControl = 4'b1011; //sra 
                 endcase
             end
         endcase
