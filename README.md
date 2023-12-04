@@ -204,13 +204,22 @@ GTK wave outputs can go here
 
 # Pipelined RV32I Design
 
-| Component | Maximilian | Ilan | Hanif | Idrees |
+### Contributions
+| Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
-| | | | |
-| | | | |
-| | | | |
+| PC.sv | | | |
+| alu.sv | | L | |
+| control_unit.sv | L | | |
+| decode.sv | L | | |
+| execute.sv | | L | |
+| execute_data_file.sv | | L | |
+| extend.sv | L | | |
+| fetch.sv | | | L |
+| instmem.sv | | | L |
+| mux.sv | | L | |
+| register_file.sv | L | | |
 
-Legend: L = Lead C = Contributor
+Legend: `L` = Lead `C` = Contributor
 
 
 Info on Pipelined RV32I Design ....
