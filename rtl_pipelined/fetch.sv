@@ -3,7 +3,8 @@ module fetch #(
 )(
     input logic clk,
     input logic rst,
-    input logic [2:0] PCSrcE,
+    input logic  PCSrcE,
+    input logic JALRinstr,
     input logic [DATA_WIDTH-1:0]ALUResult,
     input logic [DATA_WIDTH-1:0] PCtargetE,
     output logic [DATA_WIDTH-1:0] instrD,
@@ -21,6 +22,7 @@ PC counter(
     .ALUResult(ALUResult),
     .PCtargetE(PCtargetE),
     .PCSrcE(PCSrcE),
+    .JALRinstr(JALRinstr),
     .PCPlus4F(PCPlus4F),
     .PCF(PCF)
 );
