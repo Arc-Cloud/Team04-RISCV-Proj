@@ -23,8 +23,8 @@ always_comb begin
     endcase
 end
 
-always_ff @(posedge clk or posedge rst)begin
-    if (rst) PCF <= 32'hbfc00000;
+always_ff @(posedge clk or posedge reset)begin
+    if (reset) PCF <= 32'hbfc00000;
     else PCF <= PCNext;
 end
 

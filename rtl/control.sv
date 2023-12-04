@@ -131,6 +131,7 @@ always_comb begin
         ResultSrc = 2'b10;
         PCSrc = 2'b10;
         ALUControl = 4'b0000;
+        ALUSrc = 1'b1;
     end
 
     endcase

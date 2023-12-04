@@ -32,18 +32,13 @@ module alu #(
                 ALUResult = (u_SrcA >= u_SrcB) ? 32'b1 : 32'b0;
             end
             4'b1011 : begin
-                //$display("SrcA: %b, SrcB: %b", SrcA, SrcB);
                 ALUResult = $signed(SrcA) >>> SrcB[4:0]; // sra, srai
-                //$display("ALUResult: %b", ALUResult);
             end
-            //4'b1100 : ALUResult = SrcA >>> SrcB[4:0]; //srai
-            //4'b1101 : ALUResult = SrcA << SrcB[4:0];  // slli
-            //4'b1110 : ALUResult = SrcA >> SrcB[4:0];  // srli
+
             default: ALUResult = 32'd0;
         endcase
 
         Zero = (ALUResult == 32'd0);
-        // $display("rs1: %h, rs2: %h, ctrl : %b", SrcA, SrcB, ALUControl);
     end
 
 endmodule
