@@ -29,6 +29,7 @@ continue_jal_tests:
     # Test jal
     jal a0, jal_target  # Jump to jal_target and save return address in x0
 
+    addi s8, zero, 1        # Increment s8 by 1 if jal_target is executed
     j end_of_program       # Unconditional jump to end_of_program
 
 jal_target:
