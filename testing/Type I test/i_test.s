@@ -21,4 +21,5 @@ main:
     srai s6, s5, 4 # s6 = -1 (0b11111111) (0xff)
     ori s7, s2, 0b10101010 # s7 = 0b11101110 (0xee)
     andi s8, s2, 0b10101010 # s8 = 0b00100000 (0x20)
- 
+
+# passed testing
