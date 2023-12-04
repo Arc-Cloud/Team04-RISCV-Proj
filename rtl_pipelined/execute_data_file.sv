@@ -1,4 +1,4 @@
-module execute_data_file #(
+module execute_reg_file #(
     parameter DATA_WIDTH = 32,
     parameter REG_FILE_ADDRESS_WIDTH = 5
 )(
@@ -21,7 +21,7 @@ module execute_data_file #(
 );
 
     always_ff @(posedge clk) begin
-        RegWriteM <= RegWriteEl;
+        RegWriteM <= RegWriteE;
         ResultSrcM <= ResultSrcE;
         MemWriteM <= MemWriteE;
         ALUResultM <= ALUResultE;
