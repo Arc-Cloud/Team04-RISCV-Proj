@@ -126,7 +126,8 @@ always_comb begin
     //JALR
     7'b1100111: begin
         RegWrite = 1'b1;
-        ImmSrc = 3'b011;
+        MemWrite = 1'b0;
+        ImmSrc = 3'b000;
         ResultSrc = 2'b10;
         PCSrc = 2'b10;
         ALUControl = 4'b0000;
