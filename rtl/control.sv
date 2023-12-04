@@ -134,6 +134,18 @@ always_comb begin
         ALUSrc = 1'b1;
     end
 
+    // implementation of U-type instructions (55)
+    // LUI
+    7'b0110111: begin
+        RegWrite = 1'b1;
+        MemWrite = 1'b0;
+        ImmSrc = 3'b100;
+        ResultSrc = 2'b00;
+        PCSrc = 2'b00;
+        ALUSrc = 1'b1;
+        ALUControl = 4'b1111;
+    end
+
     endcase
     //$display("opcode: %b", op);
 end
