@@ -2,7 +2,8 @@ module PC #(
     parameter DATA_WIDTH = 32;
 )(
     input logic clk,
-    input logic reset,
+    input logic flush,
+    input logic en,
     input logic [DATA_WIDTH-1:0] PCtargetE,
     input logic  PCSrcE,
     input logic JALRinstr,
@@ -23,9 +24,9 @@ always_comb begin
     endcase
 end
 
-always_ff @(posedge clk or posedge reset)begin
-    if (reset) PCF <= 32'hbfc00000;
-    else PCF <= PCNext;
+always_ff @(posedge clk)begin
+    if (fush) PCF <= 32'hbfc00000;
+    else if (en) PCF <= PCNext;
 end
 
 
