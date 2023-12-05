@@ -150,7 +150,7 @@ These distinct instructions can be uniquely identified by the `opcode`, `funct3`
 
 To implement the control unit, I used the `case` functionality to differentiate the `opcode`, `funct3`, `funct7` and in each instances send different control signals to the rest of the processsor accordingly.
 
-The control unit in our implementation output the following control signals for the different purposes:
+the output control signal is distinct  for different `opcode`, `funct3`,  `funct7`. The control unit in our implementation output the following control signals accordingly to the other modules such that correct operation is performed:
 
 | Control Signal | Function |
 | -------- | :--------: |
