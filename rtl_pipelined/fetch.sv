@@ -4,39 +4,30 @@ module fetch #(
     input logic clk,
     input logic rst,
     input logic  PCSrcE,
-    input logic JALRinstr,
-    input logic [DATA_WIDTH-1:0]ALUResult,
+    input logic JALRinstrE,
+    input logic [DATA_WIDTH-1:0]ALUResultE,
     input logic [DATA_WIDTH-1:0] PCtargetE,
-    output logic [DATA_WIDTH-1:0] instrD,
-    output logic [DATA_WIDTH-1:0]PCPlus4D,
-    output logic [DATA_WIDTH-1:0] PCD
+    output logic [DATA_WIDTH-1:0] instrF,
+    output logic [DATA_WIDTH-1:0] PCPlus4F,
+    output logic [DATA_WIDTH-1:0] PCF
 );
 
-logic [DATA_WIDTH-1:0] PCPlus4F;
-logic [DATA_WIDTH-1:0] PCF;
-logic [DATA_WIDTH-1:0] address;
+
 
 PC counter(
     .clk(clk),
     .reset(rst),
-    .ALUResult(ALUResult),
+    .ALUResult(ALUResultE),
     .PCtargetE(PCtargetE),
     .PCSrcE(PCSrcE),
-    .JALRinstr(JALRinstr),
+    .JALRinstr(JALRinstrE),
     .PCPlus4F(PCPlus4F),
     .PCF(PCF)
 );
 
 instmem memory(
     .A(PCF),
-    .RD(address)
+    .RD(instrF)
 );
-
-always_ff @(posedge clk)begin
-    instrD <= address;
-    PCD <= PCF;
-    PCPlus4D <= PCPlus4F;
-
-end
 
 endmodule
