@@ -25,7 +25,7 @@ always_comb begin
 end
 
 always_ff @(posedge clk)begin
-    if (fush) PCF <= 32'hbfc00000;
+    if (flush) PCF <= 32'hbfc00000;
     else if (en) PCF <= PCNext;
 end
 
