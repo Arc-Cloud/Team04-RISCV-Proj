@@ -1,6 +1,7 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "Vmaster.h" 
+#include <iostream>
 
 #include "vbuddy.cpp"     
 #define MAX_SIM_CYC 1000000
@@ -45,7 +46,10 @@ int main(int argc, char **argv, char **env) {
         //vbdHex(2, ((top->Result) >> 4) & 0xF);
         //vbdHex(1, top->Result & 0xF);
 
-        vbdBar(top->Result & 0xFF);
+        //vbdBar(top->Result & 0xFF);
+
+        if (top -> Result > 1){vbdPlot(top->Result, 0, 255);}
+
 
         vbdCycle(simcyc);
     

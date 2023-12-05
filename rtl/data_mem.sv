@@ -21,7 +21,7 @@ logic [16:0] addr = A[16:0];  // get least 17 bits of address
 
 initial begin
 	$display("Loading data memory..");
-	$readmemh("../rtl/test_data.mem", ram_array, 0x10000);
+	$readmemh("../testing/Ref program test/sine.mem", ram_array, 20'h10000);
     $display("Data memory loaded");
 end
 
