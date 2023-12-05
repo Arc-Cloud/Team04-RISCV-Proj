@@ -40,7 +40,7 @@ module alu #(
             //4'b1101 : ALUResult = SrcA << SrcB[4:0];  // slli
             //4'b1110 : ALUResult = SrcA >> SrcB[4:0];  // srli
             //lui
-            4'b1111 : ALUResult = {SrcB[31:12], 12'b0};
+            4'b1111 : ALUResult = SrcB;
             default: ALUResult = 32'd0;
         endcase
 
