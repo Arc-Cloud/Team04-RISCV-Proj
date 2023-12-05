@@ -17,7 +17,6 @@ module hazard_unit #(
     output logic ForwardAE,
     output logic ForwardBE,
     output logic StallDecode,
-    output logic StallExecute,
     output logic StallFetch,
     output logic FlushExecute,
     output logic FlushDecode
@@ -52,6 +51,8 @@ module hazard_unit #(
         if(PCSrcE)
             FlushExecute = 1'b1;
             FlushDecode = 1'b1;
+        else
+            FlushDecode = 1'b0;
     end
 
 endmodule
