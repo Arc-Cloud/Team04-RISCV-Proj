@@ -2,7 +2,6 @@ module hazard_unit #(
     parameter DATA_WIDTH = 32,
     parameter REG_FILE_ADDRESS_WIDTH = 5
 )(
-    // inputs
     input logic [REG_FILE_ADDRESS_WIDTH-1:0] Rs1E,
     input logic [REG_FILE_ADDRESS_WIDTH-1:0] Rs2E,
     input logic [REG_FILE_ADDRESS_WIDTH-1:0] Rs1D,
@@ -15,7 +14,6 @@ module hazard_unit #(
     input logic ResultSrcE,
     input logic PCSrcE,
 
-    // outputs
     output logic ForwardAE,
     output logic ForwardBE,
     output logic StallDecode,
