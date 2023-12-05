@@ -240,6 +240,8 @@ GTK wave outputs can go here
 | instmem.sv | | | L |
 | mux.sv | | L | |
 | register_file.sv | L | | |
+| Data_mem.sv| | | L |
+| Memory.sv | | | L |
 
 Legend: `L` = Lead `C` = Contributor
 
