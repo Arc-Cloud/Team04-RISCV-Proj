@@ -202,9 +202,11 @@ GTK wave outputs can go here
 ### Sign Extension
 | ImmSrc| ImmExt | Instruction Type 
 | -------- | :--------: | :--------: | 
-| | | 
-| | | 
-| | | 
+| 3'b000| {{20{Immediate[31]}}, Immediate[31:20]} | I-type |
+| 3'b001| {{20{Immediate[31]}}, Immediate[31:25], Immediate[11:7]}| S-type|
+| 3'b010| {{20{Immediate[31]}}, Immediate[7], Immediate[30:25], Immediate[11:8], 1'b0}|  B-type|
+| 3'b011| {{12{Immediate[31]}},  Immediate[19:12], Immediate[20], Immediate[30:21], 1'b0} | J-type|
+| 3'b100| {Immediate[31:12], 12'b0}| U-type|
 ## Final Schematic for Single Cycle CPU
 
 ![SchematicSingleCycle](https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/112711409/6a9d08f6-bb25-4a32-a1fb-9c997b6a24d3)
