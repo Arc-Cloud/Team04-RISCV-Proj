@@ -3,7 +3,7 @@
 
 main:
     JAL ra, init
-    jal zero, main
+    j   main
 
 init:
     ADDI s2, zero, 0x0   
