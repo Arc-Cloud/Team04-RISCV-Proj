@@ -148,7 +148,17 @@ The control unit receives the instruction  from the instruction memory in the fo
 
 These distinct instructions can be uniquely identified by the `opcode`, `funct3` and `funct7` of the machine code from which the control unit based its decision from. 
 
-To implement the control unit, I used the `case` functionality to differentiate the `opcode`, `funct3`, `funct7` and in each instances send different control signals to the rest of the processsor.  
+To implement the control unit, I used the `case` functionality to differentiate the `opcode`, `funct3`, `funct7` and in each instances send different control signals to the rest of the processsor accordingly.
+
+The control unit in our implementation output the following control signals for the different purposes:
+
+| Control Signal | Function |
+| -------- | :--------: |
+| `PCsrc` | choose `PC` mode: plus4 (0), immediate (1), ALUresult (2)|
+|`ResultSRC`|choose which data to store in the register: ALUresult (0), memory (1), PC (2) |
+|`Immsrc`| Choose which bits reconstruction is performed in [sign extend](rtl/sextend.sv) |
+| `ALUcontrol`| Choose which type of operation to perform in the ALU as prescribed in ALU section |
+| `addressingcontrol`| choose which type of byte reconstruction to perform in data memory for load and store instructions|
 
 
 
