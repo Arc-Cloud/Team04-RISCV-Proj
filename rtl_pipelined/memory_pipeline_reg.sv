@@ -10,6 +10,8 @@ module memory_pipeline_reg #(
     input logic [DATA_WIDTH-1:0] WriteDataE,
     input logic [REG_FILE_ADDRESS_WIDTH-1:0] RdE,
     input logic [DATA_WIDTH-1:0] PCPlus4E,
+    input logic [2:0]            AddressingControlE,
+
 
     output logic RegWriteM,
     output logic [1:0] ResultSrcM,
@@ -17,7 +19,8 @@ module memory_pipeline_reg #(
     output logic [DATA_WIDTH-1:0] ALUResultM,
     output logic [DATA_WIDTH-1:0] WriteDataM,
     output logic [REG_FILE_ADDRESS_WIDTH-1:0] RdM,
-    output logic [DATA_WIDTH-1:0] PCPlus4M    
+    output logic [DATA_WIDTH-1:0] PCPlus4M,    
+    output logic [2:0]            AddressingControlM
 );
 
     always_ff @(posedge clk) begin

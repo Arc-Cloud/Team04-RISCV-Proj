@@ -12,7 +12,6 @@ module decodepiped #(
     output logic [DATA_WIDTH-1:0] PCPlus4D
 );
 
-// asynchronous implementation for now
 always_ff @(posedge clk)begin
     if (flush) begin 
         instrD <= 32'b0;
