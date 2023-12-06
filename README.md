@@ -209,8 +209,6 @@ GTK wave outputs can go here
 | 3'b100| {Immediate[31:12], 12'b0}| U-type|
 ## Final Schematic for Single Cycle CPU
 
-![SchematicSingleCycle](https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/112711409/6a9d08f6-bb25-4a32-a1fb-9c997b6a24d3)
-
 
 ### Implemented Instructions 
 #### R-Type
@@ -232,17 +230,21 @@ GTK wave outputs can go here
 | PC.sv | | | L |
 | alu.sv | | L | |
 | control_unit.sv | L | | |
+| data_mem.sv| | | L |
 | decode.sv | L | | |
+| decode_pipeline.sv | | | L |
 | execute.sv | | L | |
-| execute_data_file.sv | | L | |
+| execute_pipeline.sv | L | | |
 | extend.sv | L | | |
 | fetch.sv | | | L |
 | instmem.sv | | | L |
+| memory.sv | | | L |
+| memory_pipeline.sv | | L | |
 | mux.sv | | L | |
+| pipelined_cpu.sv | L | L | |
 | register_file.sv | L | | |
-| Data_mem.sv| | | L |
-| Memory.sv | | | L |
-
+| writeback.sv | | L | |
+| writeback_pipeline.sv | | L | |
 Legend: `L` = Lead `C` = Contributor
 
 
