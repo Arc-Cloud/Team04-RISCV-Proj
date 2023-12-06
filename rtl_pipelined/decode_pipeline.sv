@@ -1,4 +1,4 @@
-module decodepiped #(
+module decode_pipeline #(
     parameter DATA_WIDTH = 32
 )(
     input logic clk,
