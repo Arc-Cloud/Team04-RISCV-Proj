@@ -1,4 +1,4 @@
-module memory_pipeline_reg #(
+module memory_pipeline #(
     parameter DATA_WIDTH = 32,
     parameter REG_FILE_ADDRESS_WIDTH = 5
 )(
