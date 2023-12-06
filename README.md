@@ -246,6 +246,7 @@ GTK wave outputs can go here
 | register_file.sv | L | | |
 | writeback.sv | | L | |
 | writeback_pipeline.sv | | L | |
+
 Legend: `L` = Lead `C` = Contributor
 
 
