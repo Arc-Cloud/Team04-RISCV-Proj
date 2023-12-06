@@ -26,8 +26,9 @@ module memory_pipeline_reg #(
         MemWriteM <= MemWriteE;
         ALUResultM <= ALUResultE;
         WriteDataM <= WriteDataE;
-        RdM <=  RdE;
+        RdM <= RdE;
         PCPlus4M <= PCPlus4E;
+        AddressingControlM <= AddressingControlE;
     end
         
 endmodule
