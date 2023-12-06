@@ -2,7 +2,7 @@ module PC #(
     parameter DATA_WIDTH = 32;
 )(
     input logic clk,
-    input logic flush,
+    input logic reset,
     input logic en,
     input logic [DATA_WIDTH-1:0] PCtargetE,
     input logic  PCSrcE,
@@ -25,7 +25,7 @@ always_comb begin
 end
 
 always_ff @(posedge clk)begin
-    if (flush) PCF <= 32'hbfc00000;
+    if (reset) PCF <= 32'hbfc00000;
     else if (en) PCF <= PCNext;
 end
 

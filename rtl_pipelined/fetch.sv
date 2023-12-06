@@ -2,7 +2,8 @@ module fetch #(
     parameter DATA_WIDTH = 32;
 )(
     input logic clk,
-    input logic rst,
+    input logic reset,
+    input logic enable,
     input logic  PCSrcE,
     input logic JALRinstrE,
     input logic [DATA_WIDTH-1:0]ALUResultE,
@@ -16,7 +17,8 @@ module fetch #(
 
 PC counter(
     .clk(clk),
-    .reset(rst),
+    .reset(reset),
+    .en(enable),
     .ALUResult(ALUResultE),
     .PCtargetE(PCtargetE),
     .PCSrcE(PCSrcE),
