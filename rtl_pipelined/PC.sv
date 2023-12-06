@@ -3,7 +3,7 @@ module PC #(
 )(
     input logic clk,
     input logic reset,
-    input logic en,
+    input logic enable,
     input logic [DATA_WIDTH-1:0] PCtargetE,
     input logic  PCSrcE,
     input logic JALRinstr,
@@ -26,7 +26,7 @@ end
 
 always_ff @(posedge clk)begin
     if (reset) PCF <= 32'hbfc00000;
-    else if (en) PCF <= PCNext;
+    else if (enable) PCF <= PCNext;
 end
 
 

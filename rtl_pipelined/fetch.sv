@@ -18,7 +18,7 @@ module fetch #(
 PC counter(
     .clk(clk),
     .reset(reset),
-    .en(enable),
+    .enable(enable),
     .ALUResultE(ALUResultE),
     .PCtargetE(PCtargetE),
     .PCSrcE(PCSrcE),
