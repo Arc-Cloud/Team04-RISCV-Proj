@@ -34,7 +34,7 @@ module alu #(
             4'b1011 : begin
                 ALUResult = $signed(SrcA) >>> SrcB[4:0]; // sra, srai
             end
-
+            4'b1111 : ALUResult = SrcB;
             default: ALUResult = 32'd0;
         endcase
 

@@ -135,9 +135,24 @@ always_comb begin
         MemWriteD = 1'b0;
         BranchD = 1'b0;
         ALUControlD = 4'b0000;
+        ALUSrcD = 1'b1;
         ImmSrcD = 3'b000;
         JALRInstrD = 1'b1;
     end
+
+    // implementation of U-type instructions (55)
+    // LUI
+    7'b0110111: begin
+        RegWriteD = 1'b1;
+        ResultSrcD = 2'b00;
+        MemWriteD = 1'b0;
+        JumpD = 1'b0;
+        BranchD = 1'b0;
+        ALUControlD = 4'b1111;
+        ALUSrcD = 1'b1;
+        ImmSrcD = 3'b100;
+        JALRInstrD = 1'b0;
+    end    
 
     endcase
     //$display("opcode: %b", op);
