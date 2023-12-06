@@ -3,7 +3,8 @@
 
 module execute #(
     parameter DATA_WIDTH = 32,
-    parameter REG_FILE_ADDRESS_WIDTH = 5
+    parameter REG_FILE_ADDRESS_WIDTH = 5,
+    parameter NUM_INPUTS = 4
 )(
     input logic clk,
 
@@ -30,8 +31,8 @@ module execute #(
     logic [DATA_WIDTH-1:0] SrcAE;
     logic [DATA_WIDTH-1:0] SrcBE;
     logic [DATA_WIDTH-1:0] WriteDataE;
-    logic [DATA_WIDTH-1:0] ALUA_inputs;
-    logic [DATA_WIDTH-1:0] ALUB_inputs;
+    logic [DATA_WIDTH-1:0] ALUA_inputs [0:NUM_INPUTS-1];
+    logic [DATA_WIDTH-1:0] ALUB_inputs [0:NUM_INPUTS-1];
     logic ZeroE;
 
     always_comb begin
