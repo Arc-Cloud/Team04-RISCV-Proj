@@ -1,8 +1,7 @@
 module decode #(
     parameter DATA_WIDTH = 32
 )(
-    input logic                 WE3,
-    input logic [DATA_WIDTH-1]  InstrD,
+    input logic [DATA_WIDTH-1]  instrD,
     input logic [DATA_WIDTH-1]  ResultW,
     input logic [4:0]           RdW,
     input logic                 RegWriteW,
@@ -20,22 +19,22 @@ module decode #(
     output logic [4:0]          Rs2D,
     output logic [4:0]          RdD,
     output logic [DATA_WIDTH-1] ExtImmD,
-    output logic                JALRInstrD
+    output logic                JALRInstrD,
     output logic [2:0]          AddressingControlD
  
 )
 
 always_comb begin
-    Rs1D = InstrD [19:15];
-    Rs2D = InstrD [24:20];
-    RdD = InstrD[11:7];
+    Rs1D = instrD [19:15];
+    Rs2D = instrD [24:20];
+    RdD = instrD[11:7];
 end
 
 control_unit control_unit(
     // inputs 
-    .op(InstrD[6:0]),
-    .funct3(InstrD[14:12]),
-    .funct7(InstrD[30]),
+    .op(instrD[6:0]),
+    .funct3(instrD[14:12]),
+    .funct7(instrD[30]),
 
     // outputs 
     .RegWriteD(RegWriteD),
@@ -52,8 +51,8 @@ control_unit control_unit(
 
 register_file register_file(
     // inputs
-    .A1(InstrD[19:15]),
-    .A2(InstrD[24:20]),
+    .A1(instrD[19:15]),
+    .A2(instrD[24:20]),
     .A3(RdW),
     .WD3(ResultW),
     .WE3(RegWriteW),
@@ -65,7 +64,7 @@ register_file register_file(
 
 extend extend(
     // inputs
-    .Immediate(InstrD[31:7]),
+    .Immediate(instrD[31:7]),
     .ImmSrcD(ImmSrcD),
     //outputs
     .ExtImmD(ExtImmD)

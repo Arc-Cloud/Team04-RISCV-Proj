@@ -2,7 +2,7 @@ module decode_pipeline #(
     parameter DATA_WIDTH = 32
 )(
     input logic clk,
-    input logic en,
+    input logic enable,
     input logic flush,
     input logic [DATA_WIDTH-1:0] isntrF,
     input logic [DATA_WIDTH-1:0] PCF,
@@ -18,7 +18,7 @@ always_ff @(posedge clk)begin
         PCD <= 32'b0;
         PCPlus4D <= 32'b0;
     end
-    else if (en) begin
+    else if (enable) begin
         instrD <= instrF;
         PCD <= PCF;
         PCPlus4D <= PCPlus4F;
