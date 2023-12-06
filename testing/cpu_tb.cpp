@@ -46,9 +46,9 @@ int main(int argc, char **argv, char **env) {
         //vbdHex(2, ((top->Result) >> 4) & 0xF);
         //vbdHex(1, top->Result & 0xF);
 
-        //vbdBar(top->Result & 0xFF);
+        vbdBar(top->Result & 0xFF);
 
-        if (top -> Result > 1){vbdPlot(top->Result, 0, 255);}
+        //if (top -> Result > 1){vbdPlot(top->Result, 0, 255);}
 
 
         vbdCycle(simcyc);
