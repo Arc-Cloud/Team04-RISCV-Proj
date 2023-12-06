@@ -209,6 +209,7 @@ GTK wave outputs can go here
 | 3'b100| {Immediate[31:12], 12'b0}| U-type|
 ## Final Schematic for Single Cycle CPU
 
+![Single Cycle CPU Schematic](imgs/SingleCycleCpu.jpeg)
 
 ### Implemented Instructions 
 #### R-Type
