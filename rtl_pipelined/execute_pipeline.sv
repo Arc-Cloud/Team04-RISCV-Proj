@@ -4,8 +4,7 @@ module execute_pipeline #(
     input logic                 clk,
     input logic                 en,
     input logic                 flush,
-    input logic [DATA_WIDTH-1]  PCD,
-    input logic [DATA_WIDTH-1]  PCPlus4D,
+    // control signals
     input logic                 RegWriteD,
     input logic [1:0]           ResultSrcD,
     input logic                 MemWriteD,
@@ -13,15 +12,19 @@ module execute_pipeline #(
     input logic                 BranchD,
     input logic [3:0]           ALUControlD,
     input logic                 ALUSrcD,
+    // data signals
     input logic [DATA_WIDTH-1]  RD1,
     input logic [DATA_WIDTH-1]  RD2,
+    input logic [DATA_WIDTH-1]  PCD,
     input logic [4:0]           Rs1D,
     input logic [4:0]           Rs2D,
     input logic [4:0]           RdD,
     input logic [DATA_WIDTH-1]  ExtImmD,
+    input logic [DATA_WIDTH-1]  PCPlus4D,
     input logic                 JALRInstrD
     input logic [2:0]           AddressingControlD
 
+    // control signals
     output logic                RegWriteE,
     output logic [1:0]          ResultSrcE,
     output logic                MemWriteE,
@@ -29,6 +32,7 @@ module execute_pipeline #(
     output logic                BranchE,
     output logic [3:0]          ALUControlE,
     output logic                ALUSrcE,
+    // data signals
     output logic [DATA_WIDTH-1] RD1E,
     output logic [DATA_WIDTH-1] RD2E,
     output logic [DATA_WIDTH-1] PCE,
@@ -52,7 +56,6 @@ always_ff @(posedge clk) begin
         BranchE <= 32'b0;
         ALUControlE <= 32'b0;
         ALUSrcE <= 32'b0;
-        JALRInstrE <= 32'b0;
         RD1E <= 32'b0;
         RD2E <= 32'b0;
         PCE <= 32'b0;
@@ -61,6 +64,7 @@ always_ff @(posedge clk) begin
         RdE <= 32'b0;
         ExtImmE <= 32'b0;
         PCPlus4E <= 32'b0;
+        JALRInstrE <= 32'b0;
         AddressingControlE <= 32'b0;
     end
     else if (en) begin
@@ -71,7 +75,6 @@ always_ff @(posedge clk) begin
         BranchE <= BranchD;
         ALUControlE <= ALUControlD;
         ALUSrcE <= ALUSrcD;
-        JALRInstrE <= JALRInstrD;
         RD1E <= RD1;
         RD2E <= RD2;
         PCE <= PCD;
@@ -80,6 +83,7 @@ always_ff @(posedge clk) begin
         RdE <= RdD;
         ExtImmE <= ExtImmD;
         PCPlus4E <= PCPlus4D;
+        JALRInstrE <= JALRInstrD;
         AddressingControlE <= AddressingControlD;
     end
 end
