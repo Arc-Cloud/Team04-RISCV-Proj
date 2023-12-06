@@ -222,6 +222,8 @@ GTK wave outputs can go here
 `jal`
 #### S-Type
 `sb` `sh` `sw`
+#### U-Type
+`lui`
 
 # Pipelined RV32I Design
 
