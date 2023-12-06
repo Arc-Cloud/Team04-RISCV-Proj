@@ -19,7 +19,7 @@ PC counter(
     .clk(clk),
     .reset(reset),
     .en(enable),
-    .ALUResult(ALUResultE),
+    .ALUResultE(ALUResultE),
     .PCtargetE(PCtargetE),
     .PCSrcE(PCSrcE),
     .JALRinstr(JALRinstrE),
