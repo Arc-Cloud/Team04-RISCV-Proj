@@ -18,8 +18,8 @@ module fetch #(
 PC counter(
     .clk(clk),
     .reset(reset),
-    .en(enable),
-    .ALUResult(ALUResultE),
+    .enable(enable),
+    .ALUResultE(ALUResultE),
     .PCtargetE(PCtargetE),
     .PCSrcE(PCSrcE),
     .JALRinstr(JALRinstrE),
