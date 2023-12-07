@@ -14,13 +14,11 @@ module decode #(
     output logic                  BranchD,
     output logic [3:0]            ALUControlD,
     output logic                  ALUSrcD,
-    output logic [DATA_WIDTH-1:0] RD1,
-    output logic [DATA_WIDTH-1:0] RD2,
+    output logic [DATA_WIDTH-1:0] RD1D,
+    output logic [DATA_WIDTH-1:0] RD2D,
     output logic [4:0]            Rs1D,
     output logic [4:0]            Rs2D,
     output logic [4:0]            RdD,
-    output logic [DATA_WIDTH-1:0] PCD,
-    output logic [DATA_WIDTH-1:0] PCPlus4D,
     output logic [DATA_WIDTH-1:0] ExtImmD,
     output logic                  JALRInstrD,
     output logic [2:0]            AddressingControlD
@@ -63,8 +61,8 @@ register_file register_file(
     .WE3(RegWriteW),
 
     // outputs
-    .RD1(RD1),
-    .RD2(RD2)
+    .RD1(RD1D),
+    .RD2(RD2D)
 );
 
 extend extend(

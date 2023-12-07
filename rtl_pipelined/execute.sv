@@ -9,8 +9,8 @@ module execute #(
     input logic BranchE,
     input logic [3:0] ALUControlE,
     input logic AluSrcE,
-    input logic [REG_FILE_ADDRESS_WIDTH-1:0] RD1E,
-    input logic [REG_FILE_ADDRESS_WIDTH-1:0] RD2E,
+    input logic [DATA_WIDTH-1:0] RD1E,
+    input logic [DATA_WIDTH-1:0] RD2E,
     input logic [DATA_WIDTH-1:0] PCE,
 
     input logic [DATA_WIDTH-1:0] ExtImmE,

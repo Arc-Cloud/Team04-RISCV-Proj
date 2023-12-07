@@ -22,11 +22,6 @@ module pipelined_cpu#(
 //                    Fetch                     //
 //////////////////////////////////////////////////
 
-
-logic                  PCSrcE;
-logic                  JALRinstrE;
-logic [DATA_WIDTH-1:0] ALUResultE;
-logic [DATA_WIDTH-1:0] PCTargetE;
 logic [DATA_WIDTH-1:0] instrF;
 logic [DATA_WIDTH-1:0] PCPlus4F;
 logic [DATA_WIDTH-1:0] PCF;
@@ -79,8 +74,6 @@ decode_pipeline decode_pipeline(
 //////////////////////////////////////////////////
 
 
-logic [4:0]            RdW;
-logic                  RegWriteW;
 logic                  RegWriteD;
 logic [1:0]            ResultSrcD;
 logic                  MemWriteD;
@@ -88,8 +81,8 @@ logic                  JumpD;
 logic                  BranchD;
 logic [3:0]            ALUControlD;
 logic                  ALUSrcD;
-logic [DATA_WIDTH-1:0] RD1;
-logic [DATA_WIDTH-1:0] RD2;
+logic [DATA_WIDTH-1:0] RD1D;
+logic [DATA_WIDTH-1:0] RD2D;
 logic [4:0]            Rs1D;
 logic [4:0]            Rs2D;
 logic [4:0]            RdD;
@@ -116,14 +109,10 @@ decode decode(
     .JALRInstrD(JALRInstrD),
     .AddressingControlD(AddressingControlD),
 
-    .RD1(RD1),
-    .RD2(RD2),
+    .RD1D(RD1D),
+    .RD2D(RD2D),
 
     .ExtImmD(ExtImmD),
-
-    .PCD(PCD),
-    .PCPlus4D(PCPlus4D),
-
     .Rs1D(Rs1D),
     .Rs2D(Rs2D),
     .RdD(RdD)
@@ -152,12 +141,10 @@ logic [DATA_WIDTH-1:0] PCPlus4E;
 logic                  JALRInstrE;
 logic [2:0]            AddressingControlE;
 
-logic                  StallExecute;
 
 execute_pipeline execute_pipeline(
     // Inputs
-    .clk(clk),
-    .en(~StallExecute),
+    .clk(clk),  
     .flush(FlushExecute),
     .PCD(PCD),
     .PCPlus4D(PCPlus4D),
@@ -168,8 +155,8 @@ execute_pipeline execute_pipeline(
     .BranchD(BranchD),
     .ALUControlD(ALUControlD),
     .ALUSrcD(ALUSrcD),
-    .RD1(RD1),
-    .RD2(RD2),
+    .RD1D(RD1D),
+    .RD2D(RD2D),
     .Rs1D(Rs1D),
     .Rs2D(Rs2D),
     .RdD(RdD),
@@ -201,15 +188,14 @@ execute_pipeline execute_pipeline(
 //////////////////////////////////////////////////
 //                  Execute                     //
 //////////////////////////////////////////////////
-//logic                  PCSrcE; // already declared
-//logic [DATA_WIDTH-1:0] PCTargetE; // already declared
-//logic [DATA_WIDTH-1:0] ALUResultE; // already declared
+
+logic                  PCSrcE;
+logic [DATA_WIDTH-1:0] ALUResultE;
+logic [DATA_WIDTH-1:0] PCTargetE;
 logic [DATA_WIDTH-1:0] WriteDataE;
 
 execute execute(
     // Inputs
-    //.clk(clk), Execute does not use clk
-
     .JumpE(JumpE),
     .BranchE(BranchE),
     .ALUControlE(ALUControlE),
@@ -295,11 +281,11 @@ memory memory(
 //            Pipeline to WriteBack             //
 //////////////////////////////////////////////////
 
-//logic                  RegWriteW; // already declared
 logic [1:0]            ResultSrcW;
 logic [DATA_WIDTH-1:0] ALUResultW;
 logic [DATA_WIDTH-1:0] ReadDataW;
-//logic                  RdW; // already declared
+logic [4:0]            RdW;
+logic                  RegWriteW;
 logic [DATA_WIDTH-1:0] PCPlus4W;
 
 writeback_pipeline writeback_pipeline(
@@ -307,7 +293,7 @@ writeback_pipeline writeback_pipeline(
     .clk(clk),
     .RegWriteM(RegWriteM),
     .ResultSrcM(ResultSrcM),
-    .ALUResultM(ResultSrcM),
+    .ALUResultM(ALUResultM),
     .ReadDataM(ReadDataM),
     .RdM(RdM),
     .PCPlus4M(PCPlus4M),
@@ -315,7 +301,7 @@ writeback_pipeline writeback_pipeline(
     // Outputs
     .RegWriteW(RegWriteW),
     .ResultSrcW(ResultSrcW),
-    .ALUResultW(ALUResultE),
+    .ALUResultW(ALUResultW),
     .ReadDataW(ReadDataW),
     .RdW(RdW),
     .PCPlus4W(PCPlus4W)
@@ -326,7 +312,7 @@ writeback_pipeline writeback_pipeline(
 //                  WriteBack                   //
 //////////////////////////////////////////////////
 
-//logic [DATA_WIDTH-1:0] ResultW; // already declared
+//logic [DATA_WIDTH-1:0] ResultW; // already declared (may switch to having it declared here if output to top level changes)
 
 writeback writeback(
     // Inputs

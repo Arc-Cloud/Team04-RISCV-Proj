@@ -2,7 +2,6 @@ module execute_pipeline #(
     parameter DATA_WIDTH = 32
 ) (
     input logic                   clk,
-    input logic                   en,
     input logic                   flush,
     // control signals
     input logic                   RegWriteD,
@@ -13,8 +12,8 @@ module execute_pipeline #(
     input logic [3:0]             ALUControlD,
     input logic                   ALUSrcD,
     // data signals
-    input logic [DATA_WIDTH-1:0]  RD1,
-    input logic [DATA_WIDTH-1:0]  RD2,
+    input logic [DATA_WIDTH-1:0]  RD1D,
+    input logic [DATA_WIDTH-1:0]  RD2D,
     input logic [DATA_WIDTH-1:0]  PCD,
     input logic [4:0]             Rs1D,
     input logic [4:0]             Rs2D,
@@ -65,7 +64,7 @@ always_ff @(posedge clk) begin
         JALRInstrE <= 1'b0;
         AddressingControlE <= 3'b0;
     end
-    else if (en) begin
+    else begin
         RegWriteE <= RegWriteD;
         ResultSrcE <= ResultSrcD;
         MemWriteE <= MemWriteD;
@@ -73,8 +72,8 @@ always_ff @(posedge clk) begin
         BranchE <= BranchD;
         ALUControlE <= ALUControlD;
         ALUSrcE <= ALUSrcD;
-        RD1E <= RD1;
-        RD2E <= RD2;
+        RD1E <= RD1D;
+        RD2E <= RD2D;
         PCE <= PCD;
         Rs1E <= Rs1D;
         Rs2E <= Rs2D;

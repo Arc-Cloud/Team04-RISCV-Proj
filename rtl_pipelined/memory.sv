@@ -1,7 +1,5 @@
 module memory #(
-    parameter DATA_WIDTH = 32,
-    parameter STORAGE_WIDTH = 8,
-    parameter REG_FILE_ADDRESS_WIDTH = 5
+    parameter DATA_WIDTH = 32
 )(
     input logic clk,
     input logic [DATA_WIDTH-1:0] ALUResultM,

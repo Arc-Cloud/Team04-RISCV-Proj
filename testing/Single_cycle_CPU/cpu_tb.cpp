@@ -3,7 +3,7 @@
 #include "Vmaster.h" 
 #include <iostream>
 
-#include "vbuddy.cpp"     
+#include "../vbuddy.cpp"     
 #define MAX_SIM_CYC 1000000
 
 int main(int argc, char **argv, char **env) {

@@ -6,7 +6,7 @@ module register_file #(
     input  logic [ADDRESS_WIDTH-1:0] A1,
     input  logic [ADDRESS_WIDTH-1:0] A2,
     input  logic [ADDRESS_WIDTH-1:0] A3,
-    input  logic [ADDRESS_WIDTH-1:0] WD3,
+    input  logic [DATA_WIDTH-1:0]    WD3,
     input  logic                     WE3, 
     output logic [DATA_WIDTH-1:0]    RD1,
     output logic [DATA_WIDTH-1:0]    RD2

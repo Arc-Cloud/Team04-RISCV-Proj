@@ -3,7 +3,7 @@
 #include "Vpipelined_cpu.h" 
 #include <iostream>
 
-#include "vbuddy.cpp"     
+#include "../vbuddy.cpp"     
 #define MAX_SIM_CYC 1000000
 
 int main(int argc, char **argv, char **env) {
@@ -26,9 +26,7 @@ int main(int argc, char **argv, char **env) {
     // intialise
     top->clk = 1;
     top->rst = 0;
-    top->trigger = 0;
-    top->testRegAddress = 21;
-
+    
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
         // dump variables into VCD file and toggle clock
@@ -38,18 +36,13 @@ int main(int argc, char **argv, char **env) {
             top->eval ();
         }
 
-        // std::cout << "Mem word " << std::hex << top->Result << std::endl;
-
         // send a0 value to 7 seg display
-        //vbdHex(4, ((top->Result) >> 16) & 0xF);
-        //vbdHex(3, ((top->Result) >> 8) & 0xF);
-        //vbdHex(2, ((top->Result) >> 4) & 0xF);
-        //vbdHex(1, top->Result & 0xF);
+        vbdHex(4, ((top->ResultW) >> 16) & 0xF);
+        vbdHex(3, ((top->ResultW) >> 8) & 0xF);
+        vbdHex(2, ((top->ResultW) >> 4) & 0xF);
+        vbdHex(1, top->ResultW & 0xF);
 
-        vbdBar(top->Result & 0xFF);
-
-        //if (top -> Result > 1){vbdPlot(top->Result, 0, 255);}
-
+        vbdBar(top->ResultW & 0xFF);
 
         vbdCycle(simcyc);
     

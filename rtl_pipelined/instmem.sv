@@ -18,7 +18,7 @@ end
 always_comb begin
     addr = A[11:0];
     RD = {rom_array[addr], rom_array[addr+1], rom_array[addr+2], rom_array[addr+3]};
-    //$display("current instr: %h, addr: %h", RD, addr);
+    $display("current instr: %h, addr: %h", RD, addr);
 end
     
 endmodule

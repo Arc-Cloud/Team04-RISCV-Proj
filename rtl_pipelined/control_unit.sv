@@ -157,7 +157,7 @@ always_comb begin
         end    
 
         default: begin
-            $display("Invalid instruction");
+            $display("Invalid instruction op: %b, funct3:%b, funct7:%b" ,op, funct3, funct7);
             RegWriteD = 1'b0;
             ResultSrcD = 2'b00;
             MemWriteD = 1'b0;
