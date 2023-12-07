@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "vbuddy.cpp"     
-#define MAX_SIM_CYC 1000000
+#define MAX_SIM_CYC 1500000
 
 int main(int argc, char **argv, char **env) {
     int simcyc;
@@ -27,7 +27,7 @@ int main(int argc, char **argv, char **env) {
     top->clk = 1;
     top->rst = 0;
     top->trigger = 0;
-    top->testRegAddress = 21;
+    top->testRegAddress = 10;
 
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
@@ -38,7 +38,10 @@ int main(int argc, char **argv, char **env) {
             top->eval ();
         }
 
-        // std::cout << "Mem word " << std::hex << top->Result << std::endl;
+        if(simcyc > 1200000){
+            vbdPlot(top->Result, 0, 255);
+            vbdCycle(simcyc);
+        }
 
         // send a0 value to 7 seg display
         //vbdHex(4, ((top->Result) >> 16) & 0xF);
@@ -46,13 +49,8 @@ int main(int argc, char **argv, char **env) {
         //vbdHex(2, ((top->Result) >> 4) & 0xF);
         //vbdHex(1, top->Result & 0xF);
 
-        vbdBar(top->Result & 0xFF);
+        //vbdBar(top->Result & 0xFF);
 
-        //if (top -> Result > 1){vbdPlot(top->Result, 0, 255);}
-
-
-        vbdCycle(simcyc);
-    
         // either simulation finished, or 'q' is pressed
         if (Verilated::gotFinish() || vbdGetkey()=='q')
             exit(0);
