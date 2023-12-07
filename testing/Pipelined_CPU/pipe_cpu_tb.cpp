@@ -26,6 +26,7 @@ int main(int argc, char **argv, char **env) {
     // intialise
     top->clk = 1;
     top->rst = 0;
+    top->testRegAddress = 21;
     
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
@@ -37,12 +38,12 @@ int main(int argc, char **argv, char **env) {
         }
 
         // send a0 value to 7 seg display
-        vbdHex(4, ((top->ResultW) >> 16) & 0xF);
-        vbdHex(3, ((top->ResultW) >> 8) & 0xF);
-        vbdHex(2, ((top->ResultW) >> 4) & 0xF);
-        vbdHex(1, top->ResultW & 0xF);
+        //vbdHex(4, ((top->testRegData) >> 16) & 0xF);
+        //vbdHex(3, ((top->testRegData) >> 8) & 0xF);
+        //vbdHex(2, ((top->testRegData) >> 4) & 0xF);
+        //vbdHex(1, top->testRegData & 0xF);
 
-        vbdBar(top->ResultW & 0xFF);
+        vbdBar(top->testRegData & 0xFF);
 
         vbdCycle(simcyc);
     

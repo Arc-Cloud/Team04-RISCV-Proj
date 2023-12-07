@@ -1,12 +1,15 @@
 module decode #(
-    parameter DATA_WIDTH = 32
+    parameter DATA_WIDTH = 32,
+    parameter REG_FILE_ADDRESS_WIDTH = 5
 )(
     input logic                   clk,
     input logic [DATA_WIDTH-1:0]  instrD,
     input logic [DATA_WIDTH-1:0]  ResultW,
     input logic [4:0]             RdW,
     input logic                   RegWriteW,
+    input logic [REG_FILE_ADDRESS_WIDTH-1:0] testRegAddress,
 
+    output logic [DATA_WIDTH-1:0] testRegData,
     output logic                  RegWriteD,
     output logic [1:0]            ResultSrcD,
     output logic                  MemWriteD,
@@ -59,8 +62,10 @@ register_file register_file(
     .A3(RdW),
     .WD3(ResultW),
     .WE3(RegWriteW),
+    .testRegAddress(testRegAddress),
 
     // outputs
+    .testRegData(testRegData),
     .RD1(RD1D),
     .RD2(RD2D)
 );

@@ -15,6 +15,9 @@ module pipelined_cpu#(
 )(
     input logic clk,
     input logic rst,
+    input logic [REG_FILE_ADDRESS_WIDTH-1:0] testRegAddress,
+    
+    output logic [DATA_WIDTH-1:0] testRegData,
     output logic [DATA_WIDTH-1:0] ResultW
 );
 
@@ -32,7 +35,7 @@ fetch fetch(
     .reset(rst),
     .enable(~StallFetch),
     .PCSrcE(PCSrcE),
-    .JALRinstrE(JALRinstrE),
+    .JALRinstrE(JALRInstrE),
     .ALUResultE(ALUResultE),
     .PCTargetE(PCTargetE),
 
@@ -97,8 +100,10 @@ decode decode(
     .ResultW(ResultW),
     .RdW(RdW),
     .RegWriteW(RegWriteW),
+    .testRegAddress(testRegAddress),
     
     // Outputs
+    .testRegData(testRegData),
     .RegWriteD(RegWriteD),
     .ResultSrcD(ResultSrcD),
     .MemWriteD(MemWriteD),
