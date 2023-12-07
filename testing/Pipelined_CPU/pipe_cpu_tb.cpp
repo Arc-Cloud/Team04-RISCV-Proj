@@ -12,7 +12,7 @@ int main(int argc, char **argv, char **env) {
 
     Verilated::commandArgs(argc, argv);
     // init top verilog instance
-    Vmaster* top = new Vmaster;
+    Vpipelined_cpu* top = new Vpipelined_cpu;
     // init trace dump
     Verilated::traceEverOn(true);
     VerilatedVcdC* tfp = new VerilatedVcdC;
