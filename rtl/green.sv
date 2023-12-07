@@ -1,6 +1,6 @@
-`include "../rtl/control.sv"
-`include "../rtl/sextend.sv"
-`include "../rtl/instmem.sv"
+`include "control.sv"
+`include "sextend.sv"
+`include "instmem.sv"
 
 module green #(parameter DATA_WIDTH = 32)(
     input logic [DATA_WIDTH-1:0] A,
