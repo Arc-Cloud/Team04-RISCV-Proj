@@ -20,11 +20,17 @@ module hazard_unit #(
     output logic FlushExecute,
     output logic FlushDecode
 );
-    logic ForwardFromMemStage = (Rs1E == RdM || Rs2E == RdM);
-    logic ForwardFromWBStage = (Rs1E == RdW || Rs2E == RdW);
+    
+    logic ForwardFromMemStage;
+    logic ForwardFromWBStage;
 
     always_comb begin
         // dealing with RAW hazards with forwarding
+
+        ForwardFromMemStage = (Rs1E == RdM || Rs2E == RdM);
+        ForwardFromWBStage = (Rs1E == RdW || Rs2E == RdW);
+        //$display("ForwardFromMemStage: %b", ForwardFromMemStage);
+        //$display("ForwardFromWBStage: %b", ForwardFromWBStage);
         if(ForwardFromMemStage && RegWriteM) begin
             ForwardAE = (Rs1E == RdM) ? 2'b10 : 2'b00;
             ForwardBE = (Rs2E == RdM) ? 2'b10 : 2'b00;

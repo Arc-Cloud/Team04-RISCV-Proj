@@ -36,7 +36,7 @@ control_unit control_unit(
     // inputs 
     .op(instrD[6:0]),
     .funct3(instrD[14:12]),
-    .funct7(instrD[30]),
+    .funct7(instrD[30]), // This is the only bit that matters in the instruction architecture
 
     // outputs 
     .RegWriteD(RegWriteD),

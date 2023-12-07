@@ -1,3 +1,5 @@
+//`define ABSOLUTE_PATH `("../realpath -e ../testing/Type I test/i_test.mem")
+
 module instmem #(
     parameter STORAGE_WIDTH = 8
 ) (
@@ -11,7 +13,7 @@ logic [STORAGE_WIDTH-1:0] rom_array [32'hbfc00fff:32'hbfc00000];
 
 initial begin
     $display("Loading instruction memory...");
-    $readmemh("../testing/Type I test/i_test.mem", rom_array);
+    $readmemh("/Users/ism/Repositories/Team04-RISCV-Proj/testing/Type R test/r_test.mem", rom_array);
     $display("Instruction memory loaded....");// instr.mem to be preloaded depending on the program to be executed
 end
 
