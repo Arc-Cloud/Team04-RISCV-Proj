@@ -18,7 +18,7 @@ module writeback #(
     mux MUXW(
         .inputs(MUXW_inputs),
         .select(ResultSrcW),
-        .output(ResultW)
+        .outputs(ResultW)
     );
 
 endmodule

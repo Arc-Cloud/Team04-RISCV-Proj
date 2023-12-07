@@ -3,7 +3,7 @@ module memory_pipeline #(
     parameter REG_FILE_ADDRESS_WIDTH = 5
 )(
     input logic clk,
-    input logic RegWriteE
+    input logic RegWriteE,
     input logic [1:0] ResultSrcE,
     input logic MemWriteE,
     input logic [DATA_WIDTH-1:0] ALUResultE,

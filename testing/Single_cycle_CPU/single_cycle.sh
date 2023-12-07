@@ -7,11 +7,8 @@ rm -f MasterCPU.vcd
 # run Verilator to translate Veriliog to C++, including C++ testbench
 
 verilator -Wall --cc ../../rtl/alu.sv
-echo "alu done"
 verilator -Wall --cc ../../rtl/reg_file.sv
-echo "reg_file done"
 verilator -Wall --cc ../../rtl/data_mem.sv
-echo "data_mem done"
 verilator -Wall --cc -I../../rtl  ../../rtl/orange.sv 
 
 verilator -Wall --cc ../../rtl/P_C.sv

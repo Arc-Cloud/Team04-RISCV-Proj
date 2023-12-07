@@ -48,9 +48,10 @@ module hazard_unit #(
         // dealing with control hazard
         // PCSrcE is known at the execute stage. So if its high, we should've taken a jump. We need to flush the next two
         // instructions (flush execute and decode stages)
-        if(PCSrcE)
+        if(PCSrcE) begin
             FlushExecute = 1'b1;
             FlushDecode = 1'b1;
+        end
         else
             FlushDecode = 1'b0;
     end

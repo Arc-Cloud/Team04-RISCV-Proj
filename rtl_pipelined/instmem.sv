@@ -1,5 +1,4 @@
 module instmem #(
-    parameter DATA_WIDTH = 32,
     parameter STORAGE_WIDTH = 8
 ) (
     input logic [31:0] A,

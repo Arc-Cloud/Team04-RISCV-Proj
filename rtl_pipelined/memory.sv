@@ -9,7 +9,7 @@ module memory #(
     input logic MemWriteM,
     input logic [2:0] AddressingControlM,
 
-    output logic [DATA_WIDTH-1:0] ReadDataM,
+    output logic [DATA_WIDTH-1:0] ReadDataM
 );
 
 data_mem data_memory(
@@ -19,7 +19,7 @@ data_mem data_memory(
     .WE(MemWriteM),
     .AddressingControl(AddressingControlM),
 
-    .RD(ReadDataM),
+    .RD(ReadDataM)
 );
 
 endmodule

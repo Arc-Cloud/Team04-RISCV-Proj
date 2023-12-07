@@ -1,34 +1,38 @@
 module decode #(
     parameter DATA_WIDTH = 32
 )(
-    input logic [DATA_WIDTH-1]  instrD,
-    input logic [DATA_WIDTH-1]  ResultW,
-    input logic [4:0]           RdW,
-    input logic                 RegWriteW,
+    input logic                   clk,
+    input logic [DATA_WIDTH-1:0]  instrD,
+    input logic [DATA_WIDTH-1:0]  ResultW,
+    input logic [4:0]             RdW,
+    input logic                   RegWriteW,
 
-    output logic                RegWriteD,
-    output logic [1:0]          ResultSrcD,
-    output logic                MemWriteD,
-    output logic                JumpD,
-    output logic                BranchD,
-    output logic [3:0]          ALUControlD,
-    output logic                ALUSrcD,
-    output logic [DATA_WIDTH-1] RD1,
-    output logic [DATA_WIDTH-1] RD2,
-    output logic [4:0]          Rs1D,
-    output logic [4:0]          Rs2D,
-    output logic [4:0]          RdD,
-    output logic [DATA_WIDTH-1] ExtImmD,
-    output logic                JALRInstrD,
-    output logic [2:0]          AddressingControlD
- 
-)
+    output logic                  RegWriteD,
+    output logic [1:0]            ResultSrcD,
+    output logic                  MemWriteD,
+    output logic                  JumpD,
+    output logic                  BranchD,
+    output logic [3:0]            ALUControlD,
+    output logic                  ALUSrcD,
+    output logic [DATA_WIDTH-1:0] RD1,
+    output logic [DATA_WIDTH-1:0] RD2,
+    output logic [4:0]            Rs1D,
+    output logic [4:0]            Rs2D,
+    output logic [4:0]            RdD,
+    output logic [DATA_WIDTH-1:0] PCD,
+    output logic [DATA_WIDTH-1:0] PCPlus4D,
+    output logic [DATA_WIDTH-1:0] ExtImmD,
+    output logic                  JALRInstrD,
+    output logic [2:0]            AddressingControlD
+);
 
 always_comb begin
     Rs1D = instrD [19:15];
     Rs2D = instrD [24:20];
     RdD = instrD[11:7];
 end
+
+logic [2:0] ImmSrcD;
 
 control_unit control_unit(
     // inputs 
@@ -51,6 +55,7 @@ control_unit control_unit(
 
 register_file register_file(
     // inputs
+    .clk(clk),
     .A1(instrD[19:15]),
     .A2(instrD[24:20]),
     .A3(RdW),

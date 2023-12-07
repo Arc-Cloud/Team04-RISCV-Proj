@@ -1,14 +1,15 @@
-module register_file(
+module register_file #(
     parameter DATA_WIDTH = 32,
     parameter ADDRESS_WIDTH = 5
 )(
-    input  logic [ADDRESS_WIDTH-1] A1,
-    input  logic [ADDRESS_WIDTH-1] A2,
-    input  logic [ADDRESS_WIDTH-1] A3,
-    input  logic [ADDRESS_WIDTH-1] WD3,
-    input  logic                   WE3, 
-    output logic [DATA_WIDTH-1]    RD1,
-    output logic [DATA_WIDTH-1]    RD2
+    input  logic                     clk,
+    input  logic [ADDRESS_WIDTH-1:0] A1,
+    input  logic [ADDRESS_WIDTH-1:0] A2,
+    input  logic [ADDRESS_WIDTH-1:0] A3,
+    input  logic [ADDRESS_WIDTH-1:0] WD3,
+    input  logic                     WE3, 
+    output logic [DATA_WIDTH-1:0]    RD1,
+    output logic [DATA_WIDTH-1:0]    RD2
 );
 
 logic [DATA_WIDTH-1:0] reg_file [2**ADDRESS_WIDTH-1:0];  

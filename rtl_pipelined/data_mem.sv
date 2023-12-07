@@ -43,6 +43,7 @@ always_ff @(posedge clk) begin
 					ram_array[addr+2] <= WD[23:16];
 					ram_array[addr+3] <= WD[31:24];
 				end
+			default : ram_array[addr] <= 0;
 		endcase
 		// $display("Data : %h, add: %h", {ram_array[3], ram_array[2], ram_array[1], ram_array[0]}, A);
 	end
@@ -67,6 +68,7 @@ always_comb begin
 		2'b10 :  // word addressing
 			// sign extend bit is don't care
 			RD = {ram_array[addr+3], ram_array[addr+2], ram_array[addr+1], ram_array[addr]};
+		default : RD = 0;
 	endcase
 	//$display("RD: %h", RD);
 end
