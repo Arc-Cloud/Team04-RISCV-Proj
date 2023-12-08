@@ -36,7 +36,7 @@ module hazard_unit #(
         //$display("ForwardFromWBStage: %b", ForwardFromWBStage);
 
 
-        // dealing with lw
+        // dealing with load type instructions
         // we stall the pipeline by a cycle if we have an lw instrucion in its execute stage and has 
         // a destination register thats the same as the source register of an instruction in decode stage
 

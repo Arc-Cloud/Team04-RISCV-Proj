@@ -11,9 +11,8 @@ module writeback #(
 );
     logic [DATA_WIDTH-1:0] MUXW_inputs [0:NUM_INPUTS-1];
 
-    always_comb begin
+    always_comb 
         MUXW_inputs = {ALUResultW, ReadDataW, PCPlus4W, {DATA_WIDTH{1'b0}}};
-    end
     
     mux MUXW(
         .inputs(MUXW_inputs),
