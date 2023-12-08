@@ -2,6 +2,7 @@
 
 # cleanup
 rm -rf obj_dir
+rm CPU.vcd
 
 # run Verilator to translate Verilog to C++, including C++ testbench
 
