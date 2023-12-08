@@ -11,9 +11,9 @@ logic [11:0] addr;
 
 logic [STORAGE_WIDTH-1:0] rom_array [32'hbfc00fff:32'hbfc00000];
 
-initial begin
+initial begin    
     $display("Loading instruction memory...");
-    $readmemh("/Users/ism/Repositories/Team04-RISCV-Proj/testing/Type I test/i_test.mem", rom_array);
+    $readmemh("/home/ilan/Desktop/Year2/Team04-RISCV-Proj/testing/Type B-J test/b_test.mem", rom_array);
     $display("Instruction memory loaded....");// instr.mem to be preloaded depending on the program to be executed
 end
 

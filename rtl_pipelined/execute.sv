@@ -37,7 +37,7 @@ module execute #(
         SrcBE = (AluSrcE) ? ExtImmE : WriteDataE; 
         PCSrcE = (BranchE & ZeroE) | JumpE;
         PCTargetE = PCE + ExtImmE;
-        $display("ALUResultE: %h", ALUResultE);
+        //$display("ALUResultE: %h", ALUResultE);
     end
 
     mux MUXA(
