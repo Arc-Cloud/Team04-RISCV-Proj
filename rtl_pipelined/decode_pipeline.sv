@@ -4,7 +4,7 @@ module decode_pipeline #(
     input logic clk,
     input logic enable,
     input logic flush,
-    input logic [DATA_WIDTH-1:0] isntrF,
+    input logic [DATA_WIDTH-1:0] instrF,
     input logic [DATA_WIDTH-1:0] PCF,
     input logic [DATA_WIDTH-1:0] PCPlus4F,
     output logic [DATA_WIDTH-1:0] instrD,

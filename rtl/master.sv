@@ -1,6 +1,6 @@
-`include "../rtl/orange.sv"
-`include "../rtl/green.sv"
-`include "../rtl/P_C.sv"
+`include "orange.sv"
+`include "green.sv"
+`include "P_C.sv"
 
 module master #(
     parameter DATA_WIDTH = 32,

@@ -3,3 +3,4 @@
 obj_dir
 *.vcd
 tree.txt
+../../rtl_pipelined/instmem.sv

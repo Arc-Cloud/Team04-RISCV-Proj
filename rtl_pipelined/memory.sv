@@ -1,7 +1,5 @@
 module memory #(
-    parameter DATA_WIDTH = 32,
-    parameter STORAGE_WIDTH = 8,
-    parameter REG_FILE_ADDRESS_WIDTH = 5
+    parameter DATA_WIDTH = 32
 )(
     input logic clk,
     input logic [DATA_WIDTH-1:0] ALUResultM,
@@ -9,7 +7,7 @@ module memory #(
     input logic MemWriteM,
     input logic [2:0] AddressingControlM,
 
-    output logic [DATA_WIDTH-1:0] ReadDataM,
+    output logic [DATA_WIDTH-1:0] ReadDataM
 );
 
 data_mem data_memory(
@@ -19,7 +17,7 @@ data_mem data_memory(
     .WE(MemWriteM),
     .AddressingControl(AddressingControlM),
 
-    .RD(ReadDataM),
+    .RD(ReadDataM)
 );
 
 endmodule

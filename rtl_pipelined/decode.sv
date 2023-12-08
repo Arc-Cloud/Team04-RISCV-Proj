@@ -1,28 +1,31 @@
 module decode #(
-    parameter DATA_WIDTH = 32
+    parameter DATA_WIDTH = 32,
+    parameter REG_FILE_ADDRESS_WIDTH = 5
 )(
-    input logic [DATA_WIDTH-1]  instrD,
-    input logic [DATA_WIDTH-1]  ResultW,
-    input logic [4:0]           RdW,
-    input logic                 RegWriteW,
+    input logic                   clk,
+    input logic [DATA_WIDTH-1:0]  instrD,
+    input logic [DATA_WIDTH-1:0]  ResultW,
+    input logic [4:0]             RdW,
+    input logic                   RegWriteW,
+    input logic [REG_FILE_ADDRESS_WIDTH-1:0] testRegAddress,
 
-    output logic                RegWriteD,
-    output logic [1:0]          ResultSrcD,
-    output logic                MemWriteD,
-    output logic                JumpD,
-    output logic                BranchD,
-    output logic [3:0]          ALUControlD,
-    output logic                ALUSrcD,
-    output logic [DATA_WIDTH-1] RD1,
-    output logic [DATA_WIDTH-1] RD2,
-    output logic [4:0]          Rs1D,
-    output logic [4:0]          Rs2D,
-    output logic [4:0]          RdD,
-    output logic [DATA_WIDTH-1] ExtImmD,
-    output logic                JALRInstrD,
-    output logic [2:0]          AddressingControlD
- 
-)
+    output logic [DATA_WIDTH-1:0] testRegData,
+    output logic                  RegWriteD,
+    output logic [1:0]            ResultSrcD,
+    output logic                  MemWriteD,
+    output logic                  JumpD,
+    output logic                  BranchD,
+    output logic [3:0]            ALUControlD,
+    output logic                  ALUSrcD,
+    output logic [DATA_WIDTH-1:0] RD1D,
+    output logic [DATA_WIDTH-1:0] RD2D,
+    output logic [4:0]            Rs1D,
+    output logic [4:0]            Rs2D,
+    output logic [4:0]            RdD,
+    output logic [DATA_WIDTH-1:0] ExtImmD,
+    output logic                  JALRInstrD,
+    output logic [2:0]            AddressingControlD
+);
 
 always_comb begin
     Rs1D = instrD [19:15];
@@ -30,11 +33,13 @@ always_comb begin
     RdD = instrD[11:7];
 end
 
+logic [2:0] ImmSrcD;
+
 control_unit control_unit(
     // inputs 
     .op(instrD[6:0]),
     .funct3(instrD[14:12]),
-    .funct7(instrD[30]),
+    .funct7(instrD[30]), // This is the only bit that matters in the instruction architecture
 
     // outputs 
     .RegWriteD(RegWriteD),
@@ -51,15 +56,18 @@ control_unit control_unit(
 
 register_file register_file(
     // inputs
+    .clk(clk),
     .A1(instrD[19:15]),
     .A2(instrD[24:20]),
     .A3(RdW),
     .WD3(ResultW),
     .WE3(RegWriteW),
+    .testRegAddress(testRegAddress),
 
     // outputs
-    .RD1(RD1),
-    .RD2(RD2)
+    .testRegData(testRegData),
+    .RD1(RD1D),
+    .RD2(RD2D)
 );
 
 extend extend(

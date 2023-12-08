@@ -1,19 +1,16 @@
-`include "../rtl_pipelined/alu.sv"
-`include "../rtl_pipelined/mux.sv"
-
 module execute #(
     parameter DATA_WIDTH = 32,
     parameter REG_FILE_ADDRESS_WIDTH = 5,
     parameter NUM_INPUTS = 4
 )(
-    input logic clk,
+    //input logic clk, // not used
 
     input logic JumpE,
     input logic BranchE,
     input logic [3:0] ALUControlE,
     input logic AluSrcE,
-    input logic [REG_FILE_ADDRESS_WIDTH-1:0] RD1E,
-    input logic [REG_FILE_ADDRESS_WIDTH-1:0] RD2E,
+    input logic [DATA_WIDTH-1:0] RD1E,
+    input logic [DATA_WIDTH-1:0] RD2E,
     input logic [DATA_WIDTH-1:0] PCE,
 
     input logic [DATA_WIDTH-1:0] ExtImmE,
@@ -30,7 +27,6 @@ module execute #(
 
     logic [DATA_WIDTH-1:0] SrcAE;
     logic [DATA_WIDTH-1:0] SrcBE;
-    logic [DATA_WIDTH-1:0] WriteDataE;
     logic [DATA_WIDTH-1:0] ALUA_inputs [0:NUM_INPUTS-1];
     logic [DATA_WIDTH-1:0] ALUB_inputs [0:NUM_INPUTS-1];
     logic ZeroE;
@@ -41,6 +37,7 @@ module execute #(
         SrcBE = (AluSrcE) ? ExtImmE : WriteDataE; 
         PCSrcE = (BranchE & ZeroE) | JumpE;
         PCTargetE = PCE + ExtImmE;
+        $display("ALUResultE: %h", ALUResultE);
     end
 
     mux MUXA(

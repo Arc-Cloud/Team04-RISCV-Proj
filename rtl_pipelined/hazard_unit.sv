@@ -1,5 +1,4 @@
 module hazard_unit #(
-    parameter DATA_WIDTH = 32,
     parameter REG_FILE_ADDRESS_WIDTH = 5
 )(
     input logic [REG_FILE_ADDRESS_WIDTH-1:0] Rs1E,
@@ -11,21 +10,27 @@ module hazard_unit #(
     input logic [REG_FILE_ADDRESS_WIDTH-1:0] RdE,
     input logic RegWriteM,
     input logic RegWriteW,
-    input logic ResultSrcE,
+    input logic [1:0] ResultSrcE,
     input logic PCSrcE,
 
-    output logic ForwardAE,
-    output logic ForwardBE,
+    output logic [1:0] ForwardAE,
+    output logic [1:0] ForwardBE,
     output logic StallDecode,
     output logic StallFetch,
     output logic FlushExecute,
     output logic FlushDecode
 );
-    logic ForwardFromMemStage = (Rs1E == RdM || Rs2E == RdM);
-    logic ForwardFromWBStage = (Rs1E == RdW || Rs2E == RdW);
+    
+    logic ForwardFromMemStage;
+    logic ForwardFromWBStage;
 
     always_comb begin
         // dealing with RAW hazards with forwarding
+
+        ForwardFromMemStage = (Rs1E == RdM || Rs2E == RdM);
+        ForwardFromWBStage = (Rs1E == RdW || Rs2E == RdW);
+        //$display("ForwardFromMemStage: %b", ForwardFromMemStage);
+        //$display("ForwardFromWBStage: %b", ForwardFromWBStage);
         if(ForwardFromMemStage && RegWriteM) begin
             ForwardAE = (Rs1E == RdM) ? 2'b10 : 2'b00;
             ForwardBE = (Rs2E == RdM) ? 2'b10 : 2'b00;
@@ -48,9 +53,10 @@ module hazard_unit #(
         // dealing with control hazard
         // PCSrcE is known at the execute stage. So if its high, we should've taken a jump. We need to flush the next two
         // instructions (flush execute and decode stages)
-        if(PCSrcE)
+        if(PCSrcE) begin
             FlushExecute = 1'b1;
             FlushDecode = 1'b1;
+        end
         else
             FlushDecode = 1'b0;
     end

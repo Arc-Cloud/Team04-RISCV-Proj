@@ -1,10 +1,10 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
-#include "Vmaster.h" 
+#include "Vpipelined_cpu.h" 
 #include <iostream>
 
-#include "vbuddy.cpp"     
-#define MAX_SIM_CYC 1500000
+#include "../vbuddy.cpp"     
+#define MAX_SIM_CYC 1000000
 
 int main(int argc, char **argv, char **env) {
     int simcyc;
@@ -12,7 +12,7 @@ int main(int argc, char **argv, char **env) {
 
     Verilated::commandArgs(argc, argv);
     // init top verilog instance
-    Vmaster* top = new Vmaster;
+    Vpipelined_cpu* top = new Vpipelined_cpu;
     // init trace dump
     Verilated::traceEverOn(true);
     VerilatedVcdC* tfp = new VerilatedVcdC;
@@ -26,9 +26,8 @@ int main(int argc, char **argv, char **env) {
     // intialise
     top->clk = 1;
     top->rst = 0;
-    top->trigger = 0;
-    top->testRegAddress = 10;
-
+    top->testRegAddress = 21;
+    
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
         // dump variables into VCD file and toggle clock
@@ -38,19 +37,16 @@ int main(int argc, char **argv, char **env) {
             top->eval ();
         }
 
-        if(simcyc > 1200000){
-            vbdPlot(top->Result, 0, 255);
-            vbdCycle(simcyc);
-        }
-
         // send a0 value to 7 seg display
-        //vbdHex(4, ((top->Result) >> 16) & 0xF);
-        //vbdHex(3, ((top->Result) >> 8) & 0xF);
-        //vbdHex(2, ((top->Result) >> 4) & 0xF);
-        //vbdHex(1, top->Result & 0xF);
+        //vbdHex(4, ((top->testRegData) >> 16) & 0xF);
+        //vbdHex(3, ((top->testRegData) >> 8) & 0xF);
+        //vbdHex(2, ((top->testRegData) >> 4) & 0xF);
+        //vbdHex(1, top->testRegData & 0xF);
 
-        //vbdBar(top->Result & 0xFF);
+        vbdBar(top->testRegData & 0xFF);
 
+        vbdCycle(simcyc);
+    
         // either simulation finished, or 'q' is pressed
         if (Verilated::gotFinish() || vbdGetkey()=='q')
             exit(0);

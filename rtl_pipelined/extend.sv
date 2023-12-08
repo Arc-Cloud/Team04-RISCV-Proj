@@ -1,4 +1,6 @@
-module extend(
+module extend #(
+    parameter DATA_WIDTH = 32
+) (
     input logic [31:7] Immediate, //immediate from the instr
     input logic [2:0] ImmSrcD, // choose which format the imm is in
     output logic [31:0] ExtImmD // the extended output of the imm
