@@ -23,6 +23,7 @@ continue_tests:
     j continue_jal_tests   # Jump to continue_jal_tests
 
 bne_label:
+    addi s9, zero, 1000
     addi s5, zero, 2        # Increment s5 if s3 is not equal to s4
 
 continue_jal_tests:

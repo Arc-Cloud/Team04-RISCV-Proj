@@ -24,12 +24,12 @@ main:
     sh t1, 8(a0) # Should store 0x1A5
 
     addi t2, zero, -1
-    sw t2, 12(a0) # Should store 0x00000FFF
+    sw t2, 12(a0) # Should store 0xFFFFFFFF
     addi t3, zero, -1
     sw t3, 16(a0) # Ignnore for now
 
     # load values from memory
-    lb a1, 4(a0) # Should load 0xA5
+    lb a1, 4(a0) # Should load 0xFFFFFFA5
     lbu a2, 4(a0) # Should load 0xA5
     lh a3, 8(a0) # Should load 0x1A5
     lhu a4, 8(a0) 

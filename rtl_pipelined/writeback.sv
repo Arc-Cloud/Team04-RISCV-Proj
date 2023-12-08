@@ -21,7 +21,4 @@ module writeback #(
         .outputs(ResultW)
     );
 
-    always_comb
-        $display("resW: %h", ResultW);
-
 endmodule
