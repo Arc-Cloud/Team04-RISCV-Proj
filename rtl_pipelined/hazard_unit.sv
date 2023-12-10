@@ -24,12 +24,12 @@ module hazard_unit #(
     always_comb begin
         // dealing with RAW hazards with forwarding
 
-        if((Rs1E == RdM) && RegWriteM) ForwardAE = 2'b10;
-        else if ((Rs1E == RdW) && RegWriteW) ForwardAE = 2'b01;
+        if((Rs1E == RdM) && RegWriteM && Rs1E != 0) ForwardAE = 2'b10;
+        else if ((Rs1E == RdW) && RegWriteW && Rs1E != 0) ForwardAE = 2'b01;
         else ForwardAE = 2'b00;
 
-        if((Rs2E == RdM) && RegWriteM) ForwardBE = 2'b10;
-        else if ((Rs2E == RdW) && RegWriteW) ForwardBE = 2'b01;
+        if((Rs2E == RdM) && RegWriteM && Rs2E != 0) ForwardBE = 2'b10;
+        else if ((Rs2E == RdW) && RegWriteW && Rs2E != 0) ForwardBE = 2'b01;
         else ForwardBE = 2'b00;
         
         //$display("ForwardFromMemStage: %b", ForwardFromMemStage);
