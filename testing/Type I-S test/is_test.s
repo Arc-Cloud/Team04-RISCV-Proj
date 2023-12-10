@@ -25,8 +25,8 @@ main:
 
     addi t2, zero, -1
     sw t2, 12(a0) # Should store 0xFFFFFFFF
-    addi t3, zero, -1
-    sw t3, 16(a0) # Ignnore for now
+    //addi t3, zero, -1
+    //sw t3, 16(a0) # Ignnore for now
 
     # load values from memory
     lb a1, 4(a0) # Should load 0xFFFFFFA5

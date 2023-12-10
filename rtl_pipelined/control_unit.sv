@@ -145,6 +145,7 @@ always_comb begin
             RegWriteD = 1'b1;
             ResultSrcD = 2'b10;
             MemWriteD = 1'b0;
+            JumpD = 1'b1;
             BranchD = 1'b0;
             ALUControlD = 4'b0000;
             ALUSrcD = 1'b1;
