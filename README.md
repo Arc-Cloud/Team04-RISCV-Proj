@@ -56,7 +56,7 @@
 | Hanif | | | | [Hanif's Statement](statements/Hanif.md) 
 
 
-# Single Cylce RV32I Design
+# Single Cycle RV32I Design
 ### Contributions
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
@@ -116,6 +116,7 @@ The ALU contains arithmetic and logic operations on 2 operands. All arithmetic o
 | 1001 | SrcA >= SrcB |
 | 1010 | uSrcA >= uSrcB |
 | 1011 | SrcA >>> SrcB[4:0] |
+| 1111 | ALUResult = SrcB |
 
 SrcA and SrcB are the 2 inputs to the ALU. SrcB could be an immediate value, this is decided by the ALUSrc signal. *u* prepended to the name means it is treated as an unsigned value. 
 
@@ -231,23 +232,23 @@ GTK wave outputs can go here
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
 | PC.sv | | | L |
-| alu.sv | | L | |
-| control_unit.sv | L | | |
-| data_mem.sv| | | L |
-| decode.sv | L | | |
-| decode_pipeline.sv | | | L |
-| execute.sv | | L | |
-| execute_pipeline.sv | L | | |
+| alu.sv | | L | | C
+| control_unit.sv | L | | | C
+| data_mem.sv| | | L | C
+| decode.sv | L | | | C
+| decode_pipeline.sv | | | L | 
+| execute.sv | | L | | C
+| execute_pipeline.sv | L | | | C
 | extend.sv | L | | |
 | fetch.sv | | | L |
-| instmem.sv | | | L |
-| memory.sv | | | L |
-| memory_pipeline.sv | | L | |
+| instmem.sv | | | L | C
+| memory.sv | | | L | C
+| memory_pipeline.sv | | L | | C
 | mux.sv | | L | |
-| pipelined_cpu.sv | L | L | |
+| pipelined_cpu.sv | L | L | | C
 | register_file.sv | L | | |
-| writeback.sv | | L | |
-| writeback_pipeline.sv | | L | |
+| writeback.sv | | L | | C
+| writeback_pipeline.sv | | L | | C
 
 Legend: `L` = Lead `C` = Contributor
 
