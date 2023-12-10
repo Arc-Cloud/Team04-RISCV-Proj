@@ -20,7 +20,8 @@ module hazard_unit #(
     output logic FlushExecute,
     output logic FlushDecode
 );
-    
+    logic loadInstrStall;
+
     always_comb begin
         // dealing with RAW hazards with forwarding
 
@@ -32,27 +33,20 @@ module hazard_unit #(
         else if ((Rs2E == RdW) && RegWriteW && Rs2E != 0) ForwardBE = 2'b01;
         else ForwardBE = 2'b00;
         
-        //$display("ForwardFromMemStage: %b", ForwardFromMemStage);
-        //$display("ForwardFromWBStage: %b", ForwardFromWBStage);
-
-
         // dealing with load type instructions
         // we stall the pipeline by a cycle if we have an lw instrucion in its execute stage and has 
         // a destination register thats the same as the source register of an instruction in decode stage
 
-        StallDecode = (ResultSrcE == 2'b01 && (RdE == Rs1D || RdE == Rs2D));
-        StallFetch = StallDecode;
-        FlushExecute = StallDecode;
+        loadInstrStall = (ResultSrcE == 2'b01 && (RdE == Rs1D || RdE == Rs2D));
+        StallDecode = loadInstrStall;
+        StallFetch = loadInstrStall;
+
+        FlushExecute = StallDecode | PCSrcE;
 
         // dealing with control hazard
         // PCSrcE is known at the execute stage. So if its high, we should've taken a jump. We need to flush the next two
         // instructions (flush execute and decode stages)
-        if(PCSrcE) begin
-            FlushExecute = 1'b1;
-            FlushDecode = 1'b1;
-        end
-        else
-            FlushDecode = 1'b0;
+        FlushDecode = PCSrcE;
     end
 
 endmodule
