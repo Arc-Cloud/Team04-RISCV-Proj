@@ -1,7 +1,3 @@
-`include "control.sv"
-`include "sextend.sv"
-`include "instmem.sv"
-
 module green #(parameter DATA_WIDTH = 32)(
     input logic [DATA_WIDTH-1:0] A,
     input logic Zero,
@@ -37,7 +33,7 @@ control decode_insr(
   
 );
 
-instmem memory(
+inst_mem memory(
     .A(A),
     .RD(Instr)
 );
