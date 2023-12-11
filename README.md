@@ -218,6 +218,8 @@ GTK wave outputs can go here
 
 
 ### Sign Extension
+
+
 | ImmSrc| ImmExt | Instruction Type 
 | -------- | :--------: | :--------: | 
 | 3'b000| {{20{Immediate[31]}}, Immediate[31:20]} | I-type |
@@ -225,6 +227,21 @@ GTK wave outputs can go here
 | 3'b010| {{20{Immediate[31]}}, Immediate[7], Immediate[30:25], Immediate[11:8], 1'b0}|  B-type|
 | 3'b011| {{12{Immediate[31]}},  Immediate[19:12], Immediate[20], Immediate[30:21], 1'b0} | J-type|
 | 3'b100| {Immediate[31:12], 12'b0}| U-type|
+
+### Addressing Control
+
+This control signal is produced by the control unit and is used to choose how we want to construct the bytes onto word in data memory. This is especially useful for instructions such as `lb`, `lh`, `sh`, `sb` where we only want to extract/store a byte or half of the word instead of the entire word.
+
+The addressing control is 3 bits wide, the MSB is to choose between signed or unsigned extension and the remaining bits are used for choosing the different modes and they are allocated for each cases as follows:
+
+| AdddressingControl [1:0] | AddressingControl [2] | Load Instruction type | Store Instruction type |
+| -------- | :--------: | :--------: | :--------: |
+| 2'b00  | 1'b0 | `lb` | `sb` |
+| 2'b00 | 1'b1 |  `lbu` | xx |
+| 2'b01 | 1'b0 | `lh` | `sh` |
+| 2'b01 | 1'b1 | `lhu` | xx |
+| 2'b10 | xx | `lw` | `sw` |
+
 ## Final Schematic for Single Cycle CPU
 
 ![Single Cycle CPU Schematic](imgs/SingleCycleCpu.jpeg)
