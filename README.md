@@ -10,41 +10,40 @@
 
 ## Repo Structure 
 ```
-.
-├── imgs
-│   ├── mem_dump2.png
-│   └── mem_dump.png
-├── README.md
-├── rtl
-│   ├── alu.sv
-│   ├── control.sv
-│   ├── data_mem.sv
-│   ├── green.sv
-│   ├── instmem.sv
-│   ├── instr.mem
-│   ├── master.sv
-│   ├── orange.sv
-│   ├── P_C.sv
-│   ├── reg_file.sv
-│   ├── sextend.sv
-│   └── test_data.mem
-├── statements
-│   ├── Hanif.md
-│   ├── Idrees.md
-│   ├── Ilan.md
-│   └── Maximilian.md
-├── testing
-│   ├── cpu_tb.cpp
-│   ├── CPU.vcd
-│   ├── doit.sh
-│   ├── f1_asm.s
-│   ├── SingleCycleCpuTest.asm
-│   ├── TestingForPC
-│   │   ├── PC_testbench.cpp
-│   │   └── PC_test.sh
-│   ├── vbuddy.cfg
-│   └── vbuddy.cpp
-└── tree.txt
+├───imgs/
+│
+├───rtl/
+│
+├───rtl_pipelined/
+│
+├───statements/
+│
+└───testing
+    │   .DS_Store
+    │   format_hex.py
+    │   real_path.sh
+    │   vbuddy.cfg
+    │   vbuddy.cpp
+    │
+    ├───f1_asm test/
+    │
+    ├───Pipelined_CPU/
+    │
+    ├───Ref program test/
+    │
+    ├───Single_cycle_CPU/
+    │
+    ├───Test results/
+    │
+    ├───TestingForPC/
+    │
+    ├───Type B-J test/
+    │
+    ├───Type I test/
+    │
+    ├───Type I-S test/
+    │
+    └───Type R test/
 ```
 
 ## Details & Personal Statements
@@ -74,7 +73,11 @@
 Legend: `L` = Lead `C` = Contributor
 ## Planning
 
-### Teamwork things ...
+To begin our Single Cycle CPU design we met as a team and outlined the key areas of the design and identified possible issues we might face in our implementation. 
+
+We then created an initial overall logical flow for how our instructions will be intepreted, and drew up our design conventions to ensure compatibilty between individual parts of the CPU we each would proceed to work on.
+
+Responsibilty was then subdivided for parts of the CPU to individual team members and we began working.
 
 ## Implementation
 
@@ -193,12 +196,20 @@ GTK wave outputs can go here
  
 ## Design Decisions
 
-### Decoder Table
-| Instruction| OP | ... | ... | ...
-| -------- | :--------: | :--------: | :--------: | :--------: |
-| | | | |
-| | | | |
-| | | | |
+### Control Decoder Table
+| Instruction Type | op | RegWrite | ALUSrc | MemWrite | PCSrc | ImmSrc | ResultSrc
+| -------- | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: 
+| R-Type (51) | 0110011 | 1 | 0 | 0 | 00 | xxx | xx
+| B-Type (99) | 1100011 | 0 | 0 | 0 | 00/01 | 010 | xx
+| I-Type (19) | 0010011 | 1 | 1 | 0 | 00 | 000 | 00
+| I-Type (3) | 0000011 | 1 | 1 | 0 | 00 | 000 | 01
+| I-Type (103) | 1100111 | 1 | 1 | 0 | 10 | 000 | 10 
+| J-Type (111) | 1101111 | 1 | x | 1 | 01 | 011 | 10
+| S-Type (35) | 0100011 | 0 | 1 | 1 | 00 | 001 | xx
+
+`AdressingControl` and `ALUControl` Not included as they usually are used to choose case for the Instruction Type being performed 
+
+
 
 ### Sign Extension
 | ImmSrc| ImmExt | Instruction Type 
