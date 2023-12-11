@@ -8,7 +8,7 @@
   - Start and complete single cycle CPU with as many instructions as possible
   
 
-## Repo Structure 
+## Repo Structure & Logic
 ```
 ├───imgs/
 │
@@ -45,6 +45,12 @@
     │
     └───Type R test/
 ```
+
+As a team we decided to manage our repo in the following manner:
+- Have one main where the current latest finalised and tested implementation of all versions of the cpu are kept in their individual folders
+- Once a cpu version has been complemeted merge all relevant branches into the main and then delete all unessecary branches for repo cleanliness before moving onto the next version of the cpu
+
+This method allowed us to have a clear insight into our overall current progress, and keep our repo clean and easily interpreted when viewed for examination. 
 
 ## Details & Personal Statements
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
