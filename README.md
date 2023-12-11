@@ -88,23 +88,23 @@ Responsibilty was then subdivided for parts of the CPU to individual team member
 ## Implementation
 
 ### F1 ASM
-As a team we produced the following [f1_asm.s](testing/f1_asm.s) code. 
+As a team we produced the following [f1_asm.s](testing/f1_asm%20test/f1_asm.s) code. 
 
 Simulating sequential illumination of Formula 1 start lights, where each light is represented by a bit in a register that is turned on one after another and then turned off after a specified duration.
 
-The program begins execution at the `main` label, where it jumps to the `init` subroutine using `JAL ra, init`, which also saves the return address in the `ra` register. After initializing the necessary registers, the program returns to `main` and loops indefinitely due to the `jal zero, main` instruction.
+The program commences at the `main` label, where the `JAL` instruction jumps to the `init` label, storing the return address in the `ra` register. The infinite loop is established with the `j main` instruction, which causes the program to jump back to `main` continuously.
 
-In the `init` subroutine:
-- `s2` is initialized to 0, which will serve as the iterative light control variable.
-- `s3` is set to `0xff` (binary `11111111`), representing all lights being on.
-- `s5` is initialized to 0 and will hold the result of the bitwise AND operation between `s2` and `s3`.
-- `s4` is set to 8, which will act as a countdown timer for the duration the lights are on.
+The `init` label initializes the registers as follows:
+- `s2` is set to `0x0` and will be used to track the status of the lights.
+- `s3` is loaded with `0xff`, representing the state where all lights are illuminated.
+- `s5` is initialized to `0x0` and will store the result of the logical AND operation.
+- `s4` is set to `0x4`, serving as a timer for the delay loop.
 
-The `loopi` label begins the process of sequentially turning on the lights. `s2` is shifted left by one position and then incremented by 1, simulating the turning on of the next light. The `and` instruction computes the current state of the lights, which is stored in `s5`.
+The `loopi` label marks the start of the light sequence. The `slli` instruction shifts `s2` to the left by one bit, and `addi` then increments `s2` by 1, simulating the activation of the next light in the sequence. The `and` operation updates `s5` with the current lights status.
 
-After setting a light, the program enters the `wait` loop, which decrements `s4` until it reaches zero, acting as a delay. Once the countdown is finished, `s4` is reinitialized to the wait value, and if not all lights are on (checked by comparing `s2` and `s3`), the program jumps back to `loopi` to turn on the next light.
+At the `wait` label, a delay loop is implemented using `s4`. The `addi` instruction decrements `s4` by one until `s4` equals zero, upon which `s4` is reset to `0x4`. If not all the lights have been activated (`s2` does not equal `s3`), the program branches back to `loopi` to continue the sequence.
 
-Once all lights are on (when `s2` equals `s3`), `s5` is set to 0, turning off all the lights, and the program returns from the `init` subroutine using the `RET` instruction.
+Once the sequence is complete and all lights are on (`s2` equals `s3`), `s5` is reset to `0`, turning off all the lights. The program then exits the `init` subroutine with the `RET` instruction.
 
 ### ALU
 
