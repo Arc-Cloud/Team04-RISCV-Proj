@@ -1,1 +1,0 @@
-/home/ilan/Desktop/Year2/Team04-RISCV-Proj/testing/Type B-J test/b_test.mem
