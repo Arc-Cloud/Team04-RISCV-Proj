@@ -1,1 +1,1 @@
-/home/ilan/Desktop/Year2/Team04-RISCV-Proj/testing/Ref_program_test/pdf.mem
+/home/ilan/Desktop/Year2/Team04-RISCV-Proj/testing/Type B-J test/b_test.mem

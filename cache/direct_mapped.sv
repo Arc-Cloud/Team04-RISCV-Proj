@@ -1,4 +1,4 @@
-module cache #(
+module direct_mapped #(
     parameter DATA_WIDTH = 32,
     parameter CACHE_LENGTH = 8,
     parameter TAG_WIDTH = 27,
@@ -24,8 +24,8 @@ logic valids [CACHE_LENGTH-1:0];
 logic [TAG_WIDTH-1:0] tags [CACHE_LENGTH-1:0];
 logic [DATA_WIDTH-1:0] data [CACHE_LENGTH-1:0];
 
-logic currentSet [SET_WIDTH-1:0];
-logic currentTag [TAG_WIDTH-1:0];
+logic [SET_WIDTH-1:0] currentSet;
+logic [TAG_WIDTH-1:0] currentTag;
 
 always_comb begin
     currentSet = address[SET_WIDTH+1:2];

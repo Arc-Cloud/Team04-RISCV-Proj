@@ -262,6 +262,8 @@ The addressing control is 3 bits wide, the MSB is to choose between signed or un
 
 # Pipelined RV32I Design
 
+We also added the rest of the branch instructions that weren't implemented in single cycle
+
 ### Contributions
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
@@ -289,19 +291,18 @@ Legend: `L` = Lead `C` = Contributor
 
 Info on Pipelined RV32I Design ....
 
-# Data Memory Cache
+# Instruction Memory Cache
+
+Only new components have been considered
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
 | -------- | :--------: | :--------: | :--------: | :--------: |
-| | | | |
-| | | | |
+| direct_mapped.sv | | C | C |
+| fetch.sv (cache version) | | | L |
 | | | | |
 
 Legend: L = Lead C = Contributor
 
-
 Info on Data Memory Cache ....
-
-
 
 

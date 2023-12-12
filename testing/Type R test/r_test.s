@@ -23,6 +23,6 @@ main:
     addi t1, zero, 2
     addi t2, zero, -1
     srl s9, s4, t1 # shift s4 right by 2 and store in s9 (00011001) (25) (0x19)
-    sra s10, t2, t1 # shift s4 right by 2 and store in s10 (11111111) (-13) (0xFF)
+    sra s10, t2, t1 # shift s4 right by 2 and store in s10 (11111111) (-13) (0xFFFFFFF)
 
 # passed testing

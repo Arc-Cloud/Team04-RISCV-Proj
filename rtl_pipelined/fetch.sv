@@ -32,4 +32,19 @@ inst_mem memory(
     .RD(instrF)
 );
 
+logic hit;
+logic [DATA_WIDTH-1:0] cacheInstr;
+
+direct_mapped cache (
+    .clk(clk),
+    .address(PCF),
+    .datain(memInstr),
+    .WE(~hit),
+
+    .hit(hit),
+    .dataout(cacheInstr)
+);
+
+assign instrF = hit ? cacheInstr : memInstr;
+
 endmodule
