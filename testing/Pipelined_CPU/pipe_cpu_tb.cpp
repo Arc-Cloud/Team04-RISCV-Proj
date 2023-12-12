@@ -43,9 +43,9 @@ int main(int argc, char **argv, char **env) {
         //vbdHex(2, ((top->testRegData) >> 4) & 0xF);
         //vbdHex(1, top->testRegData & 0xF);
 
-        // vbdBar(top->testRegData & 0xFF);
+        //vbdBar(top->testRegData & 0xFF);
 
-        // vbdCycle(simcyc);
+        //vbdCycle(simcyc);
 
         if(simcyc > 1200000){vbdPlot(top->testRegData, 0, 255); vbdCycle(simcyc); }
     
@@ -57,5 +57,4 @@ int main(int argc, char **argv, char **env) {
     vbdClose();
     tfp->close();   
     exit(0);
-
 }
