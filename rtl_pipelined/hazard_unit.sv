@@ -20,45 +20,33 @@ module hazard_unit #(
     output logic FlushExecute,
     output logic FlushDecode
 );
-    
-    logic ForwardFromMemStage;
-    logic ForwardFromWBStage;
+    logic loadInstrStall;
 
     always_comb begin
         // dealing with RAW hazards with forwarding
 
-        ForwardFromMemStage = (Rs1E == RdM || Rs2E == RdM);
-        ForwardFromWBStage = (Rs1E == RdW || Rs2E == RdW);
-        //$display("ForwardFromMemStage: %b", ForwardFromMemStage);
-        //$display("ForwardFromWBStage: %b", ForwardFromWBStage);
-        if(ForwardFromMemStage && RegWriteM) begin
-            ForwardAE = (Rs1E == RdM) ? 2'b10 : 2'b00;
-            ForwardBE = (Rs2E == RdM) ? 2'b10 : 2'b00;
-        end else if (ForwardFromWBStage && RegWriteW) begin
-            ForwardAE = (Rs1E == RdW) ? 2'b01 : 2'b00;
-            ForwardBE = (Rs2E == RdW) ? 2'b01 : 2'b00;
-        end else begin 
-            ForwardAE = 2'b00;
-            ForwardBE = 2'b00;
-        end
+        if((Rs1E == RdM) && RegWriteM && Rs1E != 0) ForwardAE = 2'b10;
+        else if ((Rs1E == RdW) && RegWriteW && Rs1E != 0) ForwardAE = 2'b01;
+        else ForwardAE = 2'b00;
 
-        // dealing with lw
+        if((Rs2E == RdM) && RegWriteM && Rs2E != 0) ForwardBE = 2'b10;
+        else if ((Rs2E == RdW) && RegWriteW && Rs2E != 0) ForwardBE = 2'b01;
+        else ForwardBE = 2'b00;
+        
+        // dealing with load type instructions
         // we stall the pipeline by a cycle if we have an lw instrucion in its execute stage and has 
         // a destination register thats the same as the source register of an instruction in decode stage
 
-        StallDecode = (ResultSrcE == 2'b01 && (RdE == Rs1D || RdE == Rs2D));
-        StallFetch = StallDecode;
-        FlushExecute = StallDecode;
+        loadInstrStall = (ResultSrcE == 2'b01 && (RdE == Rs1D || RdE == Rs2D));
+        StallDecode = loadInstrStall;
+        StallFetch = loadInstrStall;
+
+        FlushExecute = StallDecode | PCSrcE;
 
         // dealing with control hazard
         // PCSrcE is known at the execute stage. So if its high, we should've taken a jump. We need to flush the next two
         // instructions (flush execute and decode stages)
-        if(PCSrcE) begin
-            FlushExecute = 1'b1;
-            FlushDecode = 1'b1;
-        end
-        else
-            FlushDecode = 1'b0;
+        FlushDecode = PCSrcE;
     end
 
 endmodule

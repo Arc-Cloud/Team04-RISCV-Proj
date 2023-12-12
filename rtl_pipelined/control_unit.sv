@@ -58,7 +58,16 @@ always_comb begin
             MemWriteD = 1'b0;
             JumpD = 1'b0;
             BranchD = 1'b1;
-            ALUControlD = 4'b0001;
+            
+            case(funct3) 
+                3'b000 : ALUControlD = 4'b0001;   // beq
+                3'b001 : ALUControlD = 4'b1100;   // bne
+                3'b100 : ALUControlD = 4'b0101;   // blt
+                3'b101 : ALUControlD = 4'b1001;   // bge
+                3'b110 : ALUControlD = 4'b0110;   // bltu
+                3'b111 : ALUControlD = 4'b1010;   // bgeu
+            endcase
+
             ALUSrcD = 1'b0;
             ImmSrcD = 3'b010;
             JALRInstrD = 1'b0;
@@ -99,6 +108,7 @@ always_comb begin
             MemWriteD = 1'b0;
             BranchD = 1'b0;
             ImmSrcD = 3'b011;
+            JumpD = 1'b1;
             JALRInstrD = 1'b0;
         end
 
@@ -135,6 +145,7 @@ always_comb begin
             RegWriteD = 1'b1;
             ResultSrcD = 2'b10;
             MemWriteD = 1'b0;
+            JumpD = 1'b1;
             BranchD = 1'b0;
             ALUControlD = 4'b0000;
             ALUSrcD = 1'b1;
@@ -157,7 +168,6 @@ always_comb begin
         end    
 
         default: begin
-            $display("Invalid instruction op: %b, funct3:%b, funct7:%b" ,op, funct3, funct7);
             RegWriteD = 1'b0;
             ResultSrcD = 2'b00;
             MemWriteD = 1'b0;

@@ -8,44 +8,49 @@
   - Start and complete single cycle CPU with as many instructions as possible
   
 
-## Repo Structure 
+## Repo Structure & Logic
 ```
-.
-├── imgs
-│   ├── mem_dump2.png
-│   └── mem_dump.png
-├── README.md
-├── rtl
-│   ├── alu.sv
-│   ├── control.sv
-│   ├── data_mem.sv
-│   ├── green.sv
-│   ├── instmem.sv
-│   ├── instr.mem
-│   ├── master.sv
-│   ├── orange.sv
-│   ├── P_C.sv
-│   ├── reg_file.sv
-│   ├── sextend.sv
-│   └── test_data.mem
-├── statements
-│   ├── Hanif.md
-│   ├── Idrees.md
-│   ├── Ilan.md
-│   └── Maximilian.md
-├── testing
-│   ├── cpu_tb.cpp
-│   ├── CPU.vcd
-│   ├── doit.sh
-│   ├── f1_asm.s
-│   ├── SingleCycleCpuTest.asm
-│   ├── TestingForPC
-│   │   ├── PC_testbench.cpp
-│   │   └── PC_test.sh
-│   ├── vbuddy.cfg
-│   └── vbuddy.cpp
-└── tree.txt
+├───imgs/
+│
+├───rtl/
+│
+├───rtl_pipelined/
+│
+├───statements/
+│
+└───testing
+    │   .DS_Store
+    │   format_hex.py
+    │   real_path.sh
+    │   vbuddy.cfg
+    │   vbuddy.cpp
+    │
+    ├───f1_asm test/
+    │
+    ├───Pipelined_CPU/
+    │
+    ├───Ref program test/
+    │
+    ├───Single_cycle_CPU/
+    │
+    ├───Test results/
+    │
+    ├───TestingForPC/
+    │
+    ├───Type B-J test/
+    │
+    ├───Type I test/
+    │
+    ├───Type I-S test/
+    │
+    └───Type R test/
 ```
+
+As a team we decided to manage our repo in the following manner:
+- Have one main where the current latest finalised and tested implementation of all versions of the cpu are kept in their individual folders
+- Once a cpu version has been complemeted merge all relevant branches into the main and then delete all unessecary branches for repo cleanliness before moving onto the next version of the cpu
+
+This method allowed us to have a clear insight into our overall current progress, and keep our repo clean and easily interpreted when viewed for examination. 
 
 ## Details & Personal Statements
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
@@ -56,7 +61,7 @@
 | Hanif | | | | [Hanif's Statement](statements/Hanif.md) 
 
 
-# Single Cylce RV32I Design
+# Single Cycle RV32I Design
 ### Contributions
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
@@ -74,7 +79,11 @@
 Legend: `L` = Lead `C` = Contributor
 ## Planning
 
-### Teamwork things ...
+To begin our Single Cycle CPU design we met as a team and outlined the key areas of the design and identified possible issues we might face in our implementation. 
+
+We then created an initial overall logical flow for how our instructions will be intepreted, and drew up our design conventions to ensure compatibilty between individual parts of the CPU we each would proceed to work on.
+
+Responsibilty was then subdivided for parts of the CPU to individual team members and we began working.
 
 ## Implementation
 
@@ -116,6 +125,7 @@ The ALU contains arithmetic and logic operations on 2 operands. All arithmetic o
 | 1001 | SrcA >= SrcB |
 | 1010 | uSrcA >= uSrcB |
 | 1011 | SrcA >>> SrcB[4:0] |
+| 1111 | ALUResult = SrcB |
 
 SrcA and SrcB are the 2 inputs to the ALU. SrcB could be an immediate value, this is decided by the ALUSrc signal. *u* prepended to the name means it is treated as an unsigned value. 
 
@@ -192,14 +202,24 @@ GTK wave outputs can go here
  
 ## Design Decisions
 
-### Decoder Table
-| Instruction| OP | ... | ... | ...
-| -------- | :--------: | :--------: | :--------: | :--------: |
-| | | | |
-| | | | |
-| | | | |
+### Control Decoder Table
+| Instruction Type | op | RegWrite | ALUSrc | MemWrite | PCSrc | ImmSrc | ResultSrc
+| -------- | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: 
+| R-Type (51) | 0110011 | 1 | 0 | 0 | 00 | xxx | xx
+| B-Type (99) | 1100011 | 0 | 0 | 0 | 00/01 | 010 | xx
+| I-Type (19) | 0010011 | 1 | 1 | 0 | 00 | 000 | 00
+| I-Type (3) | 0000011 | 1 | 1 | 0 | 00 | 000 | 01
+| I-Type (103) | 1100111 | 1 | 1 | 0 | 10 | 000 | 10 
+| J-Type (111) | 1101111 | 1 | x | 1 | 01 | 011 | 10
+| S-Type (35) | 0100011 | 0 | 1 | 1 | 00 | 001 | xx
+
+`AdressingControl` and `ALUControl` Not included as they usually are used to choose case for the Instruction Type being performed 
+
+
 
 ### Sign Extension
+ Immsrc is a control signal produced by the control unit given to the `sextend.sv` module. Its purpose is to reconstruct immediate from the instruction word as each type have their own way of mapping the immediate onto the machine code. This control signal basically tells the `sextend.sv` which type of instruction is currently performed so that the immediate can be extracted accordingly.
+ 
 | ImmSrc| ImmExt | Instruction Type 
 | -------- | :--------: | :--------: | 
 | 3'b000| {{20{Immediate[31]}}, Immediate[31:20]} | I-type |
@@ -207,6 +227,21 @@ GTK wave outputs can go here
 | 3'b010| {{20{Immediate[31]}}, Immediate[7], Immediate[30:25], Immediate[11:8], 1'b0}|  B-type|
 | 3'b011| {{12{Immediate[31]}},  Immediate[19:12], Immediate[20], Immediate[30:21], 1'b0} | J-type|
 | 3'b100| {Immediate[31:12], 12'b0}| U-type|
+
+### Addressing Control
+
+This control signal is produced by the control unit and is used to choose how we want to construct the bytes onto word in data memory. This is especially useful for instructions such as `lb`, `lh`, `sh`, `sb` where we only want to extract/store a byte or half of the word instead of the entire word.
+
+The addressing control is 3 bits wide, the MSB is to choose between signed or unsigned extension and the remaining bits are used for choosing the different modes and they are allocated for each cases as follows:
+
+| AdddressingControl [1:0] | AddressingControl [2] | Load Instruction type | Store Instruction type |
+| -------- | :--------: | :--------: | :--------: |
+| 2'b00  | 1'b0 | `lb` | `sb` |
+| 2'b00 | 1'b1 |  `lbu` | xx |
+| 2'b01 | 1'b0 | `lh` | `sh` |
+| 2'b01 | 1'b1 | `lhu` | xx |
+| 2'b10 | xx | `lw` | `sw` |
+
 ## Final Schematic for Single Cycle CPU
 
 ![Single Cycle CPU Schematic](imgs/SingleCycleCpu.jpeg)
@@ -231,23 +266,23 @@ GTK wave outputs can go here
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
 | PC.sv | | | L |
-| alu.sv | | L | |
-| control_unit.sv | L | | |
-| data_mem.sv| | | L |
-| decode.sv | L | | |
-| decode_pipeline.sv | | | L |
-| execute.sv | | L | |
-| execute_pipeline.sv | L | | |
+| alu.sv | | L | | C
+| control_unit.sv | L | | | C
+| data_mem.sv| | | L | C
+| decode.sv | L | | | C
+| decode_pipeline.sv | | | L | 
+| execute.sv | | L | | C
+| execute_pipeline.sv | L | | | C
 | extend.sv | L | | |
 | fetch.sv | | | L |
-| instmem.sv | | | L |
-| memory.sv | | | L |
-| memory_pipeline.sv | | L | |
+| instmem.sv | | | L | C
+| memory.sv | | | L | C
+| memory_pipeline.sv | | L | | C
 | mux.sv | | L | |
-| pipelined_cpu.sv | L | L | |
+| pipelined_cpu.sv | L | L | | C
 | register_file.sv | L | | |
-| writeback.sv | | L | |
-| writeback_pipeline.sv | | L | |
+| writeback.sv | | L | | C
+| writeback_pipeline.sv | | L | | C
 
 Legend: `L` = Lead `C` = Contributor
 

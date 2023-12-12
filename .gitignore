@@ -3,4 +3,5 @@
 obj_dir
 *.vcd
 tree.txt
-../../rtl_pipelined/instmem.sv
+rtl_pipelined/instmem.sv
+testing/Pipelined_CPU/vbuddy.cfg
