@@ -27,7 +27,7 @@ PC counter(
     .PCF(PCF)
 );
 
-instmem memory(
+inst_mem memory(
     .A(PCF),
     .RD(instrF)
 );

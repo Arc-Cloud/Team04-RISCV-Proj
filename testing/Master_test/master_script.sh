@@ -16,7 +16,7 @@ read -p "Enter your choice (1-6): " choice
 case $choice in
     1)
 
-        inst_path = $(realpath "../Ref program test/pdf.mem")
+        inst_path=$(realpath "../Ref program test/pdf.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt 
@@ -34,16 +34,16 @@ case $choice in
 
         case $choice2 in
             1)
-                data_path = $(realpath "../Ref program test/gaussian.mem")
+                data_path=$(realpath "../Ref program test/gaussian.mem")
                 ;;
             2)
-                data_path = $(realpath "../Ref program test/noisy.mem")
+                data_path=$(realpath "../Ref program test/noisy.mem")
                 ;;
             3)
-                data_path = $(realpath "../Ref program test/sine.mem")
+                data_path=$(realpath "../Ref program test/sine.mem")
                 ;;
             4)
-                data_path = $(realpath "../Ref program test/triangle.mem")
+                data_path=$(realpath "../Ref program test/triangle.mem")
                 ;;
             *)
                 echo "Invalid choice"
@@ -64,7 +64,7 @@ case $choice in
         ;;
     2)
         
-        inst_path = $(realpath "../F1 program test/f1.mem")
+        inst_path=$(realpath "../F1 program test/f1.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
@@ -146,7 +146,7 @@ case $choice3 in
 
         # fetch
         verilator -Wall --cc ../../rtl_pipelined/PC.sv
-        verilator -Wall --cc ../../rtl_pipelined/instmem.sv
+        verilator -Wall --cc ../../rtl_pipelined/inst_mem.sv
         verilator -Wall --cc -I"../../rtl_pipelined" ../../rtl_pipelined/fetch.sv
 
         # decode pipeline
@@ -194,5 +194,9 @@ case $choice3 in
 
     3)
         echo "cache"
+        ;;
+    *)
+        echo "Invalid choice"
+        exit 1
         ;;
 esac
