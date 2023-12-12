@@ -16,7 +16,7 @@ read -p "Enter your choice (1-6): " choice
 case $choice in
     1)
 
-        inst_path=$(realpath "../Ref program test/pdf.mem")
+        inst_path=$(realpath "../Ref_program_test/pdf.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt 
@@ -34,16 +34,16 @@ case $choice in
 
         case $choice2 in
             1)
-                data_path=$(realpath "../Ref program test/gaussian.mem")
+                data_path=$(realpath "../Ref_program_test/gaussian.mem")
                 ;;
             2)
-                data_path=$(realpath "../Ref program test/noisy.mem")
+                data_path=$(realpath "../Ref_program_test/noisy.mem")
                 ;;
             3)
-                data_path=$(realpath "../Ref program test/sine.mem")
+                data_path=$(realpath "../Ref_program_test/sine.mem")
                 ;;
             4)
-                data_path=$(realpath "../Ref program test/triangle.mem")
+                data_path=$(realpath "../Ref_program_test/triangle.mem")
                 ;;
             *)
                 echo "Invalid choice"
@@ -71,25 +71,25 @@ case $choice in
 
         ;;
     3)
-        inst_path = $(realpath "../Type B-J test/b_test.mem")
+        inst_path=$(realpath "../Type B-J test/b_test.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
         ;;
     4)
-        inst_path = $(realpath "../Type I test/i_test.mem")
+        inst_path=$(realpath "../Type I test/i_test.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
         ;;
     5)
-        inst_path = $(realpath "../Type I-S test/is_test.mem")
+        inst_path=$(realpath "../Type I-S test/is_test.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
         ;;
     6)
-        inst_path = $(realpath "../Type R test/r_test.mem")
+        inst_path=$(realpath "../Type R test/r_test.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
