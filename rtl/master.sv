@@ -1,7 +1,3 @@
-`include "orange.sv"
-`include "green.sv"
-`include "P_C.sv"
-
 module master #(
     parameter DATA_WIDTH = 32,
     parameter ADDR_WIDTH = 32

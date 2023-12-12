@@ -1,7 +1,3 @@
-`include "reg_file.sv"
-`include "data_mem.sv"
-`include "alu.sv"
-
 module orange #(
     parameter DATA_WIDTH = 32
 ) (

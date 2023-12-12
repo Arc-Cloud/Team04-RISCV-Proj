@@ -8,7 +8,7 @@ rm CPU.vcd
 
 # fetch
 verilator -Wall --cc ../../rtl_pipelined/PC.sv
-verilator -Wall --cc ../../rtl_pipelined/instmem.sv
+verilator -Wall --cc ../../rtl_pipelined/inst_mem.sv
 verilator -Wall --cc -I"../../rtl_pipelined" ../../rtl_pipelined/fetch.sv
 
 # decode pipeline
