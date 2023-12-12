@@ -20,9 +20,17 @@ logic [STORAGE_WIDTH-1:0] ram_array [2**17-1:0];
 logic [16:0] addr = A[16:0];  // get least 17 bits of address
 
 initial begin
-	$display("Loading data memory..");
-	$readmemh("/Users/ism/Repositories/Team04-RISCV-Proj/testing/Type I test/i_test.m", ram_array, 20'h10000);
-    $display("Data memory loaded");
+    string path;
+    int file;
+    file = $fopen("../../rtl/datamem_path.txt", "r"); // this true as the working directory is the one containing the testbench
+    if (file) $display("Data file opened successfully");
+    else $display("File could not be opened, %0d", file);
+    $fgets(path, file);
+    $fclose(file);
+
+    $display("Loading data memory...");
+    $readmemh(path, ram_array, 20'h10000);
+    $display("Data memory loaded....");// instr.mem to be preloaded depending on the program to be executed
 end
 
 // writing to memory (store instructions)

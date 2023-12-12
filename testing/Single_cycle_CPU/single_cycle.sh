@@ -13,11 +13,11 @@ if [ ! -e "$absolute_path" ]; then
 fi
 
 # Write absolute path to file
-echo "$absolute_path" > ../../rtl/instmem_path.txt
+printf "%s" "$absolute_path" > ../../rtl/instmem_path.txt
 
 # Request datamem path from user
 echo "Please enter the absolute path of the data memory file to load:"
-read absolute_path
+read -r absolute_path
 
 # Check if the file exists
 if [ ! -e "$absolute_path" ]; then
@@ -25,21 +25,22 @@ if [ ! -e "$absolute_path" ]; then
     exit 1
 fi
 # Write absolute path to file
-echo "$absolute_path" > ../../rtl/datamem_path.txt
+printf '%s' "$absolute_path" > ../../rtl/datamem_path.txt
+
 
 
 # run Verilator to translate Veriliog to C++, including C++ testbench
 
-verilator -Wall --cc ../../rtl/alu.sv
-verilator -Wall --cc ../../rtl/reg_file.sv
-verilator -Wall --cc ../../rtl/data_mem.sv
+verilator -Wall --cc -I../../rtl ../../rtl/alu.sv
+verilator -Wall --cc -I../../rtl  ../../rtl/reg_file.sv
+verilator -Wall --cc -I../../rtl  ../../rtl/data_mem.sv
 verilator -Wall --cc -I../../rtl  ../../rtl/orange.sv 
 
-verilator -Wall --cc ../../rtl/P_C.sv
+verilator -Wall --cc -I../../rtl ../../rtl/P_C.sv
 
-verilator -Wall --cc ../../rtl/sextend.sv
-verilator -Wall --cc ../../rtl/inst_mem.sv
-verilator -Wall  ../../rtl/control.sv
+verilator -Wall --cc -I../../rtl  ../../rtl/sextend.sv
+verilator -Wall --cc -I../../rtl  ../../rtl/inst_mem.sv
+verilator -Wall --cc -I../../rtl  ../../rtl/control.sv
 verilator -Wall --cc -I../../rtl ../../rtl/green.sv
 
 
