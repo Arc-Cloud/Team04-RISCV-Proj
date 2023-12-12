@@ -12,10 +12,11 @@ logic [STORAGE_WIDTH-1:0] rom_array [32'hbfc00fff:32'hbfc00000];
 initial begin
     string path;
     int file;
-    file = $fopen("../../rtl/instmem_path.txt", "r");
+    file = $fopen("../../rtl_pipelined/instmem_path.txt", "r");
     if (file) $display("Instr file opened successfully");
     else $display("File could not be opened, %0d", file);
     $fgets(path, file);
+    $display("path: %s", path);
     $fclose(file);
     
 
