@@ -5,3 +5,4 @@ obj_dir
 tree.txt
 rtl_pipelined/instmem.sv
 testing/Pipelined_CPU/vbuddy.cfg
+*.txt
