@@ -104,10 +104,9 @@ esac
 
 echo "Select which CPU to use"
 echo "1. Single cycle CPU"
-echo "2. Pipelined CPU"
-echo "3. Cached CPU"
+echo "2. Pipelined CPU with instruction cache"
 
-read -p "Enter your choice (1-3): " choice3
+read -p "Enter your choice (1-2): " choice3
 
 case $choice3 in
     1)
@@ -149,6 +148,9 @@ case $choice3 in
         verilator -Wall --cc ../../rtl_pipelined/inst_mem.sv
         verilator -Wall --cc -I"../../rtl_pipelined" ../../rtl_pipelined/fetch.sv
 
+        # cache
+        verilator -Wall --cc ../../cache/direct_mapped.sv
+
         # decode pipeline
         verilator -Wall --cc ../../rtl_pipelined/decode_pipeline.sv
 
@@ -183,7 +185,7 @@ case $choice3 in
         verilator -Wall --cc ../../rtl_pipelined/hazard_unit.sv
 
         # master
-        verilator -Wall --cc --trace -I../../rtl_pipelined ../../rtl_pipelined/pipelined_cpu.sv --exe pipe_cpu_tb.cpp
+        verilator -Wall --cc --trace -I../../rtl_pipelined -I../../cache ../../rtl_pipelined/pipelined_cpu.sv --exe pipe_cpu_tb.cpp
 
         # build C++ project via make
         make -j -C obj_dir -f Vpipelined_cpu.mk Vpipelined_cpu
@@ -192,9 +194,6 @@ case $choice3 in
         obj_dir/Vpipelined_cpu
         ;;
 
-    3)
-        echo "cache"
-        ;;
     *)
         echo "Invalid choice"
         exit 1
