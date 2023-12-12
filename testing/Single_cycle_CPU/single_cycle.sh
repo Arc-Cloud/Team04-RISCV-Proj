@@ -4,6 +4,12 @@
 rm -rf obj_dir
 rm -f MasterCPU.vcd
 
+display_menu()
+    echo "Team 04 "
+
+
+
+
 # Obtain absolute path of instmem
 absolute_path=$(realpath "../../rtl/instr.mem")
 # Check if the file exists

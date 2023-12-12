@@ -1,0 +1,1 @@
+/Users/ism/Repositories/Team04-RISCV-Proj/testing/f1_asm test/f1_asm.mem
