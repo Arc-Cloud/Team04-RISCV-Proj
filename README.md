@@ -376,7 +376,13 @@ Next we get cache hits for instructions from `0x08 and 0x14`, but `useCacheM` is
 Running through the loop, we see that this pattern continues until the loop ends.
 
 
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/56346800/0e2d3c0e-fc50-4caa-a0e8-0e125ea84aee
+
+
 The video above shows 2 way assosiative cache working as expected. We get the same waveforms as for direct mapped cache without conflicts
+
+
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/56346800/2055bd05-0e45-4c27-9312-2f3b36f71224
 
 
 The video above shows direct mapped assosiative 100% miss rate. 
