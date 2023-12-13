@@ -19,7 +19,16 @@ The rest of the tests don't use vbuddy, and so don't require register changes in
 ## Joint Statement
 
 ### Testing videos
-These videos show F1 program working for pipelined CPU with data and instruction cache
+These videos show F1 program working for pipelined CPU with data memory cache and instruction memory cache
+
+#### F1 Program:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/755c7d9f-5479-4415-ab45-808032728b06
+
+#### PDF for Noisy:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/9afc98e6-b6ea-4232-8cef-47a439cc9091
+
+
+
 
 
 
