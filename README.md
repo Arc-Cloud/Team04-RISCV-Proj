@@ -23,13 +23,14 @@ These videos show F1 program working for pipelined CPU with data memory cache an
 
 #### F1 Program:
 https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/755c7d9f-5479-4415-ab45-808032728b06
-
 #### PDF for Noisy:
 https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/9afc98e6-b6ea-4232-8cef-47a439cc9091
-
-
-
-
+#### PDF for gaussian:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/1cc1c504-8b78-47e6-87dc-b847287084ad
+#### PDF for sine:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/32c66774-a304-4483-9516-941c7c4444fc
+#### PDF for Triangle:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/2f81b514-5a44-40d3-9832-2ad88b173a33
 
 
 ### Implemented Instructions 
