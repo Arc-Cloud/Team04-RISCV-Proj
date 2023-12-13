@@ -10,8 +10,9 @@ echo "3. Test B-J"
 echo "4. Test I"
 echo "5. Test I-S"
 echo "6. Test R"
+echo "7. Test Data cache"
 
-read -p "Enter your choice (1-6): " choice
+read -p "Enter your choice (1-7): " choice
 
 case $choice in
     1)
@@ -94,6 +95,13 @@ case $choice in
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
         ;;
+
+    7)
+        inst_path=$(realpath "../Data cache test/dcache.mem")
+        printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
+        printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
+        #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
+        ;;
     *)
         echo "Invalid choice"
         exit 1
@@ -146,10 +154,11 @@ case $choice3 in
         # fetch
         verilator -Wall --cc ../../rtl_pipelined/PC.sv
         verilator -Wall --cc ../../rtl_pipelined/inst_mem.sv
-        verilator -Wall --cc -I"../../rtl_pipelined" ../../rtl_pipelined/fetch.sv
+        verilator -Wall --cc -I../../rtl_pipelined ../../rtl_pipelined/fetch.sv
 
         # cache
         verilator -Wall --cc ../../cache/direct_mapped.sv
+        verilator -Wall --cc ../../cache/Nway_assos.sv
 
         # decode pipeline
         verilator -Wall --cc ../../rtl_pipelined/decode_pipeline.sv
@@ -185,7 +194,7 @@ case $choice3 in
         verilator -Wall --cc ../../rtl_pipelined/hazard_unit.sv
 
         # master
-        verilator -Wall --cc --trace -I../../rtl_pipelined -I../../cache ../../rtl_pipelined/pipelined_cpu.sv --exe pipe_cpu_tb.cpp
+        verilator -Wall --cc --trace -I../../rtl_pipelined ../../rtl_pipelined/pipelined_cpu.sv --exe pipe_cpu_tb.cpp
 
         # build C++ project via make
         make -j -C obj_dir -f Vpipelined_cpu.mk Vpipelined_cpu
