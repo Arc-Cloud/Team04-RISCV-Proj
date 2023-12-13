@@ -91,9 +91,9 @@ This method allowed us to have a clear insight into our overall current progress
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
 | -------- | -------- | -------- | -------- | -------- |
 | Maximilian | | | | [Max's Statement](statements/Maximilian.md)
-| Ilan | ![https://github.com/IlanIwumbwe] | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
+| Ilan | ![Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
 | Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
-| Hanif | | | | [Hanif's Statement](statements/Hanif.md) 
+| Hanif | ![Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
 For all our CPU versions, Idrees wrote test benches and unit tests for each instruction type we implemented. He also wrote the [master shell script](testing/Master_test/master_script.sh) used for testing.
 
@@ -334,7 +334,9 @@ Thus, to solve these possible issues that the processor might encounter with pip
 2. Stalling: Stalling a stage means to maintain its state. So the inputs to the stage should not change even when the clock ticks. This allows for load instruction to have its values from memory to be loaded into writeback stage so that it could be forwarded onto the execute stage.
 3. Flushing: This resets the output of the pipeline flip-flops; This is very useful because for example in the case of branch, we do not know whether to jump or not until the branch instruction is in the execution stage, that means the next instruction in the instruction memory would be loaded onto the decode stage, this would create an error if the jump actually occurs therefore we need to flush the decode stage when jump happens as if the instruction had never been loaded to the decode stage.
 
-All three solutions/operations mentioned above are implemented in our pipelined CPU. Each may be used individually or simultaneously for specific cases/instruction 
+All three solutions/operations mentioned above are implemented in our pipelined CPU. Each operation may be used individually or simultaneously for specific cases/instruction. The control signal for forwarding, flush and stall are all produced/controlled by the hazard unit and it makes this decision by reading the operands used 
+
+The instruction that requires special attentions are the following:
 # Cache
 
 ## Cache specifications
