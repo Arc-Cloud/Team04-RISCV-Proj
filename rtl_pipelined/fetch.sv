@@ -13,7 +13,7 @@ module fetch #(
     output logic [DATA_WIDTH-1:0] PCF
 );
 
-
+logic [DATA_WIDTH-1:0] memInstr;
 
 PC counter(
     .clk(clk),
@@ -29,7 +29,7 @@ PC counter(
 
 inst_mem memory(
     .A(PCF),
-    .RD(instrF)
+    .RD(memInstr)
 );
 
 logic hit;
