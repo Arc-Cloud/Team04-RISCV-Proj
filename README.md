@@ -365,7 +365,7 @@ We implemented cache for instructions and data. Initially, we decided to work ou
 
 ## Proof that cache is being used
 
-
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/56346800/15d0b9b6-79ec-404c-936b-5f12210a770f
 
 
 The video above is a screen capture of waveforms produced when CPU with data cache is tested on [the assembly program from lectures](testing/Data%20cache%20test/dcache.asm).
