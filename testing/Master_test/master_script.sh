@@ -10,8 +10,9 @@ echo "3. Test B-J"
 echo "4. Test I"
 echo "5. Test I-S"
 echo "6. Test R"
+echo "7. Test Data cache"
 
-read -p "Enter your choice (1-6): " choice
+read -p "Enter your choice (1-7): " choice
 
 case $choice in
     1)
@@ -90,6 +91,13 @@ case $choice in
         ;;
     6)
         inst_path=$(realpath "../Type R test/r_test.mem")
+        printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
+        printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
+        #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt
+        ;;
+
+    7)
+        inst_path=$(realpath "../Data cache test/dcache.mem")
         printf "%s" "$inst_path" > ../../rtl/instmem_path.txt
         printf "%s" "$inst_path" > ../../rtl_pipelined/instmem_path.txt
         #printf "%s" "$inst_path" > ../../rtl_cached/instmem_path.txt

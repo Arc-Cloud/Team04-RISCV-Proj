@@ -41,14 +41,15 @@ module Nway_assos #(
         used[currentSet] = hit1;
 
         if(hit) dataout = hit1 ? data[currentSet][1] : data[currentSet][0];
+        
+        if(valids[currentSet][1] == 0) wayin = 1;
+        else if (valids[currentSet][0] == 0) wayin = 0;
+        else wayin = ~used[currentSet];
     end
 
     // writing to cache
     always_ff @(posedge clk) begin
         if(WE)begin 
-            if(valids[currentSet][1] == 0) wayin = 1;
-            else if (valids[currentSet][0] == 0) wayin = 0;
-            else wayin = ~used[currentSet];
 
             data[currentSet][wayin] <= datain;
             valids[currentSet][wayin] <= 1;
