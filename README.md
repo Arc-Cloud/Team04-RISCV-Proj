@@ -95,7 +95,6 @@ This method allowed us to have a clear insight into our overall current progress
 | Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
 | Hanif | ![Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
-For all our CPU versions, Idrees wrote test benches and unit tests for each instruction type we implemented. He also wrote the [master shell script](testing/Master_test/master_script.sh) used for testing.
 
 # Single Cycle RV32I Design
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
