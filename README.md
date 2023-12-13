@@ -43,8 +43,6 @@ These videos show F1 program working for pipelined CPU with data and instruction
 ```
 ├───imgs/
 │
-├───cache/
-│
 ├───rtl/
 │
 ├───rtl_pipelined/
@@ -354,9 +352,9 @@ word = 32
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
 | -------- | :--------: | :--------: | :--------: | :--------: |
-| [direct_mapped.sv](cache/direct_mapped.sv) | | C | L |
+| [direct_mapped.sv](rtl_pipelined/direct_mapped.sv) | | C | L |
 | [fetch.sv](rtl_pipelined/fetch.sv) (cache version) | | | L |
-| [Nway_assos.sv](cache/Nway_assos.sv) | | L | C |
+| [Nway_assos.sv](rtl_pipelined/Nway_assos.sv) | | L | C |
 
 Legend: L = Lead C = Contributor
 
