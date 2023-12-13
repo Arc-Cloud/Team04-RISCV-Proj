@@ -91,9 +91,9 @@ This method allowed us to have a clear insight into our overall current progress
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
 | -------- | -------- | -------- | -------- | -------- |
 | Maximilian | | | | [Max's Statement](statements/Maximilian.md)
-| Ilan | ![Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
+| Ilan | [Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
 | Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
-| Hanif | ![Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
+| Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
 
 # Single Cycle RV32I Design
