@@ -1,1 +1,1 @@
-/home/ilan/Desktop/Year2/Team04-RISCV-Proj/testing/Type R test/r_test.mem
+/home/ilan/Desktop/Year2/Team04-RISCV-Proj/testing/F1 program test/f1.mem
