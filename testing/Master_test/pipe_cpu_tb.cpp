@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "../vbuddy.cpp"     
-#define MAX_SIM_CYC 1000000
+#define MAX_SIM_CYC 1500000
 
 int main(int argc, char **argv, char **env) {
     int simcyc;
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env) {
     // intialise
     top->clk = 1;
     top->rst = 0;
-    top->testRegAddress = 21;
+    top->testRegAddress = 10;
     
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
@@ -43,9 +43,11 @@ int main(int argc, char **argv, char **env) {
         //vbdHex(2, ((top->testRegData) >> 4) & 0xF);
         //vbdHex(1, top->testRegData & 0xF);
 
-        vbdBar(top->testRegData & 0xFF);
+        // vbdBar(top->testRegData & 0xFF);
 
-        vbdCycle(simcyc);
+        if(simcyc > 1200000){vbdPlot(top->testRegData,0,255); vbdCycle(simcyc);}
+
+        //vbdCycle(simcyc);
     
         // either simulation finished, or 'q' is pressed
         if (Verilated::gotFinish() || vbdGetkey()=='q')
@@ -55,5 +57,4 @@ int main(int argc, char **argv, char **env) {
     vbdClose();
     tfp->close();   
     exit(0);
-
 }

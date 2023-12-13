@@ -3,7 +3,7 @@ module execute #(
     parameter REG_FILE_ADDRESS_WIDTH = 5,
     parameter NUM_INPUTS = 4
 )(
-    //input logic clk, // not used
+    input logic clk, // not used
 
     input logic JumpE,
     input logic BranchE,
@@ -19,10 +19,17 @@ module execute #(
     input logic [DATA_WIDTH-1:0] ResultW,
     input logic [DATA_WIDTH-1:0] ALUResultM,
 
+    input logic [DATA_WIDTH-1:0] ReadDataM,
+    input logic cachehitM,
+    input logic useCacheM,
+
     output logic PCSrcE,
     output logic [DATA_WIDTH-1:0] PCTargetE,
     output logic [DATA_WIDTH-1:0] ALUResultE,
-    output logic [DATA_WIDTH-1:0] WriteDataE
+    output logic [DATA_WIDTH-1:0] WriteDataE,
+
+    output logic [DATA_WIDTH-1:0] cacheDataE,
+    output logic cachehitE 
 );
 
     logic [DATA_WIDTH-1:0] SrcAE;
@@ -63,5 +70,28 @@ module execute #(
         .Zero(ZeroE),
         .ALUResult(ALUResultE)
     );
+
+    /*direct_mapped cache(
+        .clk(clk),
+        .address((~cachehitM && useCacheM) ? ALUResultM : ALUResultE),
+        .datain(ReadDataM),
+        .WE(~cachehitM && useCacheM),
+
+        .hit(cachehitE),
+        .dataout(cacheDataE)
+    );*/
+
+    Nway_assos cache(
+        .clk(clk),
+        .address((~cachehitM && useCacheM) ? ALUResultM : ALUResultE),
+        .datain(ReadDataM),
+        .WE(~cachehitM && useCacheM),
+
+        .hit(cachehitE),
+        .dataout(cacheDataE)
+    );
+
+
+
 
 endmodule

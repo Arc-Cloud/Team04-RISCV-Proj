@@ -199,7 +199,11 @@ logic [DATA_WIDTH-1:0] ALUResultE;
 logic [DATA_WIDTH-1:0] PCTargetE;
 logic [DATA_WIDTH-1:0] WriteDataE;
 
+logic [DATA_WIDTH-1:0] cacheDataE;
+logic cachehitE;
+
 execute execute(
+    .clk(clk),
     // Inputs
     .JumpE(JumpE),
     .BranchE(BranchE),
@@ -210,6 +214,10 @@ execute execute(
     .PCE(PCE),
     .ExtImmE(ExtImmE),
 
+    .ReadDataM(ReadDataM),
+    .cachehitM(cachehitM),
+    .useCacheM(useCacheM),
+
     .ForwardAE(ForwardAE),
     .ForwardBE(ForwardBE),
     .ResultW(ResultW),
@@ -219,7 +227,10 @@ execute execute(
     .PCSrcE(PCSrcE),
     .PCTargetE(PCTargetE),
     .ALUResultE(ALUResultE),
-    .WriteDataE(WriteDataE)
+    .WriteDataE(WriteDataE),
+
+    .cacheDataE(cacheDataE),
+    .cachehitE(cachehitE)
 );
 
 
@@ -238,6 +249,9 @@ logic [REG_FILE_ADDRESS_WIDTH-1:0] RdM;
 logic [2:0]                        AddressingControlM;
 logic [DATA_WIDTH-1:0]             PCPlus4M;
 
+logic [DATA_WIDTH-1:0] cacheDataM;
+logic cachehitM;
+
 memory_pipeline memory_pipeline(
     // Inputs
     .clk(clk),
@@ -249,6 +263,9 @@ memory_pipeline memory_pipeline(
     .RdE(RdE),
     .PCPlus4E(PCPlus4E),
     .AddressingControlE(AddressingControlE),
+
+    .cacheDataE(cacheDataE),
+    .cachehitE(cachehitE),
     
     // Outputs
     .RegWriteM(RegWriteM),
@@ -258,8 +275,10 @@ memory_pipeline memory_pipeline(
     .WriteDataM(WriteDataM),
     .RdM(RdM),
     .PCPlus4M(PCPlus4M),
-    .AddressingControlM(AddressingControlM)
+    .AddressingControlM(AddressingControlM),
 
+    .cacheDataM(cacheDataM),
+    .cachehitM(cachehitM)
 );
 
 
@@ -295,13 +314,17 @@ logic [4:0]            RdW;
 logic                  RegWriteW;
 logic [DATA_WIDTH-1:0] PCPlus4W;
 
+logic useCacheM;
+
+assign useCacheM = ResultSrcM[0] & AddressingControlM[1];
+
 writeback_pipeline writeback_pipeline(
     // Inputs
     .clk(clk),
     .RegWriteM(RegWriteM),
     .ResultSrcM(ResultSrcM),
     .ALUResultM(ALUResultM),
-    .ReadDataM(ReadDataM),
+    .ReadDataM((cachehitM & useCacheM) ? cacheDataM : ReadDataM),
     .RdM(RdM),
     .PCPlus4M(PCPlus4M),
 

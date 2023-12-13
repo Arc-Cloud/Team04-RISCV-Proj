@@ -12,6 +12,9 @@ module memory_pipeline #(
     input logic [DATA_WIDTH-1:0] PCPlus4E,
     input logic [2:0]            AddressingControlE,
 
+    input logic [DATA_WIDTH-1:0] cacheDataE,
+    input logic cachehitE,
+
 
     output logic RegWriteM,
     output logic [1:0] ResultSrcM,
@@ -20,7 +23,10 @@ module memory_pipeline #(
     output logic [DATA_WIDTH-1:0] WriteDataM,
     output logic [REG_FILE_ADDRESS_WIDTH-1:0] RdM,
     output logic [DATA_WIDTH-1:0] PCPlus4M,    
-    output logic [2:0]            AddressingControlM
+    output logic [2:0]            AddressingControlM,
+
+    output logic [DATA_WIDTH-1:0] cacheDataM,
+    output logic cachehitM
 );
 
     always_ff @(posedge clk) begin
@@ -32,6 +38,9 @@ module memory_pipeline #(
         RdM <= RdE;
         PCPlus4M <= PCPlus4E;
         AddressingControlM <= AddressingControlE;
+
+        cacheDataM <= cacheDataE;
+        cachehitM <= cachehitE;
     end
         
 endmodule
