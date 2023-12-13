@@ -363,4 +363,20 @@ Legend: L = Lead C = Contributor
 We implemented cache for instructions and data. Initially, we decided to work out how to get instruction cache to work since it would be easier; we only need to work in one pipelined stage. Once we got that working and tested, we had a go at making data cache work. We implemented 2 system verilog blocks for direct mapped and 2 way assosiative, and reused them in the fetch and execute stages for our instruction cache and data cache respectively.
 
 
+## Proof that cache is being used
+
+
+
+
+The video above is a screen capture of waveforms produced when CPU with data cache is tested on [the assembly program from lectures](testing/Data%20cache%20test/dcache.asm).
+
+`PCE` shows memory address of the instruction currently in execute stage. We see that `useCacheM` is high when `PCE = 0x10, 0x14, 0x18`. At these points, the instruction in memory stage is each of the lw instructions, and `useCacheM` is high only for lw instructions, so this works as expected. We also see that we get no hits, as expected.
+
+
+Next we get cache hits for instructions from `0x08 and 0x14`, but `useCacheM` is high only for `PCE = 0x10, 0x14, 0x18`; only the lw instructions. So the hit we get by the branch instruction is meaningless, we only consider hits by the load instructions. 
+
+Running through the loop, we see that this pattern continues until the loop ends.
+
+
+
 
