@@ -376,5 +376,12 @@ Next we get cache hits for instructions from `0x08 and 0x14`, but `useCacheM` is
 Running through the loop, we see that this pattern continues until the loop ends.
 
 
+The video above shows 2 way assosiative cache working as expected. We get the same waveforms as for direct mapped cache without conflicts
+
+
+The video above shows direct mapped assosiative 100% miss rate. 
+
+We see that we always have `useCacheM` high when `PCE = 0x10, 0x14`, which is when either one of the load instructions are in the memory stage. We see that `useCacheM` is always low as expected.
+
 
 
