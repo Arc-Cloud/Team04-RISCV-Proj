@@ -13,8 +13,6 @@ module fetch #(
     output logic [DATA_WIDTH-1:0] PCF
 );
 
-logic [DATA_WIDTH-1:0] memInstr;
-
 PC counter(
     .clk(clk),
     .reset(reset),
@@ -27,6 +25,8 @@ PC counter(
     .PCF(PCF)
 );
 
+logic [DATA_WIDTH-1:0] memInstr;
+
 inst_mem memory(
     .A(PCF),
     .RD(memInstr)
@@ -35,7 +35,17 @@ inst_mem memory(
 logic hit;
 logic [DATA_WIDTH-1:0] cacheInstr;
 
-direct_mapped cache (
+/*direct_mapped cache (
+    .clk(clk),
+    .address(PCF),
+    .datain(memInstr),
+    .WE(~hit),
+
+    .hit(hit),
+    .dataout(cacheInstr)
+);*/
+
+Nway_assos cache (
     .clk(clk),
     .address(PCF),
     .datain(memInstr),

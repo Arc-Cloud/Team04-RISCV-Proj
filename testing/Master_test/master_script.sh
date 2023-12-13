@@ -146,10 +146,11 @@ case $choice3 in
         # fetch
         verilator -Wall --cc ../../rtl_pipelined/PC.sv
         verilator -Wall --cc ../../rtl_pipelined/inst_mem.sv
-        verilator -Wall --cc -I"../../rtl_pipelined" ../../rtl_pipelined/fetch.sv
+        verilator -Wall --cc -I../../rtl_pipelined ../../rtl_pipelined/fetch.sv
 
         # cache
         verilator -Wall --cc ../../cache/direct_mapped.sv
+        verilator -Wall --cc ../../cache/Nway_assos.sv
 
         # decode pipeline
         verilator -Wall --cc ../../rtl_pipelined/decode_pipeline.sv
@@ -185,7 +186,7 @@ case $choice3 in
         verilator -Wall --cc ../../rtl_pipelined/hazard_unit.sv
 
         # master
-        verilator -Wall --cc --trace -I../../rtl_pipelined -I../../cache ../../rtl_pipelined/pipelined_cpu.sv --exe pipe_cpu_tb.cpp
+        verilator -Wall --cc --trace -I../../rtl_pipelined ../../rtl_pipelined/pipelined_cpu.sv --exe pipe_cpu_tb.cpp
 
         # build C++ project via make
         make -j -C obj_dir -f Vpipelined_cpu.mk Vpipelined_cpu

@@ -22,7 +22,7 @@ logic [16:0] addr = A[16:0];  // get least 17 bits of address
 initial begin
 	string path;
     int file;
-    file = $fopen("../../rtl/datamem_path.txt", "r"); // this true as the working directory is the one containing the testbench
+    file = $fopen("../../rtl_pipelined/datamem_path.txt", "r"); // this true as the working directory is the one containing the testbench
     if (file) $display("Data file opened successfully");
     else $display("File could not be opened, %0d", file);
     $fgets(path, file);
