@@ -1,16 +1,49 @@
 # Team04-RISCV-CPU
 
+## Testing the CPU
+
+- Move into the `testing/Master_test` directory
+- There is a shell script called `master_test.sh`
+- Run this shell script, and you will see a menu, where you choose the version of CPU you want to run (single cycle / pipelined with cache), and which test to run
+
+In order to view values in a particular register of the CPU, we added a signal `testRegAddress` which is controlled at the top level module, and outputs data from a given register at the signal `testRegData`. This allows use to use register data to view outputs on vbuddy, which is useful for pdf plots and f1 program.
+
+### When testing F1 and pdf:
+- Move into the `testing/Master_test` directory
+- Choose the `cpu_tb.cpp` test bench using single cycle, and `pipe_cpu_tb.cpp` if testing pipelined cpu 
+- Change the `top->testRegAddress` to the register you are insterested in.
+- Change the code in the loop to use plotting, vbdBar, or vbd hex display as required.
+
+The rest of the tests don't use vbuddy, and so don't require register changes in the test bench.
+
 ## Joint Statement
 
-### Overall Approach
-  - Complete lab 4 with design that works for 2 instructions, although not scalable
-  - Restart with design that easily scales for more instructions
-  - Start and complete single cycle CPU with as many instructions as possible
+### Testing videos
+These videos show F1 program working for pipelined CPU with data and instruction cache
+
+
+
+### Implemented Instructions 
+#### R-Type
+`add` `sub` `sll` `slt` `sltu` `xor` `srl` `sra` `or` `and`
+#### B-Type
+`beq` `bne` `blt` `bge` `bgeu` `bltu`
+#### I-Type
+`addi` `slli` `slti` `sltiu` `xori` `srli` `srai` `ori` `andi` `lb` `lh` `lw` `lbu` `lhu` `jalr`
+#### J-Type
+`jal`
+#### S-Type
+`sb` `sh` `sw`
+#### U-Type
+`lui`
   
+*  `blt` `bge` `bgeu` `bltu` have only been implemented in the pipelined version. Single cycle only implements `beq` and `bne`.
 
 ## Repo Structure & Logic
 ```
 ├───imgs/
+│
+├───cache/
 │
 ├───rtl/
 │
@@ -25,7 +58,9 @@
     │   vbuddy.cfg
     │   vbuddy.cpp
     │
-    ├───f1_asm test/
+    ├───Data cache test/
+    │
+    ├───F1 program test/
     │
     ├───Pipelined_CPU/
     │
@@ -56,13 +91,12 @@ This method allowed us to have a clear insight into our overall current progress
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
 | -------- | -------- | -------- | -------- | -------- |
 | Maximilian | | | | [Max's Statement](statements/Maximilian.md)
-| Ilan | | | | [Ilan's Statement](statements/Ilan.md) 
+| Ilan | [Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
 | Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
-| Hanif | | | | [Hanif's Statement](statements/Hanif.md) 
+| Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
 
 # Single Cycle RV32I Design
-### Contributions
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
 | alu.sv | C | L | | C
@@ -246,20 +280,6 @@ The addressing control is 3 bits wide, the MSB is to choose between signed or un
 
 ![Single Cycle CPU Schematic](imgs/SingleCycleCpu.jpeg)
 
-### Implemented Instructions 
-#### R-Type
-`add` `sub` `sll` `slt` `sltu` `xor` `srl` `sra` `or` `and`
-#### B-Type
-`beq` `bne`
-#### I-Type
-`addi` `slli` `slti` `sltiu` `xori` `srli` `srai` `ori` `andi` `lb` `lh` `lw` `lbu` `lhu` `jalr`
-#### J-Type
-`jal`
-#### S-Type
-`sb` `sh` `sw`
-#### U-Type
-`lui`
-
 # Pipelined RV32I Design
 
 We also added the rest of the branch instructions that weren't implemented in single cycle
@@ -288,21 +308,56 @@ We also added the rest of the branch instructions that weren't implemented in si
 
 Legend: `L` = Lead `C` = Contributor
 
+## Pipelining
 
-Info on Pipelined RV32I Design ....
+The pipeline of each stage is the one to its left.
 
-# Instruction Memory Cache
+We decided on this convention since we thought it would be easier to reason about stalling and flushing. Stalling means that the inputs to the stage should not change, while flushing means that the inputs to the stage are zeroed. As such, it made sense to define each pipeline of a stage to be the to its left. 
 
-Only new components have been considered
+The hazard unit produces `StallFetch`, `StallDecode`, `FlushExecute`, `FlushDecode`. These are inputs to the relevant pipelines for those stages that need to be flushed or stalled. Inside the pipelined, when stall signal is high, the signals at the pipeline's inputs are not passed to the outputs, while when flush signal is high, the outputs are low. 
+
+Each pipeline is in its own module, and those that are flushed / stalled at some point have internal signals to control that. 
+Each stage is in its own module; the inputs to the modul
+ are those that are actually used for computing some value in that stage, while those that aren't used are connected directly to the next pipeline in the [top level module](rtl_pipelined/pipelined_cpu.sv). 
+## Hazard Unit
+
+The [Hazard unit](./rtl_pipelined/hazard_unit.sv) allows for the pipelined CPU to be able to perform instructions correctly without incurring delays for some special cases to ensure that it is as efficient as possible.
+
+There are 3 different cases that we encountered to posses a challenge to pipelining and might result in an error if not taken care of and those cases are the following:
+1. When wwe use a register as an operand that was written to in the previous cycle.
+2. When we have branch instruction where we only know if we jump or not two cycles later in the execute stage.
+3. Load instructions where it takes an extra cycle to load data. 
+
+Thus, to solve these possible issues that the processor might encounter with pipelining we implement the following in our design:
+1. Forwarding: allows the value of a register to be used in an operation right after it was written without having to wait for it to go through all the pipelining stages.
+2. Stalling: Stalling a stage means to maintain its state. So the inputs to the stage should not change even when the clock ticks. This allows for load instruction to have its values from memory to be loaded into writeback stage so that it could be forwarded onto the execute stage.
+3. Flushing: This resets the output of the pipeline flip-flops; This is very useful because for example in the case of branch, we do not know whether to jump or not until the branch instruction is in the execution stage, that means the next instruction in the instruction memory would be loaded onto the decode stage, this would create an error if the jump actually occurs therefore we need to flush the decode stage when jump happens as if the instruction had never been loaded to the decode stage.
+
+All three solutions/operations mentioned above are implemented in our pipelined CPU. Each operation may be used individually or simultaneously for specific cases/instruction. The control signal for forwarding, flush and stall are all produced/controlled by the hazard unit and it makes this decision by reading the operands used 
+
+The instruction that requires special attentions are the following:
+# Cache
+
+## Cache specifications
+
+word = 32
+
+| Version | Capacity(words) | Words written at once | Blocks in cache | Blocks / set | Sets
+| -------- | :--------: | :--------: | :--------: | :--------: | :--------: |
+| Direct mapped | 8 | 1 | 8 | 1 | 8 |
+| 2 way assosiative | 8 | 1 | 8 | 2 | 4 |
+
+*Only new components have been considered in this table.*
 
 | Component | Maximilian | Ilan | Hanif | Idrees |
 | -------- | :--------: | :--------: | :--------: | :--------: |
-| direct_mapped.sv | | C | C |
-| fetch.sv (cache version) | | | L |
-| | | | |
+| [direct_mapped.sv](cache/direct_mapped.sv) | | C | L |
+| [fetch.sv](rtl_pipelined/fetch.sv) (cache version) | | | L |
+| [Nway_assos.sv](cache/Nway_assos.sv) | | L | C |
 
 Legend: L = Lead C = Contributor
 
-Info on Data Memory Cache ....
+We implemented cache for instructions and data. Initially, we decided to work out how to get instruction cache to work since it would be easier; we only need to work in one pipelined stage. Once we got that working and tested, we had a go at making data cache work. We implemented 2 system verilog blocks for direct mapped and 2 way assosiative, and reused them in the fetch and execute stages for our instruction cache and data cache respectively.
+
 
 
