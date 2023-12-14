@@ -33,10 +33,53 @@ This method allowed us to have a clear insight into our overall current progress
 In order to view values in a particular register of the CPU, we added a signal `testRegAddress` which is controlled at the top level module, and outputs data from a given register at the signal `testRegData`. This allows use to use register data to view outputs on vbuddy, which is useful for pdf plots and f1 program.
 
 ### When testing F1 and pdf:
+
 - Move into the `testing/Master_test` directory
 - Choose the `cpu_tb.cpp` test bench using single cycle, and `pipe_cpu_tb.cpp` if testing pipelined cpu 
-- Change the `top->testRegAddress` to the register you are insterested in.
-- Change the code in the loop to use plotting, vbdBar, or vbd hex display as required.
+
+Below is a code snippet of the test bench. This code is the same for both single cycle and pipelined with cache test benches. 
+
+```C++
+    top->testRegAddress = 21;
+
+    // run simulation for MAX_SIM_CYC clock cycles
+    for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
+        // dump variables into VCD file and toggle clock
+        for (tick=0; tick<2; tick++) {
+            tfp->dump (2*simcyc+tick);
+            top->clk = !top->clk;
+            top->eval ();
+        }
+
+        // Use Vbuddy hex display
+        // send a0 value to 7 seg display
+        //vbdHex(4, ((top->Result) >> 16) & 0xF);
+        //vbdHex(3, ((top->Result) >> 8) & 0xF);
+        //vbdHex(2, ((top->Result) >> 4) & 0xF);
+        //vbdHex(1, top->Result & 0xF);
+
+        // Use Vbuddy bar
+        vbdBar(top->Result & 0xFF);
+        vbdCycle(simcyc);
+
+        // Test pdf plots
+        //if(simcyc > 1200000){vbdPlot(top->testRegData,0,255); vbdCycle(simcyc);}
+    
+        // either simulation finished, or 'q' is pressed
+        if (Verilated::gotFinish() || vbdGetkey()=='q')
+            exit(0);
+    }
+```
+- Our F1 program uses register s5 for the output. Therefore, to reproduce our results, you must:
+    1. Change the `top->testRegAddress` signal to 21
+    2. Comment out the code under the `// Use Vbuddy hex display` and `// Test pdf plots` comments
+    3. Allow code under the `// Use Vbuddy bar` comment to be compiled
+
+- The pdf program uses register a0 for the output. Therefore, to reproduce pdf plots, you must: 
+    1. Change the `top->testRegAddress` signal to 10
+    2. Comment out the code under the `// Use Vbuddy bar` and `// Use Vbuddy hex display` comments
+    3. Allow code under the `// Test pdf plots` comment to be compiled
+
 
 The rest of the tests don't use vbuddy, and so don't require register changes in the test bench.
 
