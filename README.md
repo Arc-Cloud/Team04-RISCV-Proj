@@ -132,7 +132,7 @@ There's a `Zero` flag that connects to the control unit, which is high whenever 
 
 ---
 
-The Program Counter (PC) module serves to control the instruction flow within the processor. The module includes a register to store the PC and combinational logic to determine the next PC value, labelled `PCNext`.
+The [Program Counter](/rtl/P_C.sv) module serves to control the instruction flow within the processor. The module includes a register to store the PC and combinational logic to determine the next PC value, labelled `PCNext`.
 
 Inputs to the PC module include:
 - `rst`: A reset input that sets the PC to a known start address when activated.
