@@ -6,6 +6,8 @@
 
 [Jump](#cache) to Cached CPU Documentation
 
+**Important: `rtl_pipelined` implements pipelining with cache functionality.**
+
 ## Repo Structure & Logic
 
 As a team we decided to manage our repo in the following manner:
@@ -80,7 +82,7 @@ Responsibilty was then subdivided for parts of the CPU to individual team member
 ## Implementation
 
 ### F1 ASM
-As a team we produced the following [f1_asm.s](testing/f1_asm.s) code. 
+As a team we produced the following [f1_asm.s](testing/F1%20program%20test/f1_asm.s) code. 
 
 Simulating sequential illumination of Formula 1 start lights, where each light is represented by a bit in register s2 that is turned on one after another and then turned off after a specified duration.
 
@@ -271,11 +273,13 @@ The addressing control is 3 bits wide, the MSB is to choose between signed or un
 | instmem.sv | | | L | C
 | memory.sv | | | L | C
 | memory_pipeline.sv | | L | | C
-| mux.sv | | L | |
 | pipelined_cpu.sv | L | L | | C
 | register_file.sv | L | | |
 | writeback.sv | | L | | C
 | writeback_pipeline.sv | | L | | C
+| hazard_unit.sv | | L | | 
+
+`mux.sv` is a 4 input multiplexer used as 3 instances in the architecture.
 
 Legend: `L` = Lead `C` = Contributor
 
@@ -287,7 +291,7 @@ Legend: `L` = Lead `C` = Contributor
 
 #### ALU
 
-#### Memory 
+Additions were made to the [alu block](rtl_pipelined/alu.sv). It implements the rest of the branch type instructions, by setting the `Zero` flag high whenever a branch test is passed for example, for `blt`, if `SrcA < SrcB`, `Zero` is high. This means that if the current instruction in execute stage happens to be a branch type instruction and the test is passed, `BranchE` will be high from the control unit, and so will `Zero` from the ALU. As such, `ALUSrc` will be high, and a branch will be effected. 
 
 #### Control Unit 
 
