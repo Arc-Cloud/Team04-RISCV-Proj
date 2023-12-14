@@ -419,6 +419,19 @@ Next we get cache hits for instructions from `0x08 and 0x14`, but `useCacheM` is
 
 Running through the loop, we see that this pattern continues until the loop ends.
 
+The next 2 videos are results for this program:
+
+```
+    addi s0, zero, 5
+    addi s1, zero, 0
+    LOOP: beq s0, zero, DONE
+    lw s2, 0x4(s1)
+    lw s4, 0x24(s1)
+    addi s0, s0, -1
+    j LOOP
+    DONE:
+```
+This should give us 100% miss rate on direct mapped cache, and the same waveforms as above for 2 way assosiative.
 
 https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/56346800/0e2d3c0e-fc50-4caa-a0e8-0e125ea84aee
 
@@ -429,7 +442,7 @@ The video above shows 2 way assosiative cache working as expected. We get the sa
 https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/56346800/2055bd05-0e45-4c27-9312-2f3b36f71224
 
 
-The video above shows direct mapped assosiative 100% miss rate. 
+The video above shows direct mapped assosiative 100% miss rate
 
 We see that we always have `useCacheM` high when `PCE = 0x10, 0x14`, which is when either one of the load instructions are in the memory stage. We see that `useCacheM` is always low as expected.
 
