@@ -1,7 +1,18 @@
 # Team04-RISCV-CPU
 
-## Joint Statement
+[Jump](#single-cycle-rv32i-design) to Single Cycle CPU Documentation 
 
+[Jump](#pipelined-rv32i-design) to Pipelined CPU Documentation
+
+[Jump](#cache) to Cached CPU Documentation
+
+## Repo Structure & Logic
+
+As a team we decided to manage our repo in the following manner:
+- Have one main where the current latest finalised and tested implementation of all versions of the cpu are kept in their individual folders
+- Once a cpu version has been complemeted merge all relevant branches into the main and then delete all unessecary branches for repo cleanliness before moving onto the next version of the cpu
+
+This method allowed us to have a clear insight into our overall current progress, and keep our repo clean and easily interpreted when viewed for examination. 
 
 ## Details & Personal Statements
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
@@ -43,53 +54,6 @@ https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/32c66774-a304-448
 https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/2f81b514-5a44-40d3-9832-2ad88b173a33
  
 
-## Repo Structure & Logic
-```
-├───imgs/
-│
-├───rtl/
-│
-├───rtl_pipelined/
-│
-├───statements/
-│
-└───testing
-    │   .DS_Store
-    │   format_hex.py
-    │   real_path.sh
-    │   vbuddy.cfg
-    │   vbuddy.cpp
-    │
-    ├───Data cache test/
-    │
-    ├───F1 program test/
-    │
-    ├───Pipelined_CPU/
-    │
-    ├───Ref program test/
-    │
-    ├───Single_cycle_CPU/
-    │
-    ├───Test results/
-    │
-    ├───TestingForPC/
-    │
-    ├───Type B-J test/
-    │
-    ├───Type I test/
-    │
-    ├───Type I-S test/
-    │
-    └───Type R test/
-```
-
-As a team we decided to manage our repo in the following manner:
-- Have one main where the current latest finalised and tested implementation of all versions of the cpu are kept in their individual folders
-- Once a cpu version has been complemeted merge all relevant branches into the main and then delete all unessecary branches for repo cleanliness before moving onto the next version of the cpu
-
-This method allowed us to have a clear insight into our overall current progress, and keep our repo clean and easily interpreted when viewed for examination. 
-
-
 # Single Cycle RV32I Design
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
 | -------- | :--------: | :--------: | :--------: | :--------: |
@@ -118,21 +82,21 @@ Responsibilty was then subdivided for parts of the CPU to individual team member
 ### F1 ASM
 As a team we produced the following [f1_asm.s](testing/f1_asm.s) code. 
 
-Simulating sequential illumination of Formula 1 start lights, where each light is represented by a bit in a register that is turned on one after another and then turned off after a specified duration.
+Simulating sequential illumination of Formula 1 start lights, where each light is represented by a bit in register s2 that is turned on one after another and then turned off after a specified duration.
 
-The program begins execution at the `main` label, where it jumps to the `init` subroutine using `JAL ra, init`, which also saves the return address in the `ra` register. After initializing the necessary registers, the program returns to `main` and loops indefinitely due to the `jal zero, main` instruction.
+The program commences at the `main` label, where the `JAL` instruction jumps to the `init` label, storing the return address in the `ra` register. The infinite loop is established with the `j main` instruction, which causes the program to jump back to `main` continuously.
 
-In the `init` subroutine:
-- `s2` is initialized to 0, which will serve as the iterative light control variable.
-- `s3` is set to `0xff` (binary `11111111`), representing all lights being on.
-- `s5` is initialized to 0 and will hold the result of the bitwise AND operation between `s2` and `s3`.
-- `s4` is set to 8, which will act as a countdown timer for the duration the lights are on.
+The `init` label initializes the registers as follows:
+- `s2` is set to `0x0` and will be used to track the status of the lights.
+- `s3` is loaded with `0xff`, representing the state where all lights are illuminated.
+- `s5` is initialized to `0x0` and will store the result of the logical AND operation.
+- `s4` is set to `0x4`, serving as a timer for the delay loop.
 
-The `loopi` label begins the process of sequentially turning on the lights. `s2` is shifted left by one position and then incremented by 1, simulating the turning on of the next light. The `and` instruction computes the current state of the lights, which is stored in `s5`.
+The `loopi` label marks the start of the light sequence. The `slli` instruction shifts `s2` to the left by one bit, and `addi` then increments `s2` by 1, simulating the activation of the next light in the sequence. The `and` operation updates `s5` with the current lights status.
 
-After setting a light, the program enters the `wait` loop, which decrements `s4` until it reaches zero, acting as a delay. Once the countdown is finished, `s4` is reinitialized to the wait value, and if not all lights are on (checked by comparing `s2` and `s3`), the program jumps back to `loopi` to turn on the next light.
+At the `wait` label, a delay loop is implemented using `s4`. The `addi` instruction decrements `s4` by one until `s4` equals zero, upon which `s4` is reset to `0x4`. If not all the lights have been activated (`s2` does not equal `s3`), the program branches back to `loopi` to continue the sequence.
 
-Once all lights are on (when `s2` equals `s3`), `s5` is set to 0, turning off all the lights, and the program returns from the `init` subroutine using the `RET` instruction.
+Once the sequence is complete and all lights are on (`s2` equals `s3`), `s5` is reset to `0`, turning off all the lights. The program then exits the `init` subroutine with the `RET` instruction.
 
 ### ALU
 
@@ -272,7 +236,7 @@ The addressing control is 3 bits wide, the MSB is to choose between signed or un
 #### R-Type
 `add` `sub` `sll` `slt` `sltu` `xor` `srl` `sra` `or` `and`
 #### B-Type
-`beq` `bne` `blt` `bge` `bgeu` `bltu`
+`beq` `bne` 
 #### I-Type
 `addi` `slli` `slti` `sltiu` `xori` `srli` `srai` `ori` `andi` `lb` `lh` `lw` `lbu` `lhu` `jalr`
 #### J-Type
@@ -290,7 +254,6 @@ The addressing control is 3 bits wide, the MSB is to choose between signed or un
 
 # Pipelined RV32I Design
 
-We also added the rest of the branch instructions that weren't implemented in single cycle
 
 ### Contributions
 | Component | Maximilian &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Ilan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Hanif &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| Idrees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|
@@ -316,7 +279,19 @@ We also added the rest of the branch instructions that weren't implemented in si
 
 Legend: `L` = Lead `C` = Contributor
 
-## Pipelining
+## Planning
+
+## Implementation
+
+### Changes to Existing Modules
+
+#### ALU
+
+#### Memory 
+
+#### Control Unit 
+
+### Pipelining
 
 The pipeline of each stage is the one to its left.
 
@@ -327,7 +302,8 @@ The hazard unit produces `StallFetch`, `StallDecode`, `FlushExecute`, `FlushDeco
 Each pipeline is in its own module, and those that are flushed / stalled at some point have internal signals to control that. 
 Each stage is in its own module; the inputs to the modul
  are those that are actually used for computing some value in that stage, while those that aren't used are connected directly to the next pipeline in the [top level module](rtl_pipelined/pipelined_cpu.sv). 
-## Hazard Unit
+
+### Hazard Unit
 
 The [Hazard unit](./rtl_pipelined/hazard_unit.sv) allows for the pipelined CPU to be able to perform instructions correctly without incurring delays for some special cases to ensure that it is as efficient as possible.
 
@@ -346,6 +322,13 @@ All three solutions/operations mentioned above are implemented in our pipelined 
 Lw issue is solved by stalling the decode and fetch stages. As such, we must flush the execute stage to prevent incorrect data from propagating forward.
 
 If a control hazard is detected, the execute and decode stages are flushed (2 instructions after branch instruction are flushed) before moving to correct instruction. 
+
+### New Instructions
+
+#### B-Type
+`blt` `bge` `bgeu` `bltu`
+
+##
 
 ## Finalised Pipelined CPU Schematic
 
