@@ -27,7 +27,7 @@ int main(int argc, char **argv, char **env) {
     top->clk = 1;
     top->rst = 0;
     top->testRegAddress = 21;
-    
+
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
         // dump variables into VCD file and toggle clock
@@ -37,17 +37,19 @@ int main(int argc, char **argv, char **env) {
             top->eval ();
         }
 
+        // Use Vbuddy hex display
         // send a0 value to 7 seg display
-        //vbdHex(4, ((top->testRegData) >> 16) & 0xF);
-        //vbdHex(3, ((top->testRegData) >> 8) & 0xF);
-        //vbdHex(2, ((top->testRegData) >> 4) & 0xF);
-        //vbdHex(1, top->testRegData & 0xF);
+        //vbdHex(4, ((top->Result) >> 16) & 0xF);
+        //vbdHex(3, ((top->Result) >> 8) & 0xF);
+        //vbdHex(2, ((top->Result) >> 4) & 0xF);
+        //vbdHex(1, top->Result & 0xF);
 
-        vbdBar(top->testRegData & 0xFF);
-
-        //if(simcyc > 1200000){vbdPlot(top->testRegData,0,255); vbdCycle(simcyc);}
-
+        // Use Vbuddy bar
+        vbdBar(top->Result & 0xFF);
         vbdCycle(simcyc);
+
+        // Test pdf plots
+        //if(simcyc > 1200000){vbdPlot(top->testRegData,0,255); vbdCycle(simcyc);}
     
         // either simulation finished, or 'q' is pressed
         if (Verilated::gotFinish() || vbdGetkey()=='q')
