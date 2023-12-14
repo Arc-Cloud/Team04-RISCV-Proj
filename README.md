@@ -6,7 +6,7 @@
 ## Details & Personal Statements
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
 | -------- | -------- | -------- | -------- | -------- |
-| Maximilian | | | | [Max's Statement](statements/Maximilian.md)
+| Maximilian | [Arc-Cloud](https://github.com/Arc-Cloud)| 02286647 | maximilian.adam22@imperial.ac.uk | [Max's Statement](statements/Maximilian.md)
 | Ilan | [Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
 | Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
 | Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
@@ -350,7 +350,7 @@ If a control hazard is detected, the execute and decode stages are flushed (2 in
 
 ## Finalised Pipelined CPU Schematic
 
-[PipelinedCPUSchematic](/imgs/PipelinedCPU.jpeg)
+![PipelinedCPUSchematic](/imgs/PipelinedCPU.jpeg)
 
 # Cache
 
