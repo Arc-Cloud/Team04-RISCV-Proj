@@ -3,6 +3,15 @@
 ## Joint Statement
 
 
+## Details & Personal Statements
+| Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
+| -------- | -------- | -------- | -------- | -------- |
+| Maximilian | | | | [Max's Statement](statements/Maximilian.md)
+| Ilan | [Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
+| Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
+| Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
+
+
 ## Repo Structure & Logic
 ```
 ├───imgs/
@@ -48,14 +57,6 @@ As a team we decided to manage our repo in the following manner:
 - Once a cpu version has been complemeted merge all relevant branches into the main and then delete all unessecary branches for repo cleanliness before moving onto the next version of the cpu
 
 This method allowed us to have a clear insight into our overall current progress, and keep our repo clean and easily interpreted when viewed for examination. 
-
-## Details & Personal Statements
-| Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
-| -------- | -------- | -------- | -------- | -------- |
-| Maximilian | | | | [Max's Statement](statements/Maximilian.md)
-| Ilan | [Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
-| Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
-| Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
 
 # Single Cycle RV32I Design
@@ -346,6 +347,10 @@ All three solutions/operations mentioned above are implemented in our pipelined 
 Lw issue is solved by stalling the decode and fetch stages. As such, we must flush the execute stage to prevent incorrect data from propagating forward.
 
 If a control hazard is detected, the execute and decode stages are flushed (2 instructions after branch instruction are flushed) before moving to correct instruction. 
+
+## Finalised Pipelined CPU Schematic
+
+[PipelinedCPUSchematic](/imgs/PipelinedCPU.jpeg)
 
 # Cache
 
