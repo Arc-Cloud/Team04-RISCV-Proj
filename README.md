@@ -355,16 +355,16 @@ Each stage is in its own module; the inputs to the modul
 The [Hazard unit](./rtl_pipelined/hazard_unit.sv) allows for the pipelined CPU to be able to perform instructions correctly without incurring delays for some special cases to ensure that it is as efficient as possible.
 
 There are 3 different cases that we encountered to posses a challenge to pipelining and might result in an error if not taken care of and those cases are the following:
-1. When wwe use a register as an operand that was written to in the previous cycle. (RAW hazard)
+1. When we use a register as an operand that was written to in the previous cycle. (RAW hazard)
 2. When we have branch instruction where we only know if we jump or not two cycles later in the execute stage.
 3. Load instructions where it takes an extra cycle to load data. 
 
 Thus, to solve these possible issues that the processor might encounter with pipelining we implement the following in our design:
-1. Forwarding: allows the value of a register to be used in an operation right after it was written without having to wait for it to go through all the pipelining stages.
+1. Forwarding: allows the value of a register to be used in an operation right after it was written without having to wait for it to go through all the pipelining stages. 
 2. Stalling: Stalling a stage means to maintain its state. So the inputs to the stage should not change even when the clock ticks. This allows for load instruction to have its values from memory to be loaded into writeback stage so that it could be forwarded onto the execute stage.
 3. Flushing: This resets the output of the pipeline flip-flops; This is very useful because for example in the case of branch, we do not know whether to jump or not until the branch instruction is in the execution stage, that means the next instruction in the instruction memory would be loaded onto the decode stage, this would create an error if the jump actually occurs therefore we need to flush the decode stage when jump happens as if the instruction had never been loaded to the decode stage.
 
-All three solutions/operations mentioned above are implemented in our pipelined CPU. Each operation may be used individually or simultaneously for specific cases/instruction. The control signal for forwarding, flush and stall are all produced/controlled by the hazard unit. RAW hazards are mitigated by forwarding from the Writeback or memory stages into the execute stage. If the current instruction in execute stage has a source register that's the same as the destination register as an instruction currently in writeback or memory stage, forward data from writeback or memory stages respectively. We also only forward data from instructions that were going to write to a register. 
+All three solutions/operations mentioned above are implemented in our pipelined CPU. Each operation may be used individually or simultaneously for specific cases/instruction. The control signal for forwarding, flush and stall are all produced/controlled by the hazard unit. RAW hazards are mitigated by forwarding from the Writeback or memory stages into the execute stage. If the current instruction in execute stage has a source register that's the same as the destination register as an instruction currently in writeback or memory stage, forward data from writeback or memory stages respectively. We also only forward data from instructions that were going to write to a register. The zero register is never forwarded because it never has meaningful data being written to it (it is hardwired to zero).
 
 Lw issue is solved by stalling the decode and fetch stages. As such, we must flush the execute stage to prevent incorrect data from propagating forward.
 
