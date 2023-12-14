@@ -80,7 +80,7 @@ module execute #(
         .hit(cachehitE),
         .dataout(cacheDataE)
     );*/
-
+    
     Nway_assos cache(
         .clk(clk),
         .address((~cachehitM && useCacheM) ? ALUResultM : ALUResultE),
