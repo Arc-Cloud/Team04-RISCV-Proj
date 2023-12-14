@@ -11,6 +11,37 @@
 | Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
 | Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
+## Testing the CPU
+
+- Move into the `testing/Master_test` directory
+- There is a shell script called `master_test.sh`
+- Run this shell script, and you will see a menu, where you choose the version of CPU you want to run (single cycle / pipelined with cache), and which test to run
+
+In order to view values in a particular register of the CPU, we added a signal `testRegAddress` which is controlled at the top level module, and outputs data from a given register at the signal `testRegData`. This allows use to use register data to view outputs on vbuddy, which is useful for pdf plots and f1 program.
+
+### When testing F1 and pdf:
+- Move into the `testing/Master_test` directory
+- Choose the `cpu_tb.cpp` test bench using single cycle, and `pipe_cpu_tb.cpp` if testing pipelined cpu 
+- Change the `top->testRegAddress` to the register you are insterested in.
+- Change the code in the loop to use plotting, vbdBar, or vbd hex display as required.
+
+The rest of the tests don't use vbuddy, and so don't require register changes in the test bench.
+
+
+### Testing videos
+These videos show F1 program working for pipelined CPU with data memory cache and instruction memory cache
+
+#### F1 Program:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/755c7d9f-5479-4415-ab45-808032728b06
+#### PDF for Noisy:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/9afc98e6-b6ea-4232-8cef-47a439cc9091
+#### PDF for gaussian:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/1cc1c504-8b78-47e6-87dc-b847287084ad
+#### PDF for sine:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/32c66774-a304-4483-9516-941c7c4444fc
+#### PDF for Triangle:
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/2f81b514-5a44-40d3-9832-2ad88b173a33
+ 
 
 ## Repo Structure & Logic
 ```
@@ -193,38 +224,6 @@ Say `x12 = 0x12345678` then the instruction `sh x12,2(a10)` will change the data
 
 Using these examples, memory was implmented correctly.
 
-
-## Testing the CPU
-
-- Move into the `testing/Master_test` directory
-- There is a shell script called `master_test.sh`
-- Run this shell script, and you will see a menu, where you choose the version of CPU you want to run (single cycle / pipelined with cache), and which test to run
-
-In order to view values in a particular register of the CPU, we added a signal `testRegAddress` which is controlled at the top level module, and outputs data from a given register at the signal `testRegData`. This allows use to use register data to view outputs on vbuddy, which is useful for pdf plots and f1 program.
-
-### When testing F1 and pdf:
-- Move into the `testing/Master_test` directory
-- Choose the `cpu_tb.cpp` test bench using single cycle, and `pipe_cpu_tb.cpp` if testing pipelined cpu 
-- Change the `top->testRegAddress` to the register you are insterested in.
-- Change the code in the loop to use plotting, vbdBar, or vbd hex display as required.
-
-The rest of the tests don't use vbuddy, and so don't require register changes in the test bench.
-
-
-### Testing videos
-These videos show F1 program working for pipelined CPU with data memory cache and instruction memory cache
-
-#### F1 Program:
-https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/755c7d9f-5479-4415-ab45-808032728b06
-#### PDF for Noisy:
-https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/9afc98e6-b6ea-4232-8cef-47a439cc9091
-#### PDF for gaussian:
-https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/1cc1c504-8b78-47e6-87dc-b847287084ad
-#### PDF for sine:
-https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/32c66774-a304-4483-9516-941c7c4444fc
-#### PDF for Triangle:
-https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/2f81b514-5a44-40d3-9832-2ad88b173a33
- 
 ## Design Decisions
 
 ### Control Decoder Table
