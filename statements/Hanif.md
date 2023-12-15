@@ -354,7 +354,7 @@ This way I implemeted the idea of caching onto the instruction memory.
 
 ## Additional Special Designs
 
-### JARL
+### JALR
 
 *Relevant Commits*
 
