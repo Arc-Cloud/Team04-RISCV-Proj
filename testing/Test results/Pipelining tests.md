@@ -8,9 +8,17 @@ to this:
 ![Fixed forwarding.png](/testing/Test%20results/Testing_imgs/Pipelined/Fixed%20forwarding.png)
 
 Once all tests passed we moved on to the F1 and PDF programs
+
 ### F1 program
 
 The F1 program remains unchanged, just requires verification of functionality
+
+We start well with flushing the execute stage to prepare for the jump to init and initialisation begins.
+![F1 init](Testing_imgs/Pipelined/F1%20init.png)
+
+Initialisation of the registers completes successfully. To then prepare for the RAW hazard in loopi we set forwarding AE and BE to 10, then we flush the execute 3 cycles later to account for the first branch hazard. We then flush again due to the second bne and then one more time for the ending of the loop when we use RET and call JALR.
+![F1 hazards](Testing_imgs/Pipelined/F1%20hazards.png)
+All the while s2 is successfully incrementing to simulate the f1 lights. Program is also shown working in the video
 
 
 

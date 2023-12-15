@@ -15,7 +15,7 @@ We quite quickly reached a state where all tests were complete and we started wo
   
 ### F1 Program test
 
-Written program is linked here:
+
 
 
 
