@@ -4,9 +4,9 @@
 
 ### __Rasendriya Hanif Rais__
 
-## Contribution Overview:
+### Contribution:
 
-### Single-Cycle
+#### Single-Cycle
 
 * [control.sv](../rtl/control.sv) (lead)
 * [green.sv](../rtl/control.sv) (lead)
@@ -14,7 +14,7 @@
 * [data_mem.sv](../rtl/data_mem.sv) (contributor)
 * [instmem.sv](../rtl/inst_mem.sv) (contributor)
 
-### Pipelining
+#### Pipelining:
 
 * [PC.sv](../rtl_pipelined/PC.sv)(lead)
 * [data_mem.sv](../rtl_pipelined/data_mem.sv) (lead)
@@ -23,7 +23,7 @@
 * [instmem.sv](../rtl_pipelined/inst_mem.sv)(lead)
 * [memory.sv](../rtl_pipelined/memory.sv) (lead)
 
-### Cache
+#### Cache:
 
 * [direct_mapped.sv](../rtl_pipelined/direct_mapped.sv) (lead)
 * [Nway_assos.sv](../rtl_pipelined/Nway_assos.sv) (contributor)
