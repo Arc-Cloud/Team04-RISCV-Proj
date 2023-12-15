@@ -40,8 +40,43 @@ In order to view values in a particular register of the CPU, we added a signal `
 Below is a code snippet of the test bench. This code is the same for both single cycle and pipelined with cache test benches. 
 
 ```C++
-    top->testRegAddress = 21;
+int main(int argc, char **argv, char **env) {
+    int simcyc;
+    int tick;
 
+    char prog = argv[argc-1][0];
+
+    Verilated::commandArgs(argc, argv);
+    // init top verilog instance
+    Vmaster* top = new Vmaster;
+    // init trace dump
+    Verilated::traceEverOn(true);
+    VerilatedVcdC* tfp = new VerilatedVcdC;
+    top->trace (tfp, 99);
+    tfp->open ("CPU.vcd");
+
+    //init Vbuddy
+    if (vbdOpen()!=1) {
+        std::cout << "vbuddy.cfg located in /testing/Master_test/" << std::endl;
+        return(-1);
+    }
+    vbdHeader("CPU CW");
+
+    // intialise
+    top->clk = 1;
+    top->rst = 0;
+    top->trigger = 0;
+
+    if (prog == 'a') {
+        // We run the PDF program
+        top->testRegAddress = 10;
+        std::cout << "Running PDF program" << std::endl;
+    }
+    else {
+        top->testRegAddress = 21;
+        std::cout << "Running other program" << std::endl;
+    }
+    
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
         // dump variables into VCD file and toggle clock
@@ -51,38 +86,23 @@ Below is a code snippet of the test bench. This code is the same for both single
             top->eval ();
         }
 
-        // Use Vbuddy hex display
-        // send a0 value to 7 seg display
-        //vbdHex(4, ((top->Result) >> 16) & 0xF);
-        //vbdHex(3, ((top->Result) >> 8) & 0xF);
-        //vbdHex(2, ((top->Result) >> 4) & 0xF);
-        //vbdHex(1, top->Result & 0xF);
+        // Test data
+        if(simcyc > 1200000){
+            vbdPlot(top->Result,0,255);
+            vbdBar(top->Result & 0xFF);
+            vbdCycle(simcyc);
+        }
 
-        // Use Vbuddy bar
-        vbdBar(top->Result & 0xFF);
-        vbdCycle(simcyc);
-
-        // Test pdf plots
-        //if(simcyc > 1200000){vbdPlot(top->testRegData,0,255); vbdCycle(simcyc);}
-    
         // either simulation finished, or 'q' is pressed
         if (Verilated::gotFinish() || vbdGetkey()=='q')
             exit(0);
     }
+    vbdClose();
+    tfp->close();   
+    exit(0);
+}
 ```
-- Our F1 program uses register s5 for the output. Therefore, to reproduce our results, you must:
-    1. Change the `top->testRegAddress` signal to 21
-    2. Comment out the code under the `// Use Vbuddy hex display` and `// Test pdf plots` comments
-    3. Allow code under the `// Use Vbuddy bar` comment to be compiled
-
-- The pdf program uses register a0 for the output. Therefore, to reproduce pdf plots, you must: 
-    1. Change the `top->testRegAddress` signal to 10
-    2. Comment out the code under the `// Use Vbuddy bar` and `// Use Vbuddy hex display` comments
-    3. Allow code under the `// Test pdf plots` comment to be compiled
-
-
-The rest of the tests don't use vbuddy, and so don't require register changes in the test bench.
-
+- The master script written in /testing/Master_test automatically configures the outputs depending on the program being run by passing arguments on execution
 
 ### Testing videos
 These videos show F1 program working for pipelined CPU with data memory cache and instruction memory cache

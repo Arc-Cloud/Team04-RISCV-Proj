@@ -24,7 +24,7 @@ Simulation was ran with the Gaussian waveform
 - Hazard unit correctly flushes the execute stage once the BNE instruction reaches decode to avoid branch hazard
 ![CPU initialisation](Testing_imgs/Pipelined/CPU%20initialisation%20pipe.png)
 - Once we are finished with loop 1 we flush twice since we have jumped back to main, then we prepare to jump to build which occurs successfully and initialisation is successful 
- ![[End of init.png]]
+ ![End of init.png](Testing_imgs/Pipelined/End%20of%20init.png)
 
 
 - Loop 2 has been entered, a5 is incrementing successfully, and the correct values from data mem are written into t0.
@@ -35,9 +35,6 @@ Simulation was ran with the Gaussian waveform
 - All the fix required was that we hadn't applied the offset of 0x10000 when initialising in system verilog, denoted by commit 80cc125
 - Post fixes, the loop behaves as expected
 
-![[Initialisation build.png]]
+![Initialisation build.png](Testing_imgs/Pipelined/Initialisation%20build.png)
 - We successfully return and jump to the display stage (300000 cycles later!)
-- The output signal on a0 showed a clear correlation to a gaussian distribution, peaking at the value C8 at index 108.
-
-Show video of it working
-
+- The output signal on a0 shows a clear correlation to a gaussian distribution, peaking at the value C8 at index 108 and appears to work in the video shown in the readme.
