@@ -3,8 +3,31 @@
 ## Personal Statement of Contributions
 
 ### __Rasendriya Hanif Rais__
+
 ## Contribution Overview:
+
 ### Single-Cycle
+
+* [control.sv](../rtl/control.sv) (lead)
+* [green.sv](../rtl/control.sv) (lead)
+* [sextend.sv](../rtl/sextend.sv)(lead)
+* [data_mem.sv](../rtl/data_mem.sv) (contributor)
+* [instmem.sv](../rtl/inst_mem.sv) (contributor)
+
+### Pipelining
+
+* [PC.sv](../rtl_pipelined/PC.sv)(lead)
+* [data_mem.sv](../rtl_pipelined/data_mem.sv) (lead)
+* [decode_pipeline.sv](../rtl_pipelined/decode_pipeline.sv) (lead)
+* [Fetch.sv](../rtl_pipelined/fetch.sv) (lead)
+* [instmem.sv](../rtl_pipelined/inst_mem.sv)(lead)
+* [memory.sv](../rtl_pipelined/memory.sv) (lead)
+
+### Cache
+
+* [direct_mapped.sv](../rtl_pipelined/direct_mapped.sv) (lead)
+* [Nway_assos.sv](../rtl_pipelined/Nway_assos.sv) (contributor)
+
 
 
 ## Sign Extension Unit
