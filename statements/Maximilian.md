@@ -98,6 +98,12 @@ _Changes made to Sign Extend_: For the pipelined [sign extend](../rtl_pipelined/
 
 
 
+### Memory Pipeline
+
+Helped to properly integrate the memory pipeline with the rest of the cpu by assisting in detecting and adding missing signals in the [memory_pipeline](../rtl_pipelined/memory_pipeline.sv) module.
+
+
+
 ### Top Level Pipelined CPU
 I collaboratively implemented the [Top Level Pipelined CPU](../rtl_pipelined/pipelined_cpu.sv) <sup>[8](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/b25d41d3b54a6e7d73d05234c3feaa0290ed629b)</sup> with Ilan, integrating all modules cohesively, ensuring efficient and error-free operation.
 
@@ -148,6 +154,9 @@ Here is a summary of the functionality that the top level pipelined CPU implemen
     - The `hazard_unit` module manages data hazards and controls stalling and flushing of the pipeline stages.
     - It ensures correct data forwarding and synchronization between different stages.
 
+
+
+
 ### Schematic
 ![Pipelined CPU](../imgs/PipelinedCPU.jpeg)
 
@@ -183,6 +192,7 @@ I created the framework of our README And led the coding of f1.asm and created i
     - **Pipeline Registers**: The inclusion of pipeline registers ([decode_pipeline](../rtl_pipelined/decode_pipeline.sv), [execute_pipeline](../rtl_pipelined/execute_pipeline.sv), [memory_pipeline](../rtl_pipelined/memory_pipeline.sv), [writeback_pipeline](../rtl_pipelined/writeback_pipeline.sv)) between each stage helped in isolating the stages and ensured smooth data flow across the pipeline. This was crucial for maintaining a consistent and uninterrupted instruction flow.
     - **Forwarding and Control Logic**: The logic for forwarding (e.g., `ForwardAE`, `ForwardBE`) and various control signals (like `RegWrite`, `MemWrite`, `ALUSrc`) ensure that the correct data is used at each stage of the pipeline. This minimizes the delays typically associated with pipeline hazards.
     - **Branch and Jump Handling**: The design also accommodates efficient handling of branches and jumps (`PCSrcE`, `PCTargetE`), which are critical for the performance of control flow instructions in our CPU.
+
 
 
 ## Reflection
