@@ -449,6 +449,9 @@ We introduced caching mechanisms for both instructions and data. Our initial foc
 
 ## Proof that cache is being used
 
+
+**If the following videos do not work, they are contained within the /imgs folder**
+
 https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/33992400/e28dd883-036e-4780-bffe-a70179a75b80
 
 
