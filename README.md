@@ -336,11 +336,11 @@ Legend: `L` = Lead `C` = Contributor
 
 ### Changes to Existing Modules
 
-#### ALU
+#### ALU Pipelined
 
 Additions were made to the [alu block](rtl_pipelined/alu.sv). It implements the rest of the branch type instructions, by setting the `Zero` flag high whenever a branch test is passed for example, for `blt`, if `SrcA < SrcB`, `Zero` is high. This means that if the current instruction in execute stage happens to be a branch type instruction and the test is passed, `BranchE` will be high from the control unit, and so will `Zero` from the ALU. As such, `ALUSrc` will be high, and a branch will be effected. 
 
-#### Control Unit 
+#### Control Unit Pipelined
 
 The improvements in the control unit module improve efficiency, readability, and robustness of control logic. This includes better handling of instruction types, streamlined input processing, and the introduction of new control signals for enhanced functionality. 
 key differences:

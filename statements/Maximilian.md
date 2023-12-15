@@ -61,16 +61,37 @@ However after conversation with Ilan we decided it was unnecessary due to the li
 ## Work Done on Pipelined CPU
 
 ### Decode Block
-I was responsible for the implementation of the Decode Block<sup>[5](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5bcc1413d680a26ff638a1ce9f6d9b4e19436818)</sup>, Integrating The Register File, Control Unit and Sign Extend Blocks to prepare them for pipelining.
+I was responsible for the implementation of the Decode Block<sup>[5](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5bcc1413d680a26ff638a1ce9f6d9b4e19436818)</sup>, Integrating The Register File, Control Unit and Sign Extend Blocks to prepare them for pipelining. The module's primary function is to interpret and translate the binary instruction data (`instrD`) into specific control signals and operational codes, which guide the subsequent stages of instruction execution. 
+
+Initially the module extracts critical information from the instruction data, such as source and destination register addresses (Rs1D, Rs2D, RdD), by parsing specific bits of the instruction.
+```systemverilog 
+always_comb begin
+    Rs1D = instrD [19:15];
+    Rs2D = instrD [24:20];
+    RdD = instrD[11:7];
+end
+```
 
 #### Register File
-I reviewed the original implementation of the [register file](../rtl/reg_file.sv) ensuring it was able to interface correctly with the new pipelined cpu and confirmed the existing logic<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup>.
+The Decode module interfaces with the [register_file](../rtl_pipelined/register_file.sv) sub-module to manage CPU register operations, including reading register values and facilitating write-backs. 
+
+_Changes Made to the Register File_:
+I reviewed the original implementation of the [register file](../rtl/reg_file.sv) ensuring it was able to interface correctly with the new pipelined cpu and confirmed the existing logic<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup>. 
+
+
 
 #### Control Unit
-I enhanced the [Control Unit](../rtl_pipelined/control_unit.sv) in the Pipelined CPU<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> to handle more instruction sets and control logic. Implementing JALRInstrD and expanding the number of branch instructions, while also cleaning up and improving existing logic control such as in the use of funct7.
+
+Through the [control_unit](../rtl_pipelined/control_unit.sv) sub-module, Decode produces various control signals (RegWriteD, ResultSrcD, MemWriteD, JumpD, etc.) that dictate the operation of other processor components.
+
+_Changes made to the Control Unit_: I enhanced the [Control Unit](../rtl_pipelined/control_unit.sv) in the Pipelined CPU<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> to handle more instruction sets and control logic. Implementing JALRInstrD and expanding the number of branch instructions, while also cleaning up and improving existing logic control such as in the use of funct7. All changes stated in the [README](../README.md/#control-unit-pipelined). 
+
 
 #### Sign Extend
-For the pipelined [sign extend](../rtl_pipelined/extend.sv) block I introduced compatibility<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> so that it could interact with the rest of the pipelined cpu design. And also discussed with the rest of the team how we would address the bits of the Immediate Input to the block within sign extend before settling on having the bits retain their same index as from InstrD.
+
+Utilizing the [extend](../rtl_pipelined/extend.sv) sub-module, the Decode module handles the sign-extension of immediate values from the instruction, used for certain arithmetic and memory operations.
+
+_Changes made to Sign Extend_: For the pipelined [sign extend](../rtl_pipelined/extend.sv) block I introduced compatibility<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> so that it could interact with the rest of the pipelined cpu design. And also discussed with the rest of the team how we would address the bits of the Immediate Input to the block within sign extend before settling on having the bits retain their same index as from InstrD.
 
 #### Execute pipeline
  I then created the interface for the decode block to interact with the execute block seen in the [Execute Pipeline](../rtl_pipelined/execute_pipeline.sv) module<sup>[5](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5bcc1413d680a26ff638a1ce9f6d9b4e19436818)</sup> which serves as a buffer and control point between the decode and execute stages of the pipelined CPU. It ensures that the instructions and data decoded in the Decode stage are correctly passed to the Execution stage in a controlled, clock-synchronized manner. This is crucial for maintaining the integrity and order of our operations in the pipelined CPU, where multiple instructions are processed in different stages of the pipeline simultaneously.
