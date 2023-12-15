@@ -15,12 +15,12 @@ We quite quickly reached a state where all tests were complete and we started wo
   
 ### F1 Program test
 
-
-
-
-
-
-  
+Program initialises correct values into the 4 s registers with no issues
+![F1 init](Testing_imgs/Single%20cycle/F1%20init.png)
+The main loop begins and we start incrementing the s2 register, which functions as intended
+![F1 loop.png](Testing_imgs/Single%20cycle/F1%20loop.png)
+The loop behaves consistently at every iteration and successfully resets its value once it is complete.
+![F1 complete.png](Testing_imgs/Single%20cycle/F1%20complete.png) 
 
 ### Reference program test
 
