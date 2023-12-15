@@ -1,6 +1,6 @@
 # Idrees
 
-My role on the team mostly revolved around a very holistic overlook on the whole project, beginning with building the master TLD file for our Single Cycle CPU. Once the others had finished the first version of the single cycle I was tasked with simulating the CPU and getting it in a running state so that we can debug the control flow and test with written programs. I wrote the bash scripts necessary and the C++ test bench. This also required continuous maintenance of our file structure, file and variable naming.
+My role within the team was predominantly centered around providing a comprehensive overview of the entire project. This began with constructing the master TLD file for our Single Cycle CPU. Following the completion of the initial version by the team, my responsibility shifted to simulating the CPU and ensuring its operational state for debugging the control flow and testing with written programs. This involved writing the necessary bash scripts and the C++ test bench, along with consistent maintenance of our file structure, file, and variable naming.
 
 I wrote 4 assembly programs grouped by instruction type to test our instruction set. An example for testing branch and jump instructions is below. 
 
