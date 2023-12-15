@@ -33,6 +33,7 @@ _I was also responsible for drawing all schematics_
 
 **Superscript numbers contain links to the relevant commit**
 
+
 ### Program Counter
 I Led the coding of the [Program Counter](../rtl/P_C.sv)<sup>[1](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5f1035bc690de260ca8776ba0ff26a439735f1da)</sup>, keeping careful consideration of timing and data flow to ensure accurate instruction sequencing was implemented throughout the CPU. A description of the module which I have written can be [found](../README.md/#pc) in the README.
 
@@ -60,16 +61,37 @@ However after conversation with Ilan we decided it was unnecessary due to the li
 ## Work Done on Pipelined CPU
 
 ### Decode Block
-I was responsible for the implementation of the Decode Block<sup>[5](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5bcc1413d680a26ff638a1ce9f6d9b4e19436818)</sup>, Integrating The Register File, Control Unit and Sign Extend Blocks to prepare them for pipelining.
+I was responsible for the implementation of the Decode Block<sup>[5](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5bcc1413d680a26ff638a1ce9f6d9b4e19436818)</sup>, Integrating The Register File, Control Unit and Sign Extend Blocks to prepare them for pipelining. The module's primary function is to interpret and translate the binary instruction data (`instrD`) into specific control signals and operational codes, which guide the subsequent stages of instruction execution. 
+
+Initially the module extracts critical information from the instruction data, such as source and destination register addresses (Rs1D, Rs2D, RdD), by parsing specific bits of the instruction.
+```systemverilog 
+always_comb begin
+    Rs1D = instrD [19:15];
+    Rs2D = instrD [24:20];
+    RdD = instrD[11:7];
+end
+```
 
 #### Register File
-I reviewed the original implementation of the [register file](../rtl/reg_file.sv) ensuring it was able to interface correctly with the new pipelined cpu and confirmed the existing logic<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup>.
+The Decode module interfaces with the [register_file](../rtl_pipelined/register_file.sv) sub-module to manage CPU register operations, including reading register values and facilitating write-backs. 
+
+_Changes Made to the Register File_:
+I reviewed the original implementation of the [register file](../rtl/reg_file.sv) ensuring it was able to interface correctly with the new pipelined cpu and confirmed the existing logic<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup>. 
+
+
 
 #### Control Unit
-I enhanced the [Control Unit](../rtl_pipelined/control_unit.sv) in the Pipelined CPU<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> to handle more instruction sets and control logic. Implementing JALRInstrD and expanding the number of branch instructions, while also cleaning up and improving existing logic control such as in the use of funct7.
+
+Through the [control_unit](../rtl_pipelined/control_unit.sv) sub-module, Decode produces various control signals (RegWriteD, ResultSrcD, MemWriteD, JumpD, etc.) that dictate the operation of other processor components.
+
+_Changes made to the Control Unit_: I enhanced the [Control Unit](../rtl_pipelined/control_unit.sv) in the Pipelined CPU<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> to handle more instruction sets and control logic. Implementing JALRInstrD and expanding the number of branch instructions, while also cleaning up and improving existing logic control such as in the use of funct7. All changes stated in the [README](../README.md/#control-unit-pipelined). 
+
 
 #### Sign Extend
-For the pipelined [sign extend](../rtl_pipelined/extend.sv) block I introduced compatibility<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> so that it could interact with the rest of the pipelined cpu design. And also discussed with the rest of the team how we would address the bits of the Immediate Input to the block within sign extend before settling on having the bits retain their same index as from InstrD.
+
+Utilizing the [extend](../rtl_pipelined/extend.sv) sub-module, the Decode module handles the sign-extension of immediate values from the instruction, used for certain arithmetic and memory operations.
+
+_Changes made to Sign Extend_: For the pipelined [sign extend](../rtl_pipelined/extend.sv) block I introduced compatibility<sup>[6](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/e5769d5e5bcdc0f51bed019106f480e7071da6cd)</sup> so that it could interact with the rest of the pipelined cpu design. And also discussed with the rest of the team how we would address the bits of the Immediate Input to the block within sign extend before settling on having the bits retain their same index as from InstrD.
 
 #### Execute pipeline
  I then created the interface for the decode block to interact with the execute block seen in the [Execute Pipeline](../rtl_pipelined/execute_pipeline.sv) module<sup>[5](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5bcc1413d680a26ff638a1ce9f6d9b4e19436818)</sup> which serves as a buffer and control point between the decode and execute stages of the pipelined CPU. It ensures that the instructions and data decoded in the Decode stage are correctly passed to the Execution stage in a controlled, clock-synchronized manner. This is crucial for maintaining the integrity and order of our operations in the pipelined CPU, where multiple instructions are processed in different stages of the pipeline simultaneously.
@@ -129,7 +151,8 @@ Here is a summary of the functionality that the top level pipelined CPU implemen
 ### Schematic
 ![Pipelined CPU](../imgs/PipelinedCPU.jpeg)
 
-## Cache
+## Work Done on Cache
+While not directly contributing any code to the implementation of cache, drawing the schematic and verifying its logical process through conversation with the team was useful in creating a working integrated cache.
 ### Schematic
 ![Cache Integrated with the Pipelined CPU](../imgs/Integrated%20Cache.jpeg)
 
@@ -140,7 +163,7 @@ I created the framework of our README And led the coding of f1.asm and created i
 
 ## Special Design Decisions
 ### Single Cycle
-- The possibility of using a Load Store Unit to implement store and load instructions was proposed by me, however after reviewing options with the rest of the team the decision was made to implement load and store functionality in the [data memory block](../rtl/data_mem.sv). Negating the need for a load store unit in our design. Upon implementing the new method I highlighted the use of funct3 to control the AddressingControl signal for the data memory block, leading to a leaner and more clean implementation. Seen in lines 111,122 in the [Control Unit](../rtl/control.sv)
+- The possibility of using a Load Store Unit to implement store and load instructions was proposed by me, however after reviewing options with the rest of the team the decision was made to implement load and store functionality in the [data memory block](../rtl/data_mem.sv). Negating the need for a load store unit in our design. 
 - After planning the single cycle cpu design with the team  we created the structure seen in [master.sv](../rtl/master.sv). These are the reasons we decided on such an implementation:
 
     - **Unified Control Path**: Our design uses modules like [green](../rtl/green.sv) and [orange](../rtl/orange.sv) to handle the control unit, instruction memory, ALU operations, and data memory interactions. This integration streamlines the control flow and data path within the CPU.
@@ -151,7 +174,7 @@ I created the framework of our README And led the coding of f1.asm and created i
 
 ### Pipelining
 
-- One design decision we took for pipelining is implementing JALR through the use of the JALRInstr signal as JALR requires specific address calculations and affects branch prediction. The `JALRInstr` signal helps in managing these aspects efficiently within the pipeline, especially in the decode and execute stages. ALso given that JALR affects the program counter (PC), the `JALRInstr` signal is essential for synchronizing the PC updates across different pipeline stages, ensuring correct program execution flow.
+- One design decision we took for pipelining is implementing JALR through the use of the JALRInstr signal as JALR requires specific address calculations and affects branch prediction. The `JALRInstr` signal helps in managing these aspects efficiently within the pipeline, especially in the decode and execute stages. Also given that JALR affects the program counter (PC), the `JALRInstr` signal is essential for synchronizing the PC updates across different pipeline stages, ensuring correct program execution flow.
 
 - Through proposing my ideas and in discussion with the team the pipelined CPU was implemented as according to the schema seen [above](#top-level-pipelined-cpu). The rationale behind our implementation is the following:
     - **Modularity**: The use of separate modules for each pipeline stage ([fetch](../rtl_pipelined/fetch.sv), [decode](../rtl_pipelined/decode.sv), [execute](../rtl_pipelined/execute.sv), [memory](../rtl_pipelined/memory.sv), [writeback](../rtl_pipelined/memory.sv) and sub-components (like [hazard_unit](../rtl_pipelined/hazard_unit.sv)) enhances readability, maintainability, and scalability of the design. This approach allowed for easier debugging and potential future enhancements.
@@ -208,7 +231,7 @@ Learning how to link jumps within a repo, format tables, insert images and video
 #### Teamwork
 Teamwork was definitely the most integral part to our completion of this project, without every member working so well together it wouldn't have been possible to achieve all of our goals.
 
-I have believe I have definitely improved my team-working skills through this project. Improving my ability to:
+I believe I have definitely improved my team-working skills through this project. Improving my ability to:
  - Better communicate ideas
  - Reference other people's ideas before just going ahead with implementation
  - Reach out to others to have a clear understanding of the project as a whole and in what direction it is heading
@@ -247,7 +270,6 @@ Mistakes are inevitably part of any piece of work but I believe we did very well
 ### Takeaways
 From mistakes that I have made and experienced along with everything learnt throughout the project these are my key takeaways from our project:
 - Do not immediately jump to implementation of a module or idea. Ensure your thinking is sound and confer with everyone in the team beforehand to confirm whether a module or idea will integrate well with the rest of the design.
-The most significant takeaway for me is the importance of thorough planning and testing in complex engineering projects.
 - If you are doing a large commit that might affect large parts of the repository always confer with others to make sure you understand the implications it might have
 - Always ensure everyone has something to work on and are not unsure with what they should be doing, and aim to have a larger picture in your mind of where the project currently is and what would be the best next steps to take.
 - Be thorough with testing and be aware of as many edge cases as possible. However do not go overboard and waste time writing tests that check functionality that will never be used.

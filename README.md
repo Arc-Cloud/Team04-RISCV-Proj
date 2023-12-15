@@ -24,6 +24,10 @@ This method allowed us to have a clear insight into our overall current progress
 | Idrees | [idrees-mahmood](https://github.com/idrees-mahmood) | 02061101| idrees.mahmood22@imperial.ac.uk | [Idrees's Statement](statements/Idrees.md) 
 | Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
+## Overall CPU Schematic
+
+![CPU with Pipelining and Integrated Cache](/imgs/Overall%20CPU%20Design.jpeg)
+
 ## Testing the CPU
 
 - Move into the `testing/Master_test` directory
@@ -332,11 +336,26 @@ Legend: `L` = Lead `C` = Contributor
 
 ### Changes to Existing Modules
 
-#### ALU
+#### ALU Pipelined
 
 Additions were made to the [alu block](rtl_pipelined/alu.sv). It implements the rest of the branch type instructions, by setting the `Zero` flag high whenever a branch test is passed for example, for `blt`, if `SrcA < SrcB`, `Zero` is high. This means that if the current instruction in execute stage happens to be a branch type instruction and the test is passed, `BranchE` will be high from the control unit, and so will `Zero` from the ALU. As such, `ALUSrc` will be high, and a branch will be effected. 
 
-#### Control Unit 
+#### Control Unit Pipelined
+
+The improvements in the control unit module improve efficiency, readability, and robustness of control logic. This includes better handling of instruction types, streamlined input processing, and the introduction of new control signals for enhanced functionality. 
+key differences:
+
+- Rename signals like `RegWrite`, `ALUControl`, `MemWrite`, etc. to `RegWriteD`, `ALUControlD`, `MemWriteD`, to prepare for pipeline integration
+
+- Remove the `zero` input and reduce `funct7` to a single logic bit, streamlining inputs
+
+- Introduce new output signals like `JumpD`, `BranchD`, and `JALRInstrD`. These signals add more control functionality, offering finer control over jump, branch, and JALR (Jump and Link Register) instructions.
+
+- Enhances the control logic for B-type instructions by including additional operations (`blt`, `bge`, `bltu`, `bgeu`). case structure simplified for better readability and maintenance.
+
+- default case added in the main `case` statement, ensuring that all control signals are explicitly set to a known state when an unrecognized opcode is encountered.
+
+- more cleanly structured with consistent indentation and improved commenting, improving code readability and maintainability.
 
 ### Pipelining
 
@@ -446,5 +465,6 @@ The video above shows direct mapped assosiative 100% miss rate
 
 We see that we always have `useCacheM` high when `PCE = 0x10, 0x14`, which is when either one of the load instructions are in the memory stage. We see that `useCacheM` is always low as expected.
 
+## Cache Schematic
 
-
+![Cache Integrated with Pipelined CPU](/imgs/Integrated%20Cache.jpeg)
