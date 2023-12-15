@@ -245,6 +245,8 @@ At first I implemented the instruction like we did ROM in the labs which is havi
 
 In our latest version we basically have it the same but we loaded words into the `.mem` a bit differently so each index of the array refers only to a byte not the entire word so to extract the entire word we  concatenate the bytes of the current address and the neighbouring addresses up until index address + 3 to extract the full word.
 
+One of the mistakes I did in instruction memory was that I forgot to make it such that its indexed from bfc00fff to  bfc00000, this made our processor fail to run and not output anything to the vbuddy.
+
 ## load and store of halves and bytes
 
 [data_mem.sv](../rtl_pipelined/data_mem.sv)
@@ -255,13 +257,27 @@ We had two ideas, one was to create another module named `load-store` which basi
 
 However, Having been inspired by the instruction memory my idea was just to have `AddressingControl` straight to the data memory in which we have case statements taking in `AddressingControl` as an argument and in the case statement we have different ways of concatenating the bytes onto word as required.
 
-This way we could easily implement load and store instruction that only requires bytes and halves. 
+This way we could easily implement load and store instruction that only requires bytes and halves.
 
-the values chosen for the `AddressingControl` was taken straight from `funct3` of the instruction word. 
+the values chosen for the `AddressingControl` was taken straight from `funct3` of the instruction word.
 
 ## Pipelining
 
-to be added...
+*Relevant Commits*
+
+* [Added pipelining for memory](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/7f46c6b5bee2bb337a7ebfffa277777ef8697389)
+* [implemented the rtl for fetch section of pipelining](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/aedca4cb0570de97bfc1f10a5f2e0dad179f7150)
+* [changed the implementation of fetch and separate the pipe](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/97ccfa6a4b2a106250339ad6872b2f13bd509fcd)
+
+For pipelining I was mostly in charge of connecting the individual section to their pipelines.
+
+In pipelining I did the code for the fetch and memory stage of the pipeline.
+
+At first I combined the flip-flop into the top level module of each stage.
+
+As seen in the first two commits, the pipeline at first was done in the top level module for memory.sv however we decided to have it as a separate module between the stage and the pipeline itself.
+
+Therefore I separated the pipeline from my module in `fetch.sv` and created another module `decodepiped.sv` to differentiate them as demonstrated in the third commit.
 
 ## Direct-mapped Cache
 
@@ -321,9 +337,10 @@ The main idea of this is basically that when a miss is detected, then `WE` becom
 ## Instruction memory cache
 
 *Relevant Commits:*
-*[instmem cache implementation](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/1c4e55c79be9fad64afca07a384059127c5b3cba)
 
-To implemt caching at the instruction memory stage, I treat the cache module like the instruction memory.
+* [instmem cache implementation](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/1c4e55c79be9fad64afca07a384059127c5b3cba)
+
+To implemt caching at the instruction memory stage, I treated the cache module like the instruction memory.
 
 In our implementation cache happens as if it is in parallel to the instruction memory, this may not seem to improve anything but we just want the idea of having cache.
 
@@ -336,3 +353,29 @@ This is such that if it is a hit then the processor chooses the data from the ca
 The `WE` of the cache is connected to `~hit`/`NOT HIT` and `datain` of cache is connected to the output of the memory such that if there is a miss then the data from the memory is written onto the cache.
 
 This way I implemeted the idea of caching onto the instruction memory.
+
+## Additional Special Designs
+
+### JARL
+
+*Relevant Commits*
+
+* [changed Implementation of PCsrc to afford JARL](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/ca1c76f268eea3383b1bb69885e0aad3cd598f1a)
+
+In JARL, we want to be able to use pointer and offset therefore we need to have `PC = ALUresult`, one solution was to have PCSrc with two bits to allow 3 input signals but what I did here was that I connect the PCsrc output to another mux with control signal `JARLinstr`. This allows us to have `PC = ALUresult` to accomodate JARL signals.
+
+### Jumps
+
+For all the jump and branch instructions I realized that when I was doing my designs for control-unit that we require register to be able to store `PC` values therefore I improved our lab4 design by adding another bit to `ResultSrc` which would allow PC + 4 to be returned to the register file.
+
+In addition to that for JAL we want to add immediate to our current `PC` and I realized that we did not implement this in lab4 therefore we added an adder that would add the two and feed it back to PCsrc.
+
+## Reflection
+
+I've enjoyed completing the coursework. Throughout, I've developed a deeper understanding of CPUs, particularly those utilizing RISC-V ISA, and hardware design in general. Furthermore, I've gained more experience and am now more confident in using System Verilog, especially when handling multiple modules within larger projects.
+
+Most importantly, I learned how to work in a group format, especially mastering the use of new tools like Github while collaborating within a team. Idrees and Ilan were instrumental in guiding me to become comfortable with Github. They taught me the proper Github etiquette and provided insight into working in a software engineering team and I can't thank them enough.
+
+My biggest dissapointment in the entire project was the fact that I was sick for an entire week and couldn't do more. If I was given the chance to do this all over again I would love to do the hazard unit cause I found it to be interesting and if I had more time I would like to implement spatial locality caching to our CPU.
+
+One thing I would do differently is instead of dividing our tasks by module I believe it would have been better to divide our tasks by insructions instead because when I was working on the control-unit for example I had to wait for others to finalize their designs and their control signals implementation before I was able to finalize my own work. I believe if we had divided the tasks by instructions it would be a lot more efficient and we also get to understand the diffrent parts of the CPU not just the module we worked on. 
