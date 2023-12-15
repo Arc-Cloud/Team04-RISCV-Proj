@@ -4,8 +4,6 @@
 
 ### __Rasendriya Hanif Rais__
 
-## Overview
-
 ## Sign Extension Unit
 
 [*sextend.sv*](../rtl/sextend.sv)
