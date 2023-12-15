@@ -449,7 +449,8 @@ We introduced caching mechanisms for both instructions and data. Our initial foc
 
 ## Proof that cache is being used
 
-https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/56346800/15d0b9b6-79ec-404c-936b-5f12210a770f
+https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/33992400/e28dd883-036e-4780-bffe-a70179a75b80
+
 
 
 The video above is a screen capture of waveforms produced when CPU with data cache is tested on [the assembly program from lectures](testing/Data%20cache%20test/dcache.asm).
