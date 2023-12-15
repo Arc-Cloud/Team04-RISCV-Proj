@@ -5,6 +5,7 @@ obj_dir
 tree.txt
 rtl_pipelined/instmem.sv
 testing/Pipelined_CPU/vbuddy.cfg
+testing/Master_test/vbuddy.cfg
 rtl/datamem_path.txt
 rtl/instmem_path.txt
 rtl_pipelined/datamem_path.txt
