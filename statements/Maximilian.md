@@ -283,6 +283,9 @@ _Thank you for arranging this project it was a lot of fun_
 
 | Commit ID | Date | Commit Description |
 | -------- | :--------:| :--------: |
+| b6088fb | 2023-12-15 | Merge pull request #57 from Arc-Cloud/ReadMeMaxEdits|
+| bc57764 | 2023-12-15 | Merge pull request #56 from Arc-Cloud/ReadMeMaxEdits|
+| 3fe1022 | 2023-12-15 | Merge pull request #54 from Arc-Cloud/ReadMeMaxEdits|
 | 7cd5129 | 2023-12-14 | Merge pull request #49 from Arc-Cloud/ReadMeMaxEdits|
 | 7cc9409 | 2023-12-14 | Update README.md|
 | 50e7b4b | 2023-12-14 | Link to PC|
