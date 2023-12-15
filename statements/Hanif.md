@@ -220,7 +220,7 @@ If I could do this all over again I would have implemented it this way for the o
 
 For the two jump instructions JAL and JALR, I set `RegWrite` to high since we want to save PC + 4 to register and for the same reason I set `ResultSrc` to `10` since I want to store the `PCnext`.
 
-In JAL `PCSrc` is `01` which is just `PC = Current + Immediate` while in JALR its `10` since in JARL we want to add immediate and pointer value stored in the register therefore `PC = ALUresult`.  
+In JAL `PCSrc` is `01` which is just `PC = Current + Immediate` while in JALR its `10` since in JALR we want to add immediate and pointer value stored in the register and have it as PC or `PC = ALUresult`.  
 
 ### Immediate type instructions
 
@@ -253,9 +253,9 @@ I did not implement this in systemverilog, however, this was my idea and me and 
 
 We had two ideas, one was to create another module named `load-store` which basically just takes in the full 32-bit word from datamemory and using some sort of `AddressingControl` and choose how to mask the output bits
 
-However, Having been inspired by the instruction memory my idea was just to have `AddressingControl` straight to the data memory in which we have case statements taking in `AddressingControl` as an argument and in the case statement we have different ways of concatenating the bytes onto word as required.
+However, Having been inspired by the instruction memory my idea was just to have a control signal connected straight onto the data memory in which we have case statements taking in the control signal as an argument and in the case statement we have different ways of concatenating the bytes onto word as required.
 
-This way we could easily implement load and store instruction that only requires bytes and halves.
+This way we could easily implement load and store instruction that only requires bytes and halves. We named the control signal as `AddressingControl`
 
 the values chosen for the `AddressingControl` was taken straight from `funct3` of the instruction word.
 
@@ -297,7 +297,7 @@ logic [DATA_WIDTH-1:0] data [CACHE_LENGTH-1:0];
 
 This makes organization simpler rather than having a 60 bits word and having to index each correctly.
 
-The cache has two outputs hit an dataout, dataout is basically just the data that is possesed in the cache and hit is the signal that indicates if a wanted data is contained in the cache or not which goes high if the data exists within the cache.
+The cache has two outputs hit and dataout, dataout is basically just the data that is possesed in the cache and hit is the signal that indicates if a wanted data is contained in the cache or not which goes high if the data exists within the cache.
 
 To implement hit I did the following:
 
@@ -312,11 +312,11 @@ always_comb begin
 end
 ```
 
-I created two logic `currentset` and `currenttag`  which possess the `tags` and the `set` of the address that we are looking for; set is `address[4:2]` and tags are the rest of the most significant bits. I use these two values for indexing the `valids`, `tags` and `data` arrays.
+I created two logic `currentset` and `currenttag`  which possess the `tags` and the `set` of the address that we are looking for. set is extracted from `address[4:2]` and tags are the rest of the most significant bits. I use these two values for indexing the `valids`, `tags` and `data` arrays declared earlier.
 
-In here hit is implemented such that the `valids` at index `currentset` is HIGH and when `currenttag` is equal to the tags at index `currentset`.
+In here hit is implemented such that it is high when the array `valids` at index `currentset` contains HIGH and when `currenttag` is equal to the value of tags in the `tags` array at index `currentset`.
 
-If the data is found then we take the `data` array at index `currentset` and assign it to dataout to be taken to the next stage.
+If the data is found then we take the value from `data` array at index `currentset` and assign it to dataout to be taken to the next stage.
 
 In addition to that cache also needs to allow itself to be written to and to implement this I did the following:
 
@@ -338,13 +338,13 @@ The main idea of this is basically that when a miss is detected, then `WE` becom
 
 * [instmem cache implementation](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/1c4e55c79be9fad64afca07a384059127c5b3cba)
 
-To implemt caching at the instruction memory stage, I treated the cache module like the instruction memory.
+To implemt caching at the instruction memory stage, I treated the cache module like instruction memory.
 
 In our implementation cache happens as if it is in parallel to the instruction memory, this may not seem to improve anything but we just want the idea of having cache.
 
 Both instruction memory and cache receives address from the program counter.
 
-The data output of both the instruction memory and the cache are connected to a two-way mux with the `hit` output of the cache as the control signal of the mux.
+The data output of both the instruction memory and the cache are connected to a two-input mux with the `hit` output of the cache as the control signal of the mux.
 
 This is such that if it is a hit then the processor chooses the data from the cache but if it is a miss then it chooses data from the memory.
 
@@ -360,7 +360,7 @@ This way I implemeted the idea of caching onto the instruction memory.
 
 * [changed Implementation of PCsrc to afford JARL](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commit/ca1c76f268eea3383b1bb69885e0aad3cd598f1a)
 
-In JARL, we want to be able to use pointer and offset therefore we need to have `PC = ALUresult`, one solution was to have PCSrc with two bits to allow 3 input signals but what I did here was that I connect the PCsrc output to another mux with control signal `JARLinstr`. This allows us to have `PC = ALUresult` to accomodate JARL signals.
+In JARL, we want to be able to use pointer and offset therefore we need to have `PC = ALUresult` feature, one solution was to have PCSrc with two bits to allow 3 input signals but what I did here was that I connect the PCsrc output to another mux with control signal `JARLinstr`. This allows us to have `PC = ALUresult` to accomodate JALR signals.
 
 ### Jumps
 
