@@ -63,7 +63,7 @@ However after conversation with Ilan we decided it was unnecessary due to the li
 ### Decode Block
 I was responsible for the implementation of the Decode Block<sup>[5](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5bcc1413d680a26ff638a1ce9f6d9b4e19436818)</sup>, Integrating The Register File, Control Unit and Sign Extend Blocks to prepare them for pipelining. The module's primary function is to interpret and translate the binary instruction data (`instrD`) into specific control signals and operational codes, which guide the subsequent stages of instruction execution. 
 
-Initially the module extracts critical information from the instruction data, such as source and destination register addresses (Rs1D, Rs2D, RdD), by parsing specific bits of the instruction.
+Initially the module extracts critical information from the instruction data, and assigns addresses `Rs1D`, `Rs2D`, `RdD`, by parsing specific bits of the instruction.
 ```systemverilog 
 always_comb begin
     Rs1D = instrD [19:15];
