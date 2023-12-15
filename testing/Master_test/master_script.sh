@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # FILEPATH: /Users/ism/Repositories/Team04-RISCV-Proj/testing/master_script.sh
-
+echo "---------------------------------"
 echo "Welcome to Team 04's RISC-V CPU:"
+echo "---------------------------------"
 echo "Select option by entering the number"
 echo "1. PDF reference program"
 echo "2. F1 program"
