@@ -21,7 +21,7 @@ This method allowed us to have a clear insight into our overall current progress
 | -------- | -------- | -------- | -------- | -------- |
 | Maximilian | [Arc-Cloud](https://github.com/Arc-Cloud)| 02286647 | maximilian.adam22@imperial.ac.uk | [Max's Statement](statements/Maximilian.md)
 | Ilan | [Ilan's github](https://github.com/IlanIwumbwe) | 02211662 | ilan.iwumbwe22@imperial.ac.uk | [Ilan's Statement](statements/Ilan.md) 
-| Idrees | | | | [Idrees's Statement](statements/Idrees.md) 
+| Idrees | [idrees-mahmood](https://github.com/idrees-mahmood) | 02061101| idrees.mahmood22@imperial.ac.uk | [Idrees's Statement](statements/Idrees.md) 
 | Hanif | [Xylemeister](https://github.com/Xylemeister)| 02234780 | hhr22@ic.ac.uk | [Hanif's Statement](statements/Hanif.md) 
 
 ## Testing the CPU
