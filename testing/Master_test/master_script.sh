@@ -113,7 +113,7 @@ esac
 
 echo "Select which CPU to use"
 echo "1. Single cycle CPU"
-echo "2. Pipelined CPU with instruction cache"
+echo "2. Pipelined CPU with data cache"
 
 read -p "Enter your choice (1-2): " choice3
 

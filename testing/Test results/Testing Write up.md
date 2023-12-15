@@ -32,6 +32,7 @@ The loop behaves consistently at every iteration and successfully resets its val
 -  Immediately the PC jumps to address 16 to enter init, storing 4 into ra ready for RET.
 - There isn't any way to see the values being written into memory but the loop is executing 3 instructions every loop and is decrementing a1 each time, which follows the program
 ![Reference Init SCS.png](Testing_imgs/Single%20cycle/Reference%20Init%20SCS.png)
+![Reference Init SCS.png](Testing_imgs/Single%20cycle/Reference%20Init%20SCS.png)
 - Once a0 reaches 0, we return out of init and PC is restored to 4
 - 8 is then loaded to ra as we enter the build subroutine
 - a1, a2, a3 and a4 are all initialised with the correct values and we begin loop2
@@ -43,6 +44,7 @@ The loop behaves consistently at every iteration and successfully resets its val
 - We when reach EE, t1 is incremented all the way to 5 and then we go to the next value
 ![t1 increments.png](/testing/Test%20results/Testing_imgs/Pipelined/t1%20increments.png)
 
+![Continued build init.png](Testing_imgs/Single%20cycle/Continued%20build%20init.png)
 ![Continued build init.png](Testing_imgs/Single%20cycle/Continued%20build%20init.png)
 - The loop continues until we reach the max count and we enter the display subroutine at address 88
 - We start with displaying values B4, 48 and 24
