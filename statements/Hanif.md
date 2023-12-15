@@ -3,6 +3,9 @@
 ## Personal Statement of Contributions
 
 ### __Rasendriya Hanif Rais__
+## Contribution Overview:
+### Single-Cycle
+
 
 ## Sign Extension Unit
 
@@ -249,7 +252,7 @@ One of the mistakes I did in instruction memory was that I forgot to make it suc
 
 [data_mem.sv](../rtl_pipelined/data_mem.sv)
 
-I did not implement this in systemverilog, however, this was my idea and me and Ilan worked together to implement it; full credit for the hardware description to Ilan.
+This was my idea and me and Ilan worked together to implement it
 
 We had two ideas, one was to create another module named `load-store` which basically just takes in the full 32-bit word from datamemory and using some sort of `AddressingControl` and choose how to mask the output bits
 
