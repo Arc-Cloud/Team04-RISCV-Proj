@@ -41,7 +41,7 @@ In order to view values in a particular register of the CPU, we added a signal `
 - Move into the `testing/Master_test` directory
 - Choose the `cpu_tb.cpp` test bench using single cycle, and `pipe_cpu_tb.cpp` if testing pipelined cpu 
 
-Below is a code snippet of the test bench. This code is the same for both single cycle and pipelined with cache test benches. 
+Below is a code snippet of the test bench. 
 
 ```C++
     top->testRegAddress = 21;

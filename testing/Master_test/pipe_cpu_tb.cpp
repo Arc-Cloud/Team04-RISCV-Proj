@@ -45,7 +45,7 @@ int main(int argc, char **argv, char **env) {
         //vbdHex(1, top->Result & 0xF);
 
         // Use Vbuddy bar
-        vbdBar(top->Result & 0xFF);
+        vbdBar(top->testRegData & 0xFF);
         vbdCycle(simcyc);
 
         // Test pdf plots
