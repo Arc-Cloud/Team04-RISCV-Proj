@@ -1,1 +1,1 @@
-/home/ilan/Desktop/Year2/Team04-RISCV-Proj/testing/Ref_program_test/sine.mem
+/Users/ism/Repositories/Team04-RISCV-Proj/testing/Ref_program_test/gaussian.mem

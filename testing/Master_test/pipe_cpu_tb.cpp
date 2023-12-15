@@ -10,6 +10,8 @@ int main(int argc, char **argv, char **env) {
     int simcyc;
     int tick;
 
+    char prog = argv[argc-1][0];
+
     Verilated::commandArgs(argc, argv);
     // init top verilog instance
     Vpipelined_cpu* top = new Vpipelined_cpu;
@@ -20,13 +22,25 @@ int main(int argc, char **argv, char **env) {
     tfp->open ("CPU.vcd");
 
     //init Vbuddy
-    if (vbdOpen()!=1) return(-1);
+    if (vbdOpen()!=1) {
+        std::cout << "vbuddy.cfg located in /testing/Master_test/" << std::endl;
+        return(-1);
+    }
     vbdHeader("CPU CW");
 
     // intialise
     top->clk = 1;
     top->rst = 0;
-    top->testRegAddress = 21;
+    
+    if (prog == 'a') {
+        // We run the PDF program
+        top->testRegAddress = 10;
+        std::cout << "Running PDF program" << std::endl;
+    }
+    else {
+        top->testRegAddress = 21;
+        std::cout << "Running other program" << std::endl;
+    }
 
     // run simulation for MAX_SIM_CYC clock cycles
     for (simcyc=0; simcyc<MAX_SIM_CYC; simcyc++) {
@@ -37,19 +51,13 @@ int main(int argc, char **argv, char **env) {
             top->eval ();
         }
 
-        // Use Vbuddy hex display
-        // send a0 value to 7 seg display
-        //vbdHex(4, ((top->Result) >> 16) & 0xF);
-        //vbdHex(3, ((top->Result) >> 8) & 0xF);
-        //vbdHex(2, ((top->Result) >> 4) & 0xF);
-        //vbdHex(1, top->Result & 0xF);
-
-        // Use Vbuddy bar
-        vbdBar(top->Result & 0xFF);
-        vbdCycle(simcyc);
-
-        // Test pdf plots
-        //if(simcyc > 1200000){vbdPlot(top->testRegData,0,255); vbdCycle(simcyc);}
+        // Test data
+        if(simcyc > 1200000)
+        {
+            vbdPlot(top->testRegData,0,255);
+            vbdBar(top->testRegData & 0xFF);
+            vbdCycle(simcyc);
+        }
     
         // either simulation finished, or 'q' is pressed
         if (Verilated::gotFinish() || vbdGetkey()=='q')
