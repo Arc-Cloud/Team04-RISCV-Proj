@@ -33,6 +33,7 @@ _I was also responsible for drawing all schematics_
 
 **Superscript numbers contain links to the relevant commit**
 
+
 ### Program Counter
 I Led the coding of the [Program Counter](../rtl/P_C.sv)<sup>[1](https://github.com/Arc-Cloud/Team04-RISCV-Proj/commits/5f1035bc690de260ca8776ba0ff26a439735f1da)</sup>, keeping careful consideration of timing and data flow to ensure accurate instruction sequencing was implemented throughout the CPU. A description of the module which I have written can be [found](../README.md/#pc) in the README.
 
@@ -129,7 +130,8 @@ Here is a summary of the functionality that the top level pipelined CPU implemen
 ### Schematic
 ![Pipelined CPU](../imgs/PipelinedCPU.jpeg)
 
-## Cache
+## Work Done on Cache
+While not directly contributing any code to the implementation of cache, drawing the schematic and verifying its logical process through conversation with the team was useful in creating a working integrated cache.
 ### Schematic
 ![Cache Integrated with the Pipelined CPU](../imgs/Integrated%20Cache.jpeg)
 
@@ -140,7 +142,7 @@ I created the framework of our README And led the coding of f1.asm and created i
 
 ## Special Design Decisions
 ### Single Cycle
-- The possibility of using a Load Store Unit to implement store and load instructions was proposed by me, however after reviewing options with the rest of the team the decision was made to implement load and store functionality in the [data memory block](../rtl/data_mem.sv). Negating the need for a load store unit in our design. Upon implementing the new method I highlighted the use of funct3 to control the AddressingControl signal for the data memory block, leading to a leaner and more clean implementation. Seen in lines 111,122 in the [Control Unit](../rtl/control.sv)
+- The possibility of using a Load Store Unit to implement store and load instructions was proposed by me, however after reviewing options with the rest of the team the decision was made to implement load and store functionality in the [data memory block](../rtl/data_mem.sv). Negating the need for a load store unit in our design. 
 - After planning the single cycle cpu design with the team  we created the structure seen in [master.sv](../rtl/master.sv). These are the reasons we decided on such an implementation:
 
     - **Unified Control Path**: Our design uses modules like [green](../rtl/green.sv) and [orange](../rtl/orange.sv) to handle the control unit, instruction memory, ALU operations, and data memory interactions. This integration streamlines the control flow and data path within the CPU.
@@ -151,7 +153,7 @@ I created the framework of our README And led the coding of f1.asm and created i
 
 ### Pipelining
 
-- One design decision we took for pipelining is implementing JALR through the use of the JALRInstr signal as JALR requires specific address calculations and affects branch prediction. The `JALRInstr` signal helps in managing these aspects efficiently within the pipeline, especially in the decode and execute stages. ALso given that JALR affects the program counter (PC), the `JALRInstr` signal is essential for synchronizing the PC updates across different pipeline stages, ensuring correct program execution flow.
+- One design decision we took for pipelining is implementing JALR through the use of the JALRInstr signal as JALR requires specific address calculations and affects branch prediction. The `JALRInstr` signal helps in managing these aspects efficiently within the pipeline, especially in the decode and execute stages. Also given that JALR affects the program counter (PC), the `JALRInstr` signal is essential for synchronizing the PC updates across different pipeline stages, ensuring correct program execution flow.
 
 - Through proposing my ideas and in discussion with the team the pipelined CPU was implemented as according to the schema seen [above](#top-level-pipelined-cpu). The rationale behind our implementation is the following:
     - **Modularity**: The use of separate modules for each pipeline stage ([fetch](../rtl_pipelined/fetch.sv), [decode](../rtl_pipelined/decode.sv), [execute](../rtl_pipelined/execute.sv), [memory](../rtl_pipelined/memory.sv), [writeback](../rtl_pipelined/memory.sv) and sub-components (like [hazard_unit](../rtl_pipelined/hazard_unit.sv)) enhances readability, maintainability, and scalability of the design. This approach allowed for easier debugging and potential future enhancements.
@@ -208,7 +210,7 @@ Learning how to link jumps within a repo, format tables, insert images and video
 #### Teamwork
 Teamwork was definitely the most integral part to our completion of this project, without every member working so well together it wouldn't have been possible to achieve all of our goals.
 
-I have believe I have definitely improved my team-working skills through this project. Improving my ability to:
+I believe I have definitely improved my team-working skills through this project. Improving my ability to:
  - Better communicate ideas
  - Reference other people's ideas before just going ahead with implementation
  - Reach out to others to have a clear understanding of the project as a whole and in what direction it is heading
@@ -247,7 +249,6 @@ Mistakes are inevitably part of any piece of work but I believe we did very well
 ### Takeaways
 From mistakes that I have made and experienced along with everything learnt throughout the project these are my key takeaways from our project:
 - Do not immediately jump to implementation of a module or idea. Ensure your thinking is sound and confer with everyone in the team beforehand to confirm whether a module or idea will integrate well with the rest of the design.
-The most significant takeaway for me is the importance of thorough planning and testing in complex engineering projects.
 - If you are doing a large commit that might affect large parts of the repository always confer with others to make sure you understand the implications it might have
 - Always ensure everyone has something to work on and are not unsure with what they should be doing, and aim to have a larger picture in your mind of where the project currently is and what would be the best next steps to take.
 - Be thorough with testing and be aware of as many edge cases as possible. However do not go overboard and waste time writing tests that check functionality that will never be used.
