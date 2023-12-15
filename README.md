@@ -332,6 +332,10 @@ Legend: `L` = Lead `C` = Contributor
 
 ## Planning
 
+We met as a team and began by examining the schematic for the pipelined cpu in lectures, modifying it for our own design.
+
+Once this was done each team member was assigned a stage to work on and we began our implementation of the pipelined cpu, keeping frequent communication between team members to ensure each module interfaced correctly with one another.
+
 ## Implementation
 
 ### Changes to Existing Modules
