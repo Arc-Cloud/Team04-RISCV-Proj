@@ -11,10 +11,10 @@
 ## Repo Structure & Logic
 
 As a team we decided to manage our repo in the following manner:
-- Have one main where the current latest finalised and tested implementation of all versions of the cpu are kept in their individual folders
-- Once a cpu version has been complemeted merge all relevant branches into the main and then delete all unessecary branches for repo cleanliness before moving onto the next version of the cpu
+- Maintain a main branch containing the latest finalized and tested implementations of all CPU versions in their respective folders.
+- Once a cpu version has been complemeted we merge all relevant branches into the main and then delete all unessecary branches for repo cleanliness before moving onto the next version of the cpu
 
-This method allowed us to have a clear insight into our overall current progress, and keep our repo clean and easily interpreted when viewed for examination. 
+This approach provides a clear overview of our current progress, ensuring a clean and easily interpretable repository during examination.
 
 ## Details & Personal Statements
 | Name &nbsp; &nbsp; | Github | CID &nbsp; &nbsp; &nbsp;| Email &nbsp; | Link to Personal Statements|
@@ -26,16 +26,17 @@ This method allowed us to have a clear insight into our overall current progress
 
 ## Testing the CPU
 
-- Move into the `testing/Master_test` directory
-- There is a shell script called `master_test.sh`
-- Run this shell script, and you will see a menu, where you choose the version of CPU you want to run (single cycle / pipelined with cache), and which test to run
+- There is a script located in the root of the directory called start.sh
+- This links to a master script contained within /testing/Master_test
+- Executing the script displays a menu that enables the execution of various programs on the specified CPU.
 
 In order to view values in a particular register of the CPU, we added a signal `testRegAddress` which is controlled at the top level module, and outputs data from a given register at the signal `testRegData`. This allows use to use register data to view outputs on vbuddy, which is useful for pdf plots and f1 program.
 
 ### When testing F1 and pdf:
 
 - Move into the `testing/Master_test` directory
-- Choose the `cpu_tb.cpp` test bench using single cycle, and `pipe_cpu_tb.cpp` if testing pipelined cpu 
+- Choose the `cpu_tb.cpp` test bench using single cycle, and `pipe_cpu_tb.cpp` if testing pipelined cpu
+- Both test benches write to CPU.vcd
 
 Below is a code snippet of the test bench. This code is the same for both single cycle and pipelined with cache test benches. 
 
@@ -105,7 +106,7 @@ int main(int argc, char **argv, char **env) {
 - The master script written in /testing/Master_test automatically configures the outputs depending on the program being run by passing arguments on execution
 
 ### Testing videos
-These videos show F1 program working for pipelined CPU with data memory cache and instruction memory cache
+The following videos demonstrate the F1 program's functionality on a pipelined CPU with both data memory cache and instruction memory cache.
 
 #### F1 Program:
 https://github.com/Arc-Cloud/Team04-RISCV-Proj/assets/30900019/755c7d9f-5479-4415-ab45-808032728b06
@@ -167,7 +168,7 @@ Once the sequence is complete and all lights are on (`s2` equals `s3`), `s5` is 
 
 [Implemented here](rtl/alu.sv)
 
-The ALU contains arithmetic and logic operations on 2 operands. All arithmetic operations needed for all RISCV instructions have been added. Although not all are used. This is in order to make it easy to add instruction implementations in the future if time allows.  
+The ALU performs arithmetic and logic operations on two operands. While all necessary arithmetic operations for RISCV instructions are implemented, not all are utilised. This design choice facilitates the addition of future instruction implementations if time permits. 
 | ALU control | Result |
 | -------- | :--------: |
 | 0000 | SrcA + SrcB |
@@ -233,7 +234,7 @@ the output control signal is distinct  for different `opcode`, `funct3`,  `funct
 
 The single cycle CPU uses data memory, instruction memory, and registers. The [register file](rtl/reg_file.sv) implements 32 32-bit registers, that have synchronous write enable, and asynchronous read. 
 
-The data and instruction memory were initially modelled as 32-bit words per memeory location. This worked well for Lab4 and initially for the project, but not so well when we decided that we wanted to implement all load/store half and byte instructions. A load-store unit was suggested by Max, which would work by masking out relevant bits from a 32-bit word in the case of half / byte addressing. Hanif suggested modelling all memory as a byte per memory location, which would simplify things greatly. Ilan implemented this for the [data memory](rtl/data_mem.sv), and [instruction memory](rtl/instmem.sv). 
+The data and instruction memory were initially modelled as 32-bit words per memory location. This worked well for Lab4 and initially for the project, but not so well when we decided that we wanted to implement all load/store half and byte instructions. A load-store unit was suggested by Max, which would work by masking out relevant bits from a 32-bit word in the case of half / byte addressing. Hanif suggested modelling all memory as a byte per memory location, which would simplify things greatly. Ilan implemented this for the [data memory](rtl/data_mem.sv), and [instruction memory](rtl/instmem.sv). 
 
 Now, byte addressing becomes trivial, half addressing is a matter of accessing 2 consecutive memory locations, and word addressing is a matter of accessing 4 consecutive memory locations. 
 
@@ -267,7 +268,6 @@ Using these examples, memory was implmented correctly.
 | S-Type (35) | 0100011 | 0 | 1 | 1 | 00 | 001 | xx
 
 `AdressingControl` and `ALUControl` Not included as they usually are used to choose case for the Instruction Type being performed 
-
 
 
 ### Sign Extension
@@ -362,29 +362,28 @@ Additions were made to the [alu block](rtl_pipelined/alu.sv). It implements the 
 
 The pipeline of each stage is the one to its left.
 
-We decided on this convention since we thought it would be easier to reason about stalling and flushing. Stalling means that the inputs to the stage should not change, while flushing means that the inputs to the stage are zeroed. As such, it made sense to define each pipeline of a stage to be the to its left. 
+We decided on this convention since we thought it would be easier to reason between stalling and flushing. Stalling implies that the inputs to the stage should remain unchanged, whereas flushing entails zeroing the inputs to the stage. As such, it made sense to define each pipeline of a stage to to the left of its corresponding stage. 
 
 The hazard unit produces `StallFetch`, `StallDecode`, `FlushExecute`, `FlushDecode`. These are inputs to the relevant pipelines for those stages that need to be flushed or stalled. Inside the pipelined, when stall signal is high, the signals at the pipeline's inputs are not passed to the outputs, while when flush signal is high, the outputs are low. 
 
 Each pipeline is in its own module, and those that are flushed / stalled at some point have internal signals to control that. 
-Each stage is in its own module; the inputs to the modul
- are those that are actually used for computing some value in that stage, while those that aren't used are connected directly to the next pipeline in the [top level module](rtl_pipelined/pipelined_cpu.sv). 
+Each stage is in its own module; the inputs to the module are those that are actually used for computing some value in that stage, while those that aren't used are connected directly to the next pipeline in the [top level module](rtl_pipelined/pipelined_cpu.sv). 
 
 ### Hazard Unit
 
 The [Hazard unit](./rtl_pipelined/hazard_unit.sv) allows for the pipelined CPU to be able to perform instructions correctly without incurring delays for some special cases to ensure that it is as efficient as possible.
 
-There are 3 different cases that we encountered to posses a challenge to pipelining and might result in an error if not taken care of and those cases are the following:
+There are 3 different cases that we encountered that poses a challenge to pipelining and may result in an error if not taken care of which are the following:
 1. When we use a register as an operand that was written to in the previous cycle. (RAW hazard)
-2. When we have branch instruction where we only know if we jump or not two cycles later in the execute stage.
+2. When we have a branch instruction where we only know if we jump or not two cycles later in the execute stage.
 3. Load instructions where it takes an extra cycle to load data. 
 
 Thus, to solve these possible issues that the processor might encounter with pipelining we implement the following in our design:
 1. Forwarding: allows the value of a register to be used in an operation right after it was written without having to wait for it to go through all the pipelining stages. 
-2. Stalling: Stalling a stage means to maintain its state. So the inputs to the stage should not change even when the clock ticks. This allows for load instruction to have its values from memory to be loaded into writeback stage so that it could be forwarded onto the execute stage.
-3. Flushing: This resets the output of the pipeline flip-flops; This is very useful because for example in the case of branch, we do not know whether to jump or not until the branch instruction is in the execution stage, that means the next instruction in the instruction memory would be loaded onto the decode stage, this would create an error if the jump actually occurs therefore we need to flush the decode stage when jump happens as if the instruction had never been loaded to the decode stage.
+2. Stalling: Stalling a stage means to maintain its state, so the inputs to the stage should not change on the next clock cycle. This allows for load instruction to have its values from memory to be loaded into the writeback stage so that it can be forwarded onto the execute stage.
+3. Flushing: This resets the output of the pipeline flip-flops; This is very useful, for example in the case of branch, we do not know whether to jump or not until the branch instruction is in the execution stage. That means the next instruction in the instruction memory would be loaded onto the decode stage. This would create an error if the jump actually occurs, therefore we need to flush the decode stage when jump happens as if the instruction had never been loaded to the decode stage.
 
-All three solutions/operations mentioned above are implemented in our pipelined CPU. Each operation may be used individually or simultaneously for specific cases/instruction. The control signal for forwarding, flush and stall are all produced/controlled by the hazard unit. RAW hazards are mitigated by forwarding from the Writeback or memory stages into the execute stage. If the current instruction in execute stage has a source register that's the same as the destination register as an instruction currently in writeback or memory stage, forward data from writeback or memory stages respectively. We also only forward data from instructions that were going to write to a register. The zero register is never forwarded because it never has meaningful data being written to it (it is hardwired to zero).
+All three solutions/operations mentioned above are implemented in our pipelined CPU. Each operation may be used individually or simultaneously for specific cases/instruction. The control signal for forwarding, flush and stall are all produced/controlled by the hazard unit. RAW hazards are mitigated by forwarding from the Writeback or memory stages into the execute stage. If the current instruction in execute stage has a source register that's the same as the destination register as an instruction currently in writeback or memory stage, we forward data from writeback or memory stages respectively. We also only forward data from instructions that were going to write to a register. The zero register is never forwarded because it never has meaningful data being written to it (as it is hardwired to zero).
 
 Lw issue is solved by stalling the decode and fetch stages. As such, we must flush the execute stage to prevent incorrect data from propagating forward.
 
@@ -422,7 +421,7 @@ word = 32
 
 Legend: L = Lead C = Contributor
 
-We implemented cache for instructions and data. Initially, we decided to work out how to get instruction cache to work since it would be easier; we only need to work in one pipelined stage. Once we got that working and tested, we had a go at making data cache work. We implemented 2 system verilog blocks for direct mapped and 2 way assosiative, and reused them in the fetch and execute stages for our instruction cache and data cache respectively.
+We introduced caching mechanisms for both instructions and data. Our initial focus was on configuring the instruction cache due to its relative simplicity; it only required adjustments in one pipelined stage. After successfully implementing and testing the instruction cache, we proceeded to tackle the data cache. We created two SystemVerilog blocks for direct-mapped and two-way associative configurations, seamlessly integrating them into the fetch and execute stages for our instruction and data caches, respectively.
 
 
 ## Proof that cache is being used
@@ -466,5 +465,6 @@ The video above shows direct mapped assosiative 100% miss rate
 
 We see that we always have `useCacheM` high when `PCE = 0x10, 0x14`, which is when either one of the load instructions are in the memory stage. We see that `useCacheM` is always low as expected.
 
+## Testing
 
-
+The tests for both single cycle and the pipelined CPU were written up [here](/testing/Test%20results/Testing%20Write%20up.md) and [here](/testing/Test%20results/Pipelining%20tests.md) respectively using programs specified in the testing folder.
